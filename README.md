@@ -66,10 +66,9 @@ elmo-hikes/
 
 
 ## Contributors
-- **Adam Olszewski** - BCIT CST Student with a passion for outdoor adventures and user-friendly applications. Fun fact: Loves solving Rubik's Cubes in under a minute.
+- **Adam Olszewski** - BCIT CST Student with a passion for INDOOR!!!! adventures and user-friendly applications. Fun fact: Loves solving Rubik's Cubes in under a minute.
+- **Taeu Gim** - BCIT CST Student, Frontend enthusiast with a knack for creative design. Fun fact: Has a collection of over 50 houseplants.
 - **Megan Chow** - BCIT CST Student with an interest in web and game development. Also loves eating noodles.
-- **Teammate Name** - BCIT CST Student, Frontend enthusiast with a knack for creative design. Fun fact: Has a collection of over 50 houseplants.
-- **Taeu Gim** - BCIT CST Student
 
 ---
 
