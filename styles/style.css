@@ -159,3 +159,18 @@ a.signup:hover {
   padding-right: 50px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
+
+.material-icons img {
+  height: 24px;
+  object-fit: contain;
+}
+
+#footer {
+  margin-top: 0px;
+  padding-top: 0px;
+  padding-bottom: 50px;
+}
+
+.fixed-bottom {
+  background-color: var(--secondary);
+}
