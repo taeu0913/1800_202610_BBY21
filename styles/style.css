@@ -27,17 +27,19 @@ body {
   padding: 0;
   box-sizing: border-box;
   font-family: Arial, sans-serif;
-  background-color: var(--light-text);
+  background-color: #CCDAD1;
 }
 
 /* Navbar */
-.navbar {
+.custom-navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
   background-color: var(--primary);
   color: var(--light-text);
+  position: relative;
+  z-index: 10000;
 }
 
 .logo {
@@ -63,16 +65,19 @@ body {
   color: #9CAEA9;
 }
 
-.signup {
-  background-color: #788585;
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
+a.signup {
+  background-color: var(--secondary);
   color: var(--primary);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  display: inline-block;
 }
 
-.signup:hover {
-    background-color: #9CAEA9;
-    color: var(--primary);
+
+a.signup:hover {
+  background-color: var(--light-text);
+  color: var(--primary);
 }
 
 /* Hamburger */
@@ -82,6 +87,12 @@ body {
   font-size: 1.6rem;
   color: var(--light-text);
   cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.hamburger:hover {
+  background-color: var(--accent);
 }
 
 /* Dropdown menu */
@@ -90,7 +101,8 @@ body {
   position: absolute;
   right: 1.5rem;
   top: 70px;
-  background-color: #6F6866;
+  background-color: var(--accent);
+  z-index: 10001;
   border-radius: 6px;
   overflow: hidden;
   min-width: 150px;
@@ -101,6 +113,8 @@ body {
   padding: 0.75rem 1rem;
   color: var(--light-text);
   text-decoration: none;
+  background-color: var(--accent);
+  z-index: 9999;
 }
 
 .menu a:hover {
