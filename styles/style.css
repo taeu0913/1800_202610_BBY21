@@ -1,12 +1,33 @@
-* {
+:root {
+
+    /* 
+     * colors
+     * Ash Grey: #CCDAD1
+     * Dark Ash Grey: #9CAEA9
+     * Grey Olive: #788585
+     * Dim Grey: #6F6866
+     * Deep Mocha: #38302E
+     */
+    /* 60% — background */
+    --light-text: #CCDAD1;
+
+    /* 30% — primary actions and supporting surfaces) */
+    --primary: #38302E;
+    --secondary: #788585;
+
+    /* 10% — accent for emphasis and interaction */
+    --accent: #6F6866;
+    /* Button border widths */
+    --btn-border-width: 3px;
+    --btn-border-width-hover: 5px;
+}
+
+body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: Arial, sans-serif;
-}
-
-body {
-  background-color: #CCDAD1;
+  background-color: var(--light-text);
 }
 
 /* Navbar */
@@ -15,13 +36,14 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
-  background-color: #38302E;
-  color: #CCDAD1;
+  background-color: var(--primary);
+  color: var(--light-text);
 }
 
 .logo {
   font-size: 1.4rem;
   font-weight: bold;
+  padding: 20px;
 }
 
 /* Right side */
@@ -32,7 +54,7 @@ body {
 }
 
 .nav-link {
-  color: #CCDAD1;
+  color: var(--light-text);
   text-decoration: none;
   font-size: 0.95rem;
 }
@@ -45,12 +67,12 @@ body {
   background-color: #788585;
   padding: 0.4rem 0.8rem;
   border-radius: 4px;
-  color: #38302E;
+  color: var(--primary);
 }
 
 .signup:hover {
     background-color: #9CAEA9;
-    color: #38302E;
+    color: var(--primary);
 }
 
 /* Hamburger */
@@ -58,7 +80,7 @@ body {
   background: none;
   border: none;
   font-size: 1.6rem;
-  color: #CCDAD1;
+  color: var(--light-text);
   cursor: pointer;
 }
 
@@ -77,12 +99,49 @@ body {
 .menu a {
   display: block;
   padding: 0.75rem 1rem;
-  color: #CCDAD1;
+  color: var(--light-text);
   text-decoration: none;
 }
 
 .menu a:hover {
   background-color: #788585;
-  color: #38302E;
+  color: var(--primary);
 }
 
+.container-fluid{
+  background-color: var(--accent);  
+}
+
+.rounded-3{
+  background-color: var(--accent);
+}
+
+.p-2{
+  margin: 5px;
+}
+
+.hero{
+  background-image: url('/images/map.png');
+  background-size: cover;
+  background-position: center;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  filter:grayscale(100%) opacity(70%);
+}
+
+.hero h1{
+  font-size: 72px;
+  padding-right: 30PX;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.hero h3{
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 23px;
+  text-align: right;
+  padding-right: 50px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
