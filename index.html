@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Other libraries go here -->
-
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 
 <body>
@@ -19,13 +19,33 @@
     <!-- Your HTML Layout go here -->
     <!------------------------------>
     <!-- Stuff for body goes here -->
+<nav class="navbar">
+    <div class="nav-left">
+      <span class="logo">Crowd/Source</span>
+    </div>
 
+    <div class="nav-right">
+      <a href="#" class="nav-link">Sign In</a>
+      <a href="#" class="nav-link signup">Sign Up</a>
+
+      <button class="hamburger" id="hamburger">
+        ☰
+      </button>
+    </div>
+  </nav>
+
+<div class="menu" id="menu">
+    <a href="#">Profile</a>
+    <a href="#">Settings</a>
+    <a href="#">Help</a>
+</div>
 
     <!---------------------------------------------->
     <!-- Your own JavaScript functions go here    -->
     <!---------------------------------------------->
 
     <!-- Link to scripts of your own -->
+     <script src="src/main.js"></script>
     <!-- <script type="module" src="./src/main.js"></script> -->
 
 </body>

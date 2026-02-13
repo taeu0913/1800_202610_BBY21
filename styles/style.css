@@ -1,1 +1,88 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #CCDAD1;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: #38302E;
+  color: #CCDAD1;
+}
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+/* Right side */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-link {
+  color: #CCDAD1;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.nav-link:hover {
+  color: #9CAEA9;
+}
+
+.signup {
+  background-color: #788585;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  color: #38302E;
+}
+
+.signup:hover {
+    background-color: #9CAEA9;
+    color: #38302E;
+}
+
+/* Hamburger */
+.hamburger {
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  color: #CCDAD1;
+  cursor: pointer;
+}
+
+/* Dropdown menu */
+.menu {
+  display: none;
+  position: absolute;
+  right: 1.5rem;
+  top: 70px;
+  background-color: #6F6866;
+  border-radius: 6px;
+  overflow: hidden;
+  min-width: 150px;
+}
+
+.menu a {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: #CCDAD1;
+  text-decoration: none;
+}
+
+.menu a:hover {
+  background-color: #788585;
+  color: #38302E;
+}
 
