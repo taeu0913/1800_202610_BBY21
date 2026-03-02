@@ -3,27 +3,27 @@
 class realFooter extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
-    <footer class="fixed-bottom py-3">
-		<div class="container d-flex justify-content-around">
-      <span class="navbar-link">
-        <a href="map.html">
-          <img src="images/maps-and-flags.png" alt="map"/>
-          <p class="icon-name">Map</p>
-        </a>
-      </span>
-      <span class="navbar-link">
-        <img src="images/document.png" alt="feed"/>
-        <p class="icon-name">Feed</p>
-      </span>
-      <span class="navbar-link">
-        <img src="images/plus-sign-in-a-black-circle.png" alt="rate"/>
-        <p class="icon-name">Rate</p>
-      </span>
-      <span class="navbar-link">
-        <img src="images/plus-sign-in-a-black-circle.png" alt="profile"/>
-        <p class="icon-name">Profile</p>
-      </span>
-		 </div>
+    <footer>
+      <div id="bottom-navbar">
+        <span class="navbar-link">
+          <a href="map.html">
+            <img src="images/maps-and-flags.png" alt="map"/>
+            <p class="icon-name">Map</p>
+          </a>
+        </span>
+        <span class="navbar-link">
+          <img src="images/document.png" alt="feed"/>
+          <p class="icon-name">Feed</p>
+        </span>
+        <span class="navbar-link">
+          <img src="images/plus-sign-in-a-black-circle.png" alt="rate"/>
+          <p class="icon-name">Rate</p>
+        </span>
+        <span class="navbar-link">
+          <img src="images/plus-sign-in-a-black-circle.png" alt="profile"/>
+          <p class="icon-name">Profile</p>
+        </span>
+      </div>
   </footer>
     `;
   }
