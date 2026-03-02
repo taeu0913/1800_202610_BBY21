@@ -160,10 +160,6 @@ a.signup:hover {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
-.material-icons img {
-  height: 24px;
-  object-fit: contain;
-}
 
 #footer {
   margin-top: 0px;
@@ -172,10 +168,31 @@ a.signup:hover {
 }
 
 .fixed-bottom {
-  background-color: var(--secondary);
+  background-color: white;
 }
 
-#map{
+#map {
   height: 85vh;
   width: 100%;
+}
+
+.navbar-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0px;
+}
+
+.navbar-link img {
+  height: 24px;
+  object-fit: contain;
+}
+
+.navbar-link a {
+  text-decoration: none;
+  color: black;
+}
+
+.navbar-link p {
+  margin: 0;
 }
