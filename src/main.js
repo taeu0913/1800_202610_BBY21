@@ -2,8 +2,14 @@
 // import 'bootstrap';
 
 
+// Create list of locations
+const locations = [
+  { name: "BC Place", lat: 49.2768, lng: -123.1120 },
+  { name: "Hastings Park", lat: 49.2833, lng: -123.0379 }
+];
+
 // Initialize map
-var map = L.map('map').setView([0, 0], 13);
+var map = L.map('map').setView([49.2768, -123.1120], 13);
 var marker;
 
 // add the tile layer
@@ -11,6 +17,13 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
+
+// add preset locations to map
+locations.forEach(loc => {
+  L.marker([loc.lat, loc.lng])
+    .addTo(map)
+    .bindPopup(`<b>${loc.name}</b>`);
+});
 
 // check if geolocation allowed
 if ("geolocation" in navigator) {
