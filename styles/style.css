@@ -174,3 +174,8 @@ a.signup:hover {
 .fixed-bottom {
   background-color: var(--secondary);
 }
+
+#map{
+  height: 85vh;
+  width: 100%;
+}
