@@ -35,6 +35,34 @@
 
   <div id="map"></div>
   
+  <div id="location-popup" style="display: none;">
+    <button id="close-location-button" onclick="showLocationDetails()" type="button">X</button>
+    <div id="location-content">
+      <div id="location-name">
+        <h1>Location Name</h1>
+      </div>
+      <div id="crowd-info">
+        Crowd Estimate: 20 people
+      </div>
+      <button id="rate-location-button" type="button">Rate</button>
+      <div id="location-feed">
+        <div class="post">
+          <div class="user">
+            <img src="images/account.png" alt="profile-picture"/>
+            <p class="user-name">User Name</p>
+            <div class="timestamp">
+              <small>5 minutes ago</small>
+            </div>
+          </div>
+          <div class="post-content">
+            <img src="images/BBY01.jpg"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
   <real-footer></real-footer>
   <!---------------------------------------------->
   <!-- Your own JavaScript functions go here    -->

@@ -8,6 +8,13 @@ const locations = [
   { name: "Hastings Park", lat: 49.2833, lng: -123.0379 }
 ];
 
+function showLocationDetails() {
+  let location_popup = document.getElementById("location-popup");
+  let location_name = location_popup.location_name;
+  let crowd = location_popup.crowd_info;
+  location_popup.style.display = (location_popup.style.display === "none" ? "block" : "none");
+}
+
 // Initialize map
 var map = L.map('map').setView([49.2768, -123.1120], 13);
 var marker;
@@ -22,7 +29,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 locations.forEach(loc => {
   L.marker([loc.lat, loc.lng])
     .addTo(map)
-    .bindPopup(`<b>${loc.name}</b>`);
+    .on("click", () => showLocationDetails(loc))
 });
 
 // check if geolocation allowed
