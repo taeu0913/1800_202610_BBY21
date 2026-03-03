@@ -22,8 +22,10 @@ class realFooter extends HTMLElement {
           <p class="icon-name">Rate</p>
         </span>
         <span class="navbar-link">
-          <img src="images/account.png" alt="profile"/>
-          <p class="icon-name">Profile</p>
+          <a href="profile.html">
+            <img src="images/account.png" alt="profile"/>
+           <p class="icon-name">Profile</p>
+          </a>
         </span>
       </div>
   </footer>
