@@ -13,9 +13,18 @@ class SiteNavbar extends HTMLElement {
     renderNavbar() {
         this.innerHTML = `
             <!-- Navbar: single source of truth -->
-            <nav>
-                <a class="nav-button">
-                </a>
+            <nav class="custom-navbar">
+                <div class="nav-left">
+                <span class="logo">Crowd/Source</span>
+                </div>
+
+                <div class="nav-right">
+                <a href="#" class="nav-link">Log In</a>
+                <a href="#" class="nav-link signup">Sign Up</a>
+                <button class="hamburger" id="hamburger">
+                    ☰
+                </button>
+                </div>
             </nav>
         `;
     }
