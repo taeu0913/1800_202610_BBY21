@@ -8,8 +8,7 @@ class NavBar extends HTMLElement {
         </div>
 
         <div class="nav-right">
-          <a href="#" class="nav-link">Log In</a>
-          <a href="#" class="nav-link signup">Sign Up</a>
+          <a href="login.html" class="nav-link signup">Log in/Sign Up</a>
           <button class="hamburger" id="hamburger">
             ☰
           </button>
