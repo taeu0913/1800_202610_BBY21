@@ -10,7 +10,6 @@ class NavBar extends HTMLElement {
         <div class="nav-right">
           <a href="#" class="nav-link">Log In</a>
           <a href="#" class="nav-link signup">Sign Up</a>
-
           <button class="hamburger" id="hamburger">
             ☰
           </button>

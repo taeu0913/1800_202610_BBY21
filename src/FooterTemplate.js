@@ -12,8 +12,10 @@ class realFooter extends HTMLElement {
           </a>
         </span>
         <span class="navbar-link">
-          <img src="images/document.png" alt="feed"/>
-          <p class="icon-name">Feed</p>
+          <a href="feed.html">
+            <img src="images/document.png" alt="feed"/>
+            <p class="icon-name">Feed</p>
+          </a>
         </span>
         <span class="navbar-link">
           <img src="images/plus-sign-in-a-black-circle.png" alt="rate"/>
