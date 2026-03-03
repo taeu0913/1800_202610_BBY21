@@ -171,7 +171,8 @@ a.signup:hover {
 }
 
 #map {
-  height: 84vh;
+  /* height: 84vh; */
+  height: 100%;
   width: 100%;
   position: absolute;
   z-index: 0;
@@ -194,6 +195,7 @@ a.signup:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   margin: 0px;
 }
 
@@ -203,6 +205,10 @@ a.signup:hover {
 }
 
 .navbar-link a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-decoration: none;
   color: black;
 }
@@ -211,9 +217,21 @@ a.signup:hover {
   margin: 0;
 }
 
-#feed {
+#content-wrapper {
   height: 84vh;
+}
+
+#feed {
+  /* height: 84vh; */
   overflow-y: scroll;
+  padding: 0rem 1.5rem;
+}
+
+#rate-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
   padding: 0rem 1.5rem;
 }
 
@@ -309,6 +327,32 @@ small {
 
 .vote-button img {
   object-fit: contain;
+}
+
+#upload-image-button, #submit-button {
+  width: 5rem;
+  padding: 0.5rem;
+  border-radius: 3rem;
+  border: none;
+}
+
+#headcount-input {
+  width: 5rem;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 /** Profile page */
@@ -641,7 +685,7 @@ text-align: right;
 }
 
 @media screen and (min-width: 769px) {
-  #feed {
+  #feed, #rate {
     margin: 0 auto;
     width: 640px;
   }
