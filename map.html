@@ -23,17 +23,22 @@
   <!------------------------------>
   <!-- Stuff for body goes here -->
   
-  <nav-bar></nav-bar>
 
-  <div class="menu" id="menu">
-    <a href="#">Profile</a>
-    <a href="#">Settings</a>
-    <a href="#">Help</a>
-  </div>
+
+
+  <!--Map-->
   <div id="content-wrapper">
-    <div id="search"></div>
+    
 
-    <div id="map"></div>
+    <div id="map">
+      <div id="search">
+        <div id="searchBar">
+          <input id="searchInput" type="text" placeholder="Search location...">
+          <img src="images/search-icon-png-9965.png" id="searchIcon" alt="search" draggable="false">
+          <div id="searchResults"></div>
+        </div>
+      </div>
+    </div>
     
     <div id="location-popup" style="display: none;">
       <button id="close-location-button" onclick="showLocationDetails()" type="button">X</button>
