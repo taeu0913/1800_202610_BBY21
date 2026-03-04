@@ -418,6 +418,7 @@ input[type=number] {
   text-align: center;
   color: var(--primary);
   font-size: 1.1rem;
+  margin-top: 2rem;
 }
 
 /* Personal info rows */
@@ -464,6 +465,7 @@ input[type=number] {
   color: var(--primary);
   font-size: 0.9rem;
   display: inline-block;
+  margin-top:2rem;
 }
 
 .stat-details:hover {
@@ -572,14 +574,49 @@ text-align: right;
   color: var(--light-text);
 }
 
+.settings-button {
+  color: var(--primary);
+  border: 1px solid var(--secondary);
+  border-radius: 12px;
+  padding: 0.7rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0.7rem;
+  display: flex;
+  text-decoration: none;
+  justify-content: center;  
+}
+
+.settings-button:hover {
+  background-color: var(--light-text);
+}
+
+.logout-button {
+  color: var(--primary);
+  border: 1px solid var(--secondary);
+  border-radius: 12px;
+  padding: 0.7rem;
+  justify-content: center;  
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0.7rem;
+  display: flex;
+  text-decoration: none;
+}
+
+.logout-button:hover {
+  background-color: red;
+}
+
 /* Legal links */
 .link-list {
   display: grid;
   gap: 0.7rem;
+  margin-top:4rem;
 }
 
 .link-button {
-  text-align: left;
+  text-align: center;
   padding: 0.7rem;
   border-radius: 12px;
   border: 1px solid var(--accent);

@@ -64,7 +64,7 @@
           <section class="card">
             <div class="stat-header">
               <h1 class="section-title">Statistics</h1>
-              <a href="#stat-details" class="stat-details">Details ></a>
+              <a id="statBtn" href="#stat-details" class="stat-details">Details ></a>
             </div>
             <div class="stats">
               <div class="stat">
@@ -103,14 +103,10 @@
             <button id="clearSavedBtn">Clear Saved Locations</button>
           </section>
 
-          <!-- Legal -->
+          <!-- Settings -->
           <section class="card">
-            <h2 class="section-title">Legal</h2>
-
-            <div class="link-list">
-              <button id="termsBtn" class="link-button">Terms and Conditions</button>
-              <button id="privacyBtn" class="link-button">Privacy Policy</button>
-            </div>
+            <a href="settings.html" id="settingsBtn" class="settings-button">Settings</a>
+            <a href="#logout" id="logoutBtn" class="logout-button">Log Out</a>
           </section>
         </div>
       </div>
@@ -124,86 +120,29 @@
   <!---------------------------------------------->
 
   <!-- Link to scripts of your own -->
-
-
- <div id="settingsModal" class="modal hidden" aria-hidden="true">
+  <div id="statModal" class="modal hidden" aria-hidden="true">
     <div class="modal-backdrop" data-close="true"></div>
-    <div class="modal-panel" role="dialog" aria-modal="true" aria-label="Settings">
+    <div class="modal-panel large" role="dialog" aria-modal="true" aria-label="Statistics">
       <div class="modal-header">
-        <h3 class="modal-title">Settings</h3>
-        <button class="icon-btn" id="settingsCloseBtn" aria-label="Close">✕</button>
-      </div>
-
-      <form id="settingsForm" class="modal-body">
-        <label class="field">
-          <span class="field-label">Display name</span>
-          <input id="nameInput" class="input" type="text" placeholder="Your name">
-        </label>
-
-        <label class="field">
-          <span class="field-label">Email</span>
-          <input id="emailInput" class="input" type="email" placeholder="you@example.com">
-        </label>
-
-        <label class="field">
-          <span class="field-label">Location</span>
-          <input id="locationInput" class="input" type="text" placeholder="Burnaby, BC">
-        </label>
-
-        <label class="field">
-          <span class="field-label">Username</span>
-          <input id="usernameInput" class="input" type="text" placeholder="@username">
-        </label>
-
-        <div class="modal-footer">
-          <button type="button" class="btn" id="resetProfileBtn">Reset</button>
-          <button type="submit" class="btn primary">Save</button>
-        </div>
-
-        <div id="settingsSavedToast" class="toast hidden">Saved!</div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Terms Modal -->
-  <div id="termsModal" class="modal hidden" aria-hidden="true">
-    <div class="modal-backdrop" data-close="true"></div>
-    <div class="modal-panel large" role="dialog" aria-modal="true" aria-label="Terms and Conditions">
-      <div class="modal-header">
-        <h3 class="modal-title">Terms and Conditions</h3>
+        <h3 class="modal-title">Statistics</h3>
         <button class="icon-btn" data-close="true" aria-label="Close">✕</button>
       </div>
       <div class="modal-body text">
-        <p><strong>Demo Terms:</strong>Terms and Conditions.</p>
+        <p><strong>Demo Statistics</strong>Statistics</p>
         <p>
-          By using this app, you agree to follow the community guidelines, not abuse the service,
-          and understand that content may be moderated.
+          Statistics Placeholder
         </p>
       </div>
     </div>
   </div>
 
-  <!-- Privacy Modal -->
-  <div id="privacyModal" class="modal hidden" aria-hidden="true">
-    <div class="modal-backdrop" data-close="true"></div>
-    <div class="modal-panel large" role="dialog" aria-modal="true" aria-label="Privacy Policy">
-      <div class="modal-header">
-        <h3 class="modal-title">Privacy Policy</h3>
-        <button class="icon-btn" data-close="true" aria-label="Close">✕</button>
-      </div>
-      <div class="modal-body text">
-        <p><strong>Demo Privacy:</strong>Privacy Policy.</p>
-        <p>
-          We store minimal information needed to provide the service. Saved locations and settings
-          are currently stored locally in your browser for this demo.
-        </p>
-      </div>
-    </div>
-  </div>
+
+  
   <!-- <script type="module" src="./src/main.js"></script> -->
   <script src="src/main.js"></script>
-  <script src="src/NavBarTemplate.js"></script>
-  <script src="src/FooterTemplate.js"></script>
+  <script src="src/components/NavBarTemplate.js"></script>
+  <script src="src//components/FooterTemplate.js"></script>
+  
 </body>
 
 </html>

@@ -219,11 +219,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   wireModal("termsBtn", "termsModal");
   wireModal("privacyBtn", "privacyModal");
+  wireModal("statBtn", "statModal"); 
 
   // optional: ESC closes both
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
-    ["termsModal", "privacyModal"].forEach((id) => {
+    ["termsModal", "privacyModal","statModal"].forEach((id) => {
       const m = document.getElementById(id);
       if (m) m.classList.add("hidden");
     });
