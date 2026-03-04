@@ -23,15 +23,59 @@
   <!-- Stuff for body goes here -->
   <nav-bar></nav-bar>
   
+
+          <!-- Legal -->
+          <section class="card">
+            <div class="link-list">
+              <button id="termsBtn" class="link-button">Terms and Conditions</button>
+              <button id="privacyBtn" class="link-button">Privacy Policy</button>
+            </div>
+          </section>
+
   <real-footer></real-footer>
   <!---------------------------------------------->
   <!-- Your own JavaScript functions go here    -->
   <!---------------------------------------------->
+<!-- Terms Modal -->
+  <div id="termsModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close="true"></div>
+    <div class="modal-panel large" role="dialog" aria-modal="true" aria-label="Terms and Conditions">
+      <div class="modal-header">
+        <h3 class="modal-title">Terms and Conditions</h3>
+        <button class="icon-btn" data-close="true" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body text">
+        <p><strong>Demo Terms:</strong>Terms and Conditions.</p>
+        <p>
+          By using this app, you agree to follow the community guidelines, not abuse the service,
+          and understand that content may be moderated.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Privacy Modal -->
+  <div id="privacyModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close="true"></div>
+    <div class="modal-panel large" role="dialog" aria-modal="true" aria-label="Privacy Policy">
+      <div class="modal-header">
+        <h3 class="modal-title">Privacy Policy</h3>
+        <button class="icon-btn" data-close="true" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body text">
+        <p><strong>Demo Privacy:</strong>Privacy Policy.</p>
+        <p>
+          We store minimal information needed to provide the service. Saved locations and settings
+          are currently stored locally in your browser for this demo.
+        </p>
+      </div>
+    </div>
+  </div>
 
   <!-- Link to scripts of your own -->
   <script src="src/main.js"></script>
-  <script src="src/NavBarTemplate.js"></script>
-  <script src="src/FooterTemplate.js"></script>
+  <script src="src/components/FooterTemplate.js"></script>
+  <script src="src/components/NavBarTemplate.js"></script>
 
   <!-- <script type="module" src="./src/main.js"></script> -->
 
