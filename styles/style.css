@@ -178,6 +178,38 @@ a.signup:hover {
   z-index: 0;
 }
 
+/* searchbar */
+#search {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+#searchInput {
+  width: 70vw;
+  padding: 12px;
+  border-radius: 20px;
+  border: 1px solid var(--primary);
+  outline: none;
+}
+
+#searchIcon {
+  position: absolute;
+  right: -5px; /*adjust position for hamburger if needed*/
+  top:50%;
+  transform: translateY(-50%);
+  width: 65px;
+  height: 65px;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+#searchIcon:hover {
+  cursor: pointer;
+}
+
 #bottom-navbar {
   width: 100%;
   height: 8vh;
