@@ -1,3 +1,4 @@
+console.log("loginSignup loaded");
 // -------------------------------------------------------------
 // src/loginSignup.js
 // -------------------------------------------------------------
@@ -8,7 +9,6 @@
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap';
-import '../styles/style.css';
 import {
     loginUser,
     signupUser,
@@ -23,6 +23,9 @@ import {
 
 function initAuthUI() {
     // --- DOM Elements ---
+    console.log("initAuthUI ran");
+    console.log(document.getElementById("toSignup"));
+    console.log(document.getElementById("signupView"));
     const alertEl = document.getElementById('authAlert');
     const loginView = document.getElementById('loginView');
     const signupView = document.getElementById('signupView');
@@ -35,8 +38,9 @@ function initAuthUI() {
     // --- Helper Functions ---
     // Toggle element visibility
     function setVisible(el, visible) {
-        el.classList.toggle('d-none', !visible);
-    }
+    if (!el) return;
+    el.classList.toggle('d-none', !visible);
+}
 
     // Show error message with accessibility and auto-hide
     let errorTimeout;

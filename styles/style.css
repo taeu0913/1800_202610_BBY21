@@ -745,6 +745,140 @@ text-align: right;
   border-color: var(--secondary);
 }
 
+/* Settings page */
+body:has(#profileSettingsForm) {
+  padding-bottom: 10vh;
+}
+
+h2 {
+  margin: 1.2rem 0 1rem;
+  text-align: center;
+  color: var(--primary);
+  font-size: 1.4rem;
+}
+
+#profileSettingsForm,
+#passwordForm {
+  display: grid;
+  gap: 0.8rem;
+  margin: 0.7rem;
+  padding: 0.9rem;
+  border: 1px solid var(--secondary);
+  border-radius: 12px;
+  background: white;
+}
+
+#profileSettingsForm input,
+#passwordForm input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--secondary);
+  border-radius: 12px;
+  outline: none;
+  font-size: 1rem;
+  color: var(--primary);
+  background: white;
+}
+
+#profileSettingsForm input:focus,
+#passwordForm input:focus {
+  border-color: var(--accent);
+}
+
+#profileSettingsForm button,
+#passwordForm button,
+#lightModeBtn,
+#darkModeBtn {
+  border: 1px solid var(--secondary);
+  border-radius: 12px;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--primary);
+  background: white;
+  cursor: pointer;
+}
+
+#profileSettingsForm button:hover,
+#passwordForm button:hover,
+#lightModeBtn:hover,
+#darkModeBtn:hover {
+  background: var(--light-text);
+}
+
+div:has(#lightModeBtn) {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+  margin: 0.7rem;
+}
+
+#settingsMessage {
+  margin: 0.7rem;
+  text-align: center;
+  color: var(--accent);
+  font-weight: bold;
+  min-height: 1.2rem;
+}
+
+/*
+Dark mode
+
+body.dark-mode #profileSettingsForm,
+body.dark-mode #passwordForm {
+  background: #1e1e1e;
+  border-color: #444;
+}
+
+body.dark-mode #profileSettingsForm input,
+body.dark-mode #passwordForm input,
+body.dark-mode #profileSettingsForm button,
+body.dark-mode #passwordForm button,
+body.dark-mode #lightModeBtn,
+body.dark-mode #darkModeBtn {
+  background: #1e1e1e;
+  color: var(--light-text);
+  border-color: #444;
+}
+
+body.dark-mode h2,
+body.dark-mode #settingsMessage {
+  color: var(--light-text);
+}
+*/
+
+/* Settings notification */
+.settings-notification {
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: white;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, top 0.3s ease;
+  z-index: 1000;
+}
+
+.settings-notification.show {
+  opacity: 1;
+  top: 85px;
+}
+
+.settings-notification.success {
+  background: #2ecc71;
+}
+
+.settings-notification.error {
+  background: #e74c3c;
+}
+
 /* helper */
 .hidden {
   display: none !important;
