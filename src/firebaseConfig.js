@@ -25,10 +25,12 @@ import { getFirestore } from "firebase/firestore";
 // ⚠️ Note: Vite only exposes environment variables that start with "VITE_"
 // ---------------------------------------------------------
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  apiKey: "AIzaSyDNmznjqY62ZVU6IaIt2zFS_G4DV_Sig7g",
+  authDomain: "crowds-e07d8.firebaseapp.com",
+  projectId: "crowds-e07d8",
+  storageBucket: "crowds-e07d8.firebasestorage.app",
+  messagingSenderId: "636253163313",
+  appId: "1:636253163313:web:6417243ed7eadc624a2a10"
 };
 
 // ---------------------------------------------------------
