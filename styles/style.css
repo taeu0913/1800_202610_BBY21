@@ -220,6 +220,10 @@ a.signup:hover {
   height: 45px;
 }
 
+#searchIcon:hover {
+  cursor: pointer;
+}
+
 #searchResults {
   position: absolute;
   top: calc(100% + 6px);
