@@ -18,33 +18,41 @@ const locationsRef = collection(db, "Places");
 const postsRef = collection(db, "posts");
 const usersRef = collection(db, "users");
 
-async function showLocationDetails() {
-  const location_q = query(locationsRef, where("Latitude", "==", 49.2768), where("Longitude", "==", -123.1120));
+async function showLocationDetails(lat, lng) {
+  const location_q = query(
+    locationsRef,
+    where("Latitude", "==", lat),
+    where("Longitude", "==", lng)
+  );
+
   const location_doc = await getDocs(location_q);
-  
+
+  if (location_doc.empty) {
+    console.warn("No matching location found");
+    return;
+  }
+
   let location_name = document.getElementById("location-name");
   location_name.textContent = location_doc.docs[0].data().Names;
 
-  console.log("id: " + location_doc.docs[0].id);
   const posts_q = query(
-    postsRef, 
+    postsRef,
     where("location_id", "==", location_doc.docs[0].id),
     orderBy("timestamp", "desc"),
     limit(5)
   );
+
   const location_posts = await getDocs(posts_q);
 
-  let crowd_estimate = 0;  // mean of most recent 5 posts
+  let crowd_estimate = 0;
   let location_feed = document.getElementById("location-feed");
   location_feed.innerHTML = "";
-  console.log(location_posts.docs);
+
   for (const post of location_posts.docs) {
-    console.log("entering loop");
-    // doc.data() is never undefined for query doc snapshots
     let data = post.data();
     const userDoc = await getDoc(doc(usersRef, data.user_id));
     const user_data = userDoc.data();
-    console.log("user data: " + user_data);
+
     location_feed.insertAdjacentHTML("beforeend", `
       <div class="post">
         <div class="user">
@@ -75,14 +83,15 @@ async function showLocationDetails() {
     `);
 
     crowd_estimate += data.headcount_estimate;
-    
   }
-  crowd_estimate /= (location_posts.size == 0 ? 1 : location_posts.size);
+
+  crowd_estimate /= (location_posts.size === 0 ? 1 : location_posts.size);
+
   let crowd = document.getElementById("crowd-info");
   crowd.textContent = "Crowd Estimate: " + crowd_estimate;
 
   let location_popup = document.getElementById("location-popup");
-  location_popup.style.display = (location_popup.style.display === "none" ? "block" : "none");
+  location_popup.style.display = "block";
 }
 
   // Initialize map
@@ -131,7 +140,7 @@ async function loadPlaceMarkers() {
       const lng = data.Longitude;
       const name = data.Names;
 
-      if (lat && lng) {
+      if (lat != null && lng != null) {
         console.log("Adding marker:", name, lat, lng);
         L.marker([lat, lng])
           .addTo(map)
@@ -148,25 +157,8 @@ async function loadPlaceMarkers() {
 
 loadPlaceMarkers()
 //SearchBar
-
-// disable map dragging when typing/hover
-const input = document.getElementById("searchInput");
-const searchIcon = document.getElementById("search");
-
-// searchBar.addEventListener("mouseenter", () => {map.dragging.disable();});
-// searchBar.addEventListener("mouseleave", () => {map.dragging.enable();});
-
-// stop droping anything into the input
-input.addEventListener("dragover", (e) => e.preventDefault());
-input.addEventListener("drop", (e) => e.preventDefault());
-
-
-// If you have custom global styles, import them as well:
-// import '../styles/style.css';
-// document.addEventListener('DOMContentLoaded', sayHello);
-
-}
-    // Search bar elements
+// Search bar elements
+  const searchIcon = document.getElementById("search");
   const input = document.getElementById("searchInput");
   const searchResults = document.getElementById("searchResults");
   const searchBar = document.getElementById("searchBar");
@@ -311,4 +303,9 @@ if (hamburger && menu) {
   });
 }
 
+// If you have custom global styles, import them as well:
+// import '../styles/style.css';
+// document.addEventListener('DOMContentLoaded', sayHello);
 
+}
+    
