@@ -179,7 +179,6 @@ a.signup:hover {
 }
 
 /* searchbar */
-/* searchbar */
 #search {
   position: absolute;
   top: 15px;
@@ -192,14 +191,14 @@ a.signup:hover {
 #search {
   position: absolute;
   top: 15px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 15rem;
+  /* transform: translateX(-25%); */
   z-index: 1000;
 }
 
 #searchBar {
   position: relative;
-  width: 70vw;
+  width: 360px;
 }
 
 #searchInput {
@@ -287,7 +286,7 @@ a.signup:hover {
 }
 
 #content-wrapper {
-  height: 84vh;
+  height: 92vh;
 }
 
 #feed {
@@ -935,7 +934,7 @@ body.dark-mode #settingsMessage {
     padding: 1.5rem 1.5rem 0 1.5rem;
     box-sizing: border-box;
     width: 32%;
-    height: 84vh;
+    height: 92vh;
     z-index: 1;
     position: absolute;
     right: 0;

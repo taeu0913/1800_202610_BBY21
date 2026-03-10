@@ -7,92 +7,10 @@ console.log("main.js loaded");
 const mapEl = document.getElementById("map");
 
 if (mapEl) {
-  // Create list of preset locations
-  const locations = [
-    { name: "BC Place", lat: 49.2768, lng: -123.1120 },
-    { name: "Hastings Park", lat: 49.2833, lng: -123.0379 }
-  ];
 
-
-const locationsRef = collection(db, "Places");
-const postsRef = collection(db, "posts");
-const usersRef = collection(db, "users");
-
-async function showLocationDetails(lat, lng) {
-  const location_q = query(
-    locationsRef,
-    where("Latitude", "==", lat),
-    where("Longitude", "==", lng)
-  );
-
-  const location_doc = await getDocs(location_q);
-
-  if (location_doc.empty) {
-    console.warn("No matching location found");
-    return;
-  }
-
-  let location_name = document.getElementById("location-name");
-  location_name.textContent = location_doc.docs[0].data().Names;
-
-  const posts_q = query(
-    postsRef,
-    where("location_id", "==", location_doc.docs[0].id),
-    orderBy("timestamp", "desc"),
-    limit(5)
-  );
-
-  const location_posts = await getDocs(posts_q);
-
-  let crowd_estimate = 0;
-  let location_feed = document.getElementById("location-feed");
-  location_feed.innerHTML = "";
-
-  for (const post of location_posts.docs) {
-    let data = post.data();
-    const userDoc = await getDoc(doc(usersRef, data.user_id));
-    const user_data = userDoc.data();
-
-    location_feed.insertAdjacentHTML("beforeend", `
-      <div class="post">
-        <div class="user">
-          <img src="images/${user_data.profile_img}" alt="profile-picture"/>
-          <p class="user-name">${user_data.name}</p>
-          <div class="timestamp">
-            <small>${data.timestamp.toDate().toLocaleString()}</small>
-          </div>
-        </div>
-        <div class="post-content">
-          <img class="post-image" src="images/${data.img}"/>
-          <p class="post-caption">${data.caption}</p>
-          <div class="rating">
-            <p class="estimate">
-              Estimate: ${data.headcount_estimate} people
-            </p>
-            <small>Is this accurate?</small>
-            <button class="vote-button">
-              <img src="images/thumb-up.png"/>
-            </button>
-            <button class="vote-button">
-              <img src="images/thumb-down.png"/>
-            </button>
-            <p>${data.num_likes} of ${data.num_votes} people agree (83%)</p>
-          </div>
-        </div>
-      </div>
-    `);
-
-    crowd_estimate += data.headcount_estimate;
-  }
-
-  crowd_estimate /= (location_posts.size === 0 ? 1 : location_posts.size);
-
-  let crowd = document.getElementById("crowd-info");
-  crowd.textContent = "Crowd Estimate: " + crowd_estimate;
-
-  let location_popup = document.getElementById("location-popup");
-  location_popup.style.display = "block";
-}
+  const locationsRef = collection(db, "Places");
+  const postsRef = collection(db, "posts");
+  const usersRef = collection(db, "users");
 
   // Initialize map
   const map = L.map("map").setView([49.2768, -123.1120], 13);
@@ -129,36 +47,34 @@ async function showLocationDetails(lat, lng) {
     console.error("Geolocation is not supported by this browser.");
   }
 
-// function that loads 
-async function loadPlaceMarkers() {
-  try {
-    const snapshot = await getDocs(locationsRef);
-    
-    snapshot.forEach(docSnap => {
-      const data = docSnap.data();
-      const lat = data.Latitude;
-      const lng = data.Longitude;
-      const name = data.Names;
+  // function that loads 
+  async function loadPlaceMarkers() {
+    try {
+      const snapshot = await getDocs(locationsRef);
+      
+      snapshot.forEach(docSnap => {
+        const data = docSnap.data();
+        const lat = data.Latitude;
+        const lng = data.Longitude;
+        const name = data.Names;
 
-      if (lat != null && lng != null) {
-        console.log("Adding marker:", name, lat, lng);
-        const m = L.marker([lat, lng])
-          .addTo(map)
-          .on("click", () => showLocationDetails(lat, lng));
-        m.id = docSnap.id;
-        
-      } else {
-        console.warn("Missing lat/lng for doc:", docSnap.id, data);
-      }
-    });
-  } catch (err) {
-    console.error("Error fetching Places:", err);
+        if (lat != null && lng != null) {
+          console.log("Adding marker:", name, lat, lng);
+          const m = L.marker([lat, lng])
+            .addTo(map)
+            .on("click", () => showLocationDetails(lat, lng));
+        } else {
+          console.warn("Missing lat/lng for doc:", docSnap.id, data);
+        }
+      });
+    } catch (err) {
+      console.error("Error fetching Places:", err);
+    }
   }
-}
 
-loadPlaceMarkers();
-//SearchBar
-// Search bar elements
+  loadPlaceMarkers();
+  //SearchBar
+  // Search bar elements
   const searchIcon = document.getElementById("search");
   const input = document.getElementById("searchInput");
   const searchResults = document.getElementById("searchResults");
@@ -234,6 +150,87 @@ loadPlaceMarkers();
     showResults();
   }
 
+  async function showLocationDetails(lat, lng) {
+    const location_q = query(
+      locationsRef,
+      where("Latitude", "==", lat),
+      where("Longitude", "==", lng)
+    );
+
+    const location_doc = await getDocs(location_q);
+
+    if (location_doc.empty) {
+      console.warn("No matching location found");
+      return;
+    }
+
+    let location_name = document.getElementById("location-name");
+    location_name.textContent = location_doc.docs[0].data().Names;
+
+    const posts_q = query(
+      postsRef,
+      where("location_id", "==", location_doc.docs[0].id),
+      orderBy("timestamp", "desc"),
+      limit(5)
+    );
+
+    const location_posts = await getDocs(posts_q);
+
+    let crowd_estimate = 0;
+    let location_feed = document.getElementById("location-feed");
+    location_feed.innerHTML = "";
+
+    for (const post of location_posts.docs) {
+      let data = post.data();
+      const userDoc = await getDoc(doc(usersRef, data.user_id));
+      const user_data = userDoc.data();
+
+      location_feed.insertAdjacentHTML("beforeend", `
+        <div class="post">
+          <div class="user">
+            <img src="images/${user_data.profile_img}" alt="profile-picture"/>
+            <p class="user-name">${user_data.name}</p>
+            <div class="timestamp">
+              <small>${data.timestamp.toDate().toLocaleString()}</small>
+            </div>
+          </div>
+          <div class="post-content">
+            <img class="post-image" src="images/${data.img}"/>
+            <p class="post-caption">${data.caption}</p>
+            <div class="rating">
+              <p class="estimate">
+                Estimate: ${data.headcount_estimate} people
+              </p>
+              <small>Is this accurate?</small>
+              <button class="vote-button">
+                <img src="images/thumb-up.png"/>
+              </button>
+              <button class="vote-button">
+                <img src="images/thumb-down.png"/>
+              </button>
+              <p>${data.num_likes} of ${data.num_votes} people agree (83%)</p>
+            </div>
+          </div>
+        </div>
+      `);
+
+      crowd_estimate += data.headcount_estimate;
+    }
+
+    crowd_estimate /= (location_posts.size === 0 ? 1 : location_posts.size);
+
+    let crowd = document.getElementById("crowd-info");
+    crowd.textContent = "Crowd Estimate: " + crowd_estimate;
+
+    let location_popup = document.getElementById("location-popup");
+    location_popup.style.display = "block";
+  }
+
+  function closeLocationPopup() {
+    let location_popup = document.getElementById("location-popup");
+    location_popup.style.display = "none";
+  }
+
   input?.addEventListener("input", async () => {
     const text = input.value.trim();
 
@@ -248,6 +245,13 @@ loadPlaceMarkers();
     } catch (error) {
       console.error("Error searching places:", error);
       hideResults();
+    }
+  });
+
+  // Hide results when clicking outside search area
+  document.addEventListener("click", (e) => {
+    if (!searchBar?.contains(e.target)) {
+      closeLocationPopup();
     }
   });
 
@@ -288,6 +292,9 @@ loadPlaceMarkers();
   input?.addEventListener("dragover", (e) => e.preventDefault());
   input?.addEventListener("drop", (e) => e.preventDefault());
 
+
+}
+
 const hamburger = document.getElementById("hamburger");
 const menu = document.getElementById("menu");
 
@@ -308,5 +315,4 @@ if (hamburger && menu) {
 // import '../styles/style.css';
 // document.addEventListener('DOMContentLoaded', sayHello);
 
-}
     
