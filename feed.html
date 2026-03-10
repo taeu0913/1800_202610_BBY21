@@ -22,47 +22,7 @@
   <!------------------------------>
   <!-- Stuff for body goes here -->
   <nav-bar></nav-bar>
-  <div id="feed">
-    <div class="post">
-      <div class="user">
-        <img src="images/account.png" alt="profile-picture"/>
-        <p class="user-name">User 1</p>
-        <div class="timestamp">
-          <small>5 minutes ago</small>
-        </div>
-        <b class="location">Post location</b>
-      </div>
-      <div class="post-content">
-        <img src="images/BBY01.jpg"/>
-        <div class="rating">
-          <p class="estimate">
-            Estimate: 50 people
-          </p>
-          <small>Is this accurate?</small>
-          <button class="vote-button">
-            <img src="images/thumb-up.png"/>
-          </button>
-          <button class="vote-button">
-            <img src="images/thumb-down.png"/>
-          </button>
-          <p>10 of 12 people agree (83%)</p>
-        </div>
-      </div>
-    </div>
-    <div class="post">
-      <div class="user">
-        <img src="images/elmo.jpg" alt="profile-picture"/>
-        <p class="user-name">User 2</p>
-        <div class="timestamp">
-          <small>10 minutes ago</small>
-        </div>
-        <b class="location">Post location</b>
-      </div>
-      <div class="post-content">
-        <img src="images/hike1.jpg"/>
-      </div>
-    </div>
-  </div>
+  <div id="feed"></div>
   
   <real-footer></real-footer>
   <!---------------------------------------------->
@@ -70,7 +30,7 @@
   <!---------------------------------------------->
 
   <!-- Link to scripts of your own -->
-  <script src="src/main.js"></script>
+  <script type="module" src="src/feed.js"></script>
   <script src="src/components/NavBarTemplate.js"></script>
   <script src="src/components/FooterTemplate.js"></script>
 
