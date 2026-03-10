@@ -82,12 +82,6 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-// add preset locations to map
-locations.forEach(loc => {
-  L.marker([loc.lat, loc.lng])
-    .addTo(map)
-    .on("click", () => showLocationDetails(loc))
-});
 
 // check if geolocation allowed
 if ("geolocation" in navigator) {
@@ -113,14 +107,43 @@ if ("geolocation" in navigator) {
   console.error("Geolocation is not supported by this browser.");
 }
 
+// function that loads 
+async function loadPlaceMarkers() {
+  try {
+    const snapshot = await getDocs(locationsRef);
+    console.log("Total docs fetched:", snapshot.size); // ← does this print > 0?
+    
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      console.log("Place doc:", data); // ← do you see your Places here?
+      const lat = data.Latitude;
+      const lng = data.Longitude;
+      const name = data.Names;
+
+      if (lat && lng) {
+        console.log("Adding marker:", name, lat, lng);
+        L.marker([lat, lng])
+          .addTo(map)
+          .bindPopup(`<strong>${name}</strong>`)
+          .on("click", () => showLocationDetails(lat, lng));
+      } else {
+        console.warn("Missing lat/lng for doc:", docSnap.id, data);
+      }
+    });
+  } catch (err) {
+    console.error("Error fetching Places:", err);
+  }
+}
+
+loadPlaceMarkers()
 //SearchBar
 
 // disable map dragging when typing/hover
 const input = document.getElementById("searchInput");
 const searchIcon = document.getElementById("search");
 
-searchBar.addEventListener("mouseenter", () => {map.dragging.disable();});
-searchBar.addEventListener("mouseleave", () => {map.dragging.enable();});
+// searchBar.addEventListener("mouseenter", () => {map.dragging.disable();});
+// searchBar.addEventListener("mouseleave", () => {map.dragging.enable();});
 
 // stop droping anything into the input
 input.addEventListener("dragover", (e) => e.preventDefault());
@@ -147,4 +170,5 @@ if (hamburger && menu) {
     }
   });
 }
+
 
