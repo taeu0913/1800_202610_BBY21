@@ -111,11 +111,9 @@ async function showLocationDetails() {
 async function loadPlaceMarkers() {
   try {
     const snapshot = await getDocs(locationsRef);
-    console.log("Total docs fetched:", snapshot.size); // ← does this print > 0?
     
     snapshot.forEach(docSnap => {
       const data = docSnap.data();
-      console.log("Place doc:", data); // ← do you see your Places here?
       const lat = data.Latitude;
       const lng = data.Longitude;
       const name = data.Names;
