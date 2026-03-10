@@ -338,12 +338,9 @@ a.signup:hover {
 }
 
 #location-name {
-  padding-bottom: 0.2rem;
-}
-
-#location-name h1 {
   margin: 0;
   font-weight: 400;
+  padding-bottom: 0.2rem;
 }
 
 #crowd-info {

@@ -1,12 +1,7 @@
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap';
 import { db } from "./firebaseConfig.js";
-import {
-  collection,
-  query,
-  orderBy,
-  startAt,
-  endAt,
-  getDocs
-} from "firebase/firestore";
+import { collection, query, doc, where, getDoc, getDocs, orderBy, limit } from "firebase/firestore";
 
 console.log("main.js loaded");
 const mapEl = document.getElementById("map");
@@ -18,13 +13,64 @@ if (mapEl) {
     { name: "Hastings Park", lat: 49.2833, lng: -123.0379 }
   ];
 
-  function showLocationDetails() {
-    const locationPopup = document.getElementById("location-popup");
-    if (!locationPopup) return;
 
-    locationPopup.style.display =
-      locationPopup.style.display === "none" ? "block" : "none";
+const locationsRef = collection(db, "Places");
+const postsRef = collection(db, "posts");
+const usersRef = collection(db, "users");
+
+async function showLocationDetails() {
+  const location_q = query(locationsRef, where("Latitude", "==", 49.2768), where("Longitude", "==", -123.1120));
+  const location_doc = await getDocs(location_q);
+  
+  let location_name = document.getElementById("location-name");
+  location_name.textContent = location_doc.docs[0].data().Names;
+
+  console.log("id: " + location_doc.docs[0].id);
+  const posts_q = query(
+    postsRef, 
+    where("location_id", "==", location_doc.docs[0].id),
+    orderBy("timestamp", "desc"),
+    limit(5)
+  );
+  const location_posts = await getDocs(posts_q);
+
+  let crowd_estimate = 0;  // mean of most recent 5 posts
+  let location_feed = document.getElementById("location-feed");
+  location_feed.innerHTML = "";
+  console.log(location_posts.docs);
+  for (const post of location_posts.docs) {
+    console.log("entering loop");
+    // doc.data() is never undefined for query doc snapshots
+    let data = post.data();
+    const userDoc = await getDoc(doc(usersRef, data.user_id));
+    const user_data = userDoc.data();
+    console.log("user data: " + user_data);
+    location_feed.insertAdjacentHTML("beforeend", `
+      <div class="post">
+        <div class="user">
+          <img src="images/${user_data.profile_img}" alt="profile-picture"/>
+          <p class="user-name">${user_data.name}</p>
+          <div class="timestamp">
+            <small>${data.timestamp.toDate().toLocaleString()}</small>
+          </div>
+        </div>
+        <div class="post-content">
+          <img class="post-image" src="images/${data.img}"/>
+          <p class="post-caption">${data.caption}</p>
+        </div>
+      </div>
+    `);
+
+    crowd_estimate += data.headcount_estimate;
+    
   }
+  crowd_estimate /= (location_posts.size == 0 ? 1 : location_posts.size);
+  let crowd = document.getElementById("crowd-info");
+  crowd.textContent = "Crowd Estimate: " + crowd_estimate;
+
+  let location_popup = document.getElementById("location-popup");
+  location_popup.style.display = (location_popup.style.display === "none" ? "block" : "none");
+}
 
   // Initialize map
   const map = L.map("map").setView([49.2768, -123.1120], 13);
