@@ -57,6 +57,19 @@ async function showLocationDetails() {
         <div class="post-content">
           <img class="post-image" src="images/${data.img}"/>
           <p class="post-caption">${data.caption}</p>
+          <div class="rating">
+            <p class="estimate">
+              Estimate: ${data.headcount_estimate} people
+            </p>
+            <small>Is this accurate?</small>
+            <button class="vote-button">
+              <img src="images/thumb-up.png"/>
+            </button>
+            <button class="vote-button">
+              <img src="images/thumb-down.png"/>
+            </button>
+            <p>${data.num_likes} of ${data.num_votes} people agree (83%)</p>
+          </div>
         </div>
       </div>
     `);
