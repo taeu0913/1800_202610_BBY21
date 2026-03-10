@@ -36,12 +36,12 @@ import { getFirestore } from "firebase/firestore";
 // };
 
 const firebaseConfig = {
-  apiKey: "YOUR_FIREBASE_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDNmznjqY62ZVU6IaIt2zFS_G4DV_Sig7g",
+  authDomain: "crowds-e07d8.firebaseapp.com",
+  projectId: "crowds-e07d8",
+  storageBucket: "crowds-e07d8.firebasestorage.app",
+  messagingSenderId: "636253163313",
+  appId: "1:636253163313:web:6417243ed7eadc624a2a10"
 };
 
 // ---------------------------------------------------------

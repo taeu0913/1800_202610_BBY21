@@ -179,6 +179,7 @@ a.signup:hover {
 }
 
 /* searchbar */
+/* searchbar */
 #search {
   position: absolute;
   top: 15px;
@@ -187,27 +188,63 @@ a.signup:hover {
   z-index: 1000;
 }
 
-#searchInput {
+/* searchbar */
+#search {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+#searchBar {
+  position: relative;
   width: 70vw;
-  padding: 12px;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 12px 40px 12px 12px;
   border-radius: 20px;
   border: 1px solid var(--primary);
   outline: none;
+  box-sizing: border-box;
 }
 
 #searchIcon {
   position: absolute;
-  right: -5px; /*adjust position for hamburger if needed*/
-  top:50%;
+  right: 5px;
+  top: 50%;
   transform: translateY(-50%);
-  width: 65px;
-  height: 65px;
-  -webkit-user-drag: none;
-  user-select: none;
+  width: 45px;
+  height: 45px;
 }
 
-#searchIcon:hover {
+#searchResults {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+  background: white;
+  border-radius: 10px;
+  border: 1px solid var(--secondary);
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  display: none; /* hidden by default */
+}
+
+#searchResults.has-results {
+  display: block;
+}
+
+.search-result-item {
+  padding: 10px 12px;
   cursor: pointer;
+}
+
+.search-result-item:hover {
+  background: var(--light-text);
 }
 
 #bottom-navbar {
@@ -782,6 +819,7 @@ h2 {
   font-size: 1rem;
   color: var(--primary);
   background: white;
+  margin-bottom: 0.5rem;
 }
 
 #profileSettingsForm input:focus,
