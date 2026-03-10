@@ -6,6 +6,7 @@ import {
   getDocs,
   deleteDoc,
   doc,
+  getDoc,
   query,
   orderBy,
   onSnapshot,
@@ -167,35 +168,46 @@ if (savedListEl && savedEmptyEl && savedMoreBtn) {
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  function wireModal(openBtnId, modalId) {
-    const modal = document.getElementById(modalId);
-    const openBtn = document.getElementById(openBtnId);
 
-    if (!modal || !openBtn) return;
-
-    openBtn.addEventListener("click", () => {
-      modal.classList.remove("hidden");
-      modal.setAttribute("aria-hidden", "false");
-    });
-
-    modal.querySelectorAll('[data-close="true"]').forEach((el) => {
-      el.addEventListener("click", () => {
-        modal.classList.add("hidden");
-        modal.setAttribute("aria-hidden", "true");
-      });
-    });
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+    return;
   }
 
-  wireModal("termsBtn", "termsModal");
-  wireModal("privacyBtn", "privacyModal");
-  wireModal("statBtn", "statModal");
+  try {
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape") return;
-    ["termsModal", "privacyModal", "statModal"].forEach((id) => {
-      const m = document.getElementById(id);
-      if (m) m.classList.add("hidden");
-    });
-  });
+    if (userSnap.exists()) {
+      const data = userSnap.data();
+
+      document.getElementById("profileName").textContent =
+        data.name || user.displayName || "User";
+
+      document.getElementById("infoEmail").textContent =
+        data.email || user.email || "No email";
+
+      document.getElementById("infoUsername").textContent =
+        data.username ? "@" + data.username : "@user";
+
+      document.getElementById("infoLocation").textContent =
+        data.location || "No location";
+
+      document.getElementById("statPoints").textContent =
+        data.points ?? 0;
+    } else {
+      document.getElementById("profileName").textContent =
+        user.displayName || "User";
+
+      document.getElementById("infoEmail").textContent =
+        user.email || "No email";
+
+      document.getElementById("infoUsername").textContent = "@user";
+      document.getElementById("infoLocation").textContent = "No location";
+      document.getElementById("statPoints").textContent = "0";
+    }
+  } catch (error) {
+    console.error("Error loading profile:", error);
+  }
 });
