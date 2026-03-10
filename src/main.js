@@ -133,10 +133,11 @@ async function loadPlaceMarkers() {
 
       if (lat && lng) {
         console.log("Adding marker:", name, lat, lng);
-        L.marker([lat, lng])
+        const m = L.marker([lat, lng])
           .addTo(map)
-          .bindPopup(`<strong>${name}</strong>`)
           .on("click", () => showLocationDetails(lat, lng));
+        m.id = docSnap.id;
+        
       } else {
         console.warn("Missing lat/lng for doc:", docSnap.id, data);
       }
@@ -146,7 +147,7 @@ async function loadPlaceMarkers() {
   }
 }
 
-loadPlaceMarkers()
+loadPlaceMarkers();
 //SearchBar
 
 // disable map dragging when typing/hover
@@ -160,12 +161,12 @@ const searchIcon = document.getElementById("search");
 input.addEventListener("dragover", (e) => e.preventDefault());
 input.addEventListener("drop", (e) => e.preventDefault());
 
+}
 
 // If you have custom global styles, import them as well:
 // import '../styles/style.css';
 // document.addEventListener('DOMContentLoaded', sayHello);
 
-}
     // Search bar elements
   const input = document.getElementById("searchInput");
   const searchResults = document.getElementById("searchResults");
