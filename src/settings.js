@@ -10,6 +10,7 @@ const settingsName = document.getElementById("settingsName");
 const settingsUsername = document.getElementById("settingsUsername");
 const settingsLocation = document.getElementById("settingsLocation");
 const newPassword = document.getElementById("newPassword");
+const confirmPassword = document.getElementById("confirmPassword");
 
 const lightModeBtn = document.getElementById("lightModeBtn");
 const darkModeBtn = document.getElementById("darkModeBtn");
@@ -116,23 +117,32 @@ passwordForm?.addEventListener("submit", async (e) => {
   if (!currentUser) return;
 
   const password = newPassword.value.trim();
+  const confirm = confirmPassword.value.trim();
 
   if (password.length < 6) {
-    showMessage("Password must be at least 6 characters.");
+    showMessage("Password must be at least 6 characters.", "error");
+    return;
+  }
+
+  if (password !== confirm) {
+    showMessage("Passwords do not match.", "error");
     return;
   }
 
   try {
     await updatePassword(currentUser, password);
+
     newPassword.value = "";
-    showMessage("Password updated successfully.");
+    confirmPassword.value = "";
+
+    showMessage("Password updated successfully.", "success");
   } catch (error) {
     console.error(error);
 
     if (error.code === "auth/requires-recent-login") {
-      showMessage("Please log in again before changing your password.");
+      showMessage("Please log in again before changing password.", "error");
     } else {
-      showMessage("Failed to update password.");
+      showMessage("Failed to update password.", "error");
     }
   }
 });
