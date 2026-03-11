@@ -40,11 +40,13 @@ if (mapEl) {
       function (position) {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
+        const accuracy = position.coords.accuracy;
 
         //map.setView([lat, lng], 10); <-- dont uncomment unless needed!!!!!!
 
         if (marker) {
           marker.setLatLng([lat, lng]);
+          L.circle([lat,lng], {radius: accuracy}).addTo(map);
         } else {
           marker = L.marker([lat, lng], {icon: userIcon}).addTo(map);
         }
