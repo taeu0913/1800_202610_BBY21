@@ -13,9 +13,10 @@ if (mapEl) {
   const usersRef = collection(db, "users");
 
   // Initialize map
-  const map = L.map("map").setView([49.2768, -123.1120], 13);
+  const map = L.map("map").setView([49.2768, -123.1120], 10);
   let marker;
   let searchMarker = null;
+
 
   // Add the tile layer
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -24,6 +25,15 @@ if (mapEl) {
   }).addTo(map);
 
 
+  var mapIcon = L.icon({
+    iconUrl: '/images/marker.png',
+    iconSize: [20, 25]  
+  });
+
+  var userIcon = L.icon({
+    iconUrl: '/images/person.png',
+    iconSize: [50,50]
+  });
   // Check if geolocation allowed
   if ("geolocation" in navigator) {
     navigator.geolocation.watchPosition(
@@ -31,12 +41,12 @@ if (mapEl) {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
 
-        map.setView([lat, lng], 16);
+        //map.setView([lat, lng], 10); <-- dont uncomment unless needed!!!!!!
 
         if (marker) {
           marker.setLatLng([lat, lng]);
         } else {
-          marker = L.marker([lat, lng]).addTo(map);
+          marker = L.marker([lat, lng], {icon: userIcon}).addTo(map);
         }
       },
       function (error) {
@@ -60,7 +70,7 @@ if (mapEl) {
 
         if (lat != null && lng != null) {
           console.log("Adding marker:", name, lat, lng);
-          const m = L.marker([lat, lng])
+          const m = L.marker([lat, lng], {icon: mapIcon})
             .addTo(map)
             .on("click", () => showLocationDetails(lat, lng));
         } else {
