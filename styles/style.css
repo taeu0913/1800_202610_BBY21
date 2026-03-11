@@ -302,7 +302,7 @@ a.signup:hover {
 #rate-content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
   text-align: center;
   padding: 0rem 1.5rem;
 }
@@ -399,6 +399,7 @@ small {
 }
 
 #upload-image-button, #submit-button {
+  background: lightgrey;
   width: 5rem;
   padding: 0.5rem;
   border-radius: 3rem;
