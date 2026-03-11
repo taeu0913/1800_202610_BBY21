@@ -105,7 +105,7 @@ if (mapEl) {
       }))
       .filter((place) =>
         (place.Names || "").toLowerCase().includes(search)
-      );
+      );  
   }
 
   function renderResults(places) {

@@ -426,7 +426,7 @@ input[type=number] {
 
 /** Profile page */
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .page {
@@ -675,6 +675,7 @@ text-align: right;
 
 .logout-button:hover {
   background-color: red;
+  cursor: pointer;
 }
 
 /* Legal links */
@@ -943,5 +944,14 @@ body.dark-mode #settingsMessage {
     position: absolute;
     right: 0;
     border-radius: 0;
+  }
+
+  .profile-left,.info-list, .stat-details, .settings-button,.logout-button, .stat-header,.stats,.location-list,.no-list {
+    margin-left:20%;
+    margin-right:20%;
+  }
+
+  .stat-details {
+    margin-right: 0;
   }
 }
