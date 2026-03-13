@@ -7,7 +7,6 @@ const passwordForm = document.getElementById("passwordForm");
 const settingsMessage = document.getElementById("settingsMessage");
 
 const settingsName = document.getElementById("settingsName");
-const settingsUsername = document.getElementById("settingsUsername");
 const settingsLocation = document.getElementById("settingsLocation");
 const newPassword = document.getElementById("newPassword");
 const confirmPassword = document.getElementById("confirmPassword");
@@ -62,7 +61,6 @@ onAuthStateChanged(auth, async (user) => {
       const data = snap.data();
 
       settingsName.value = data.name || user.displayName || "";
-      settingsUsername.value = data.username || "";
       settingsLocation.value = data.location || "";
 
       if (data.theme) {
@@ -83,7 +81,6 @@ profileForm?.addEventListener("submit", async (e) => {
   if (!currentUser) return;
 
   const name = settingsName.value.trim();
-  const username = settingsUsername.value.trim();
   const location = settingsLocation.value.trim();
 
   try {

@@ -12,6 +12,7 @@ import {
   onSnapshot,
   serverTimestamp
 } from "firebase/firestore";
+import { signOut } from "firebase/auth";
 
 // Profile Page: saved locations + more btn
 const savedListEl = document.getElementById("savedLocationsList");
@@ -188,9 +189,6 @@ onAuthStateChanged(auth, async (user) => {
       document.getElementById("infoEmail").textContent =
         data.email || user.email || "No email";
 
-      document.getElementById("infoUsername").textContent =
-        data.username ? "@" + data.username : "@user";
-
       document.getElementById("infoLocation").textContent =
         data.location || "No location";
 
@@ -203,7 +201,6 @@ onAuthStateChanged(auth, async (user) => {
       document.getElementById("infoEmail").textContent =
         user.email || "No email";
 
-      document.getElementById("infoUsername").textContent = "@user";
       document.getElementById("infoLocation").textContent = "No location";
       document.getElementById("statPoints").textContent = "0";
     }
@@ -211,3 +208,21 @@ onAuthStateChanged(auth, async (user) => {
     console.error("Error loading profile:", error);
   }
 });
+
+//Logout - logoutBtn
+const logoutBtn = document.getElementById("logoutBtn");
+
+function logoutUser() {
+  signOut(auth)
+    .then(() => {
+      console.log("User logged out");
+      window.location.href = "login.html"; // redirect after logout
+    })
+    .catch((error) => {
+      console.error("Logout error:", error);
+    });
+}
+
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", logoutUser);
+}
