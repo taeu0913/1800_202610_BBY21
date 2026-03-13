@@ -234,6 +234,12 @@ if (mapEl) {
 
     let location_popup = document.getElementById("location-popup");
     location_popup.style.display = "block";
+
+    // Hide results when clicking outside search area
+    let close_button = document.getElementById("close-location-button");
+    close_button.addEventListener("click", (e) => {
+      closeLocationPopup();
+    });
   }
 
   function closeLocationPopup() {
@@ -255,13 +261,6 @@ if (mapEl) {
     } catch (error) {
       console.error("Error searching places:", error);
       hideResults();
-    }
-  });
-
-  // Hide results when clicking outside search area
-  document.addEventListener("click", (e) => {
-    if (!searchBar?.contains(e.target)) {
-      closeLocationPopup();
     }
   });
 
