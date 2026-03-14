@@ -1,3 +1,5 @@
+// if you see this commment i failed....s
+
 // src/firebaseAPIConfig.js
 // -------------------------------------------------------------
 // Part of the COMP1800 Project 1 Course (BCIT).
