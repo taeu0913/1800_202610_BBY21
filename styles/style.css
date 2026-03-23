@@ -609,7 +609,7 @@ text-align: right;
 }
 
 .settings-button:hover {
-  background-color: var(--light-text);
+  background-color: var(--secondary);
 }
 
 .logout-button {

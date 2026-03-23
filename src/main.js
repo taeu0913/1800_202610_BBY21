@@ -15,7 +15,7 @@ if (mapEl) {
   // Initialize map
   const map = L.map("map").setView([49.2768, -123.1120], 10);
   let marker;
-  let searchMarker = null;
+  const placeMarkers = new Map();
 
 
   // Add the tile layer
@@ -61,28 +61,31 @@ if (mapEl) {
 
   // function that loads 
   async function loadPlaceMarkers() {
-    try {
-      const snapshot = await getDocs(locationsRef);
-      
-      snapshot.forEach(docSnap => {
-        const data = docSnap.data();
-        const lat = data.Latitude;
-        const lng = data.Longitude;
-        const name = data.Names;
+  try {
+    const snapshot = await getDocs(locationsRef);
 
-        if (lat != null && lng != null) {
-          console.log("Adding marker:", name, lat, lng);
-          const m = L.marker([lat, lng], {icon: mapIcon})
-            .addTo(map)
-            .on("click", () => showLocationDetails(lat, lng));
-        } else {
-          console.warn("Missing lat/lng for doc:", docSnap.id, data);
-        }
-      });
-    } catch (err) {
-      console.error("Error fetching Places:", err);
-    }
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      const lat = Number(data.Latitude);
+      const lng = Number(data.Longitude);
+      const name = data.Names;
+
+      if (!Number.isNaN(lat) && !Number.isNaN(lng)) {
+        console.log("Adding marker:", name, lat, lng);
+
+        const m = L.marker([lat, lng], { icon: mapIcon })
+          .addTo(map)
+          .on("click", () => showLocationDetails(lat, lng));
+
+        placeMarkers.set(docSnap.id, m);
+      } else {
+        console.warn("Missing lat/lng for doc:", docSnap.id, data);
+      }
+    });
+  } catch (err) {
+    console.error("Error fetching Places:", err);
   }
+}
 
   loadPlaceMarkers();
   //SearchBar
@@ -136,25 +139,21 @@ if (mapEl) {
       item.className = "search-result-item";
 
       item.addEventListener("click", () => {
-        const lat = Number(place.Latitude);
-        const lng = Number(place.Longitude);
+      const lat = Number(place.Latitude);
+      const lng = Number(place.Longitude);
 
-        if (Number.isNaN(lat) || Number.isNaN(lng)) return;
+      if (Number.isNaN(lat) || Number.isNaN(lng)) return;
 
-        map.setView([lat, lng], 16);
+      map.setView([lat, lng], 16);
 
-        if (searchMarker) {
-          map.removeLayer(searchMarker);
-        }
+      const existingMarker = placeMarkers.get(place.id);
+      if (existingMarker) {
+        existingMarker.fire("click");
+      }
 
-        searchMarker = L.marker([lat, lng])
-          .addTo(map)
-          .bindPopup(place.Names)
-          .openPopup();
-
-        input.value = place.Names;
-        hideResults();
-      });
+      input.value = place.Names;
+      hideResults();
+    });
 
       searchResults.appendChild(item);
     });
