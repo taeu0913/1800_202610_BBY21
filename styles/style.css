@@ -290,6 +290,7 @@ a.signup:hover {
 }
 
 #content-wrapper {
+  width: 100%;
   height: 92vh;
 }
 
@@ -404,6 +405,12 @@ small {
   padding: 0.5rem;
   border-radius: 3rem;
   border: none;
+}
+
+#upload-image-preview {
+  width: 100%;
+  height: 50vh;
+  object-fit: cover;
 }
 
 #headcount-input {
