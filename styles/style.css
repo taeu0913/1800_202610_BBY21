@@ -490,7 +490,7 @@ input[type=number] {
 }
 
 .stat-details:hover {
-  color: var(--light-text);
+  color: var(--secondary);
   background-color: transparent !important;
 }
 
@@ -652,7 +652,7 @@ text-align: right;
 }
 
 .link-button:hover {
-  background: var(--light-text);
+  background: var(--secondary);
 }
 
 .modal {
@@ -789,7 +789,7 @@ h2 {
   padding: 0.8rem;
   font-size: 1rem;
   font-weight: bold;
-  color: var(--primary);
+  color: var(--tetriary);
   background: white;
   cursor: pointer;
 }
@@ -798,7 +798,7 @@ h2 {
 #passwordForm button:hover,
 #lightModeBtn:hover,
 #darkModeBtn:hover {
-  background: var(--light-text);
+  background: var(--secondary);
 }
 
 div:has(#lightModeBtn) {
