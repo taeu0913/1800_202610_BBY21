@@ -1,5 +1,5 @@
 //import functions as needed
-import { addDoc, query, where, collection, serverTimestamp, doc, getDoc } from "firebase/firestore";
+import { addDoc, query, where, collection, serverTimestamp, doc, getDoc, getDocs } from "firebase/firestore";
 import { auth, db } from "./firebaseConfig.js";
 
 //------------------------------------------------------------
@@ -51,22 +51,40 @@ function getCurrentPositionSafe() {
     });
 }
 
-function getNearestLocationId(latitude, longitude) {
-  return "HpsHQPQicGd7cvRQi6U6";
-}
+// function getLocationId (latitude, longitude) {
+//   let lat = latitude;
+//   let long = longitude;
+//   if (!latitude || !longitude) {
+//     const urlParams = new URLSearchParams(window.location.search);
+//     lat = urlParams.get('lat');
+//     long = urlParams.get('long');
+//   }
+//   const locationsRef = collection(db, "Places");
+//   const location_q = query(
+//     locationsRef,
+//     where("Latitude", "==", lat),
+//     where("Longitude", "==", long)
+//   );
+
+//   const location_doc = getDoc(location_q);
+//   // let name = location_doc.data().Names;
+//   console.log("location doc: " + location_doc);
+//   console.log("location doc: " + location_doc.id);
+
+//   return location_doc.id;
+// }
 //------------------------------------------------------------
 // This function saves the post data (description and image) to Firestore
 // when the "Save Post" button is clicked.
 //-------------------------------------------------------------
-async function savePost() {
-  alert("SAVE POST is triggered");
+async function savePost(locId) {
+  console.log("SAVE POST is triggered");
 
   const user = auth.currentUser;
   if (!user) {
     console.log("Error, no user signed in");
     return;
   }
-
   const userDoc = await getDoc(doc(db, "users", user.uid));
   console.log("doc exists:", userDoc.exists());
   console.log("doc id:", userDoc.id);
@@ -79,12 +97,13 @@ async function savePost() {
   const inputImage = localStorage.getItem("inputImage") || "";
 
   // Get the user's geolocation (wrapped in a Promise)
-  const position = await getCurrentPositionSafe();
+  // const position = await getCurrentPositionSafe();
 
-  const latitude = position?.coords?.latitude || null;
-  const longitude = position?.coords?.longitude || null;
+  // const latitude = position?.coords?.latitude || null;
+  // const longitude = position?.coords?.longitude || null;
 
-  const user_location = getNearestLocationId(latitude, longitude);
+
+  // const user_location = location_doc.FileReader;
 
   try {
     // Save post to Firestore with geolocation
@@ -96,7 +115,7 @@ async function savePost() {
       num_likes: 0,
       num_votes: 0,
       timestamp: serverTimestamp(),
-      location_id: user_location
+      location_id: locId
     });
 
     console.log("Post document added");
@@ -113,33 +132,32 @@ uploadImage();
 //------------------------------------------------------------
 // Add event listener to the "Save Post" button
 //-------------------------------------------------------------
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const latitude = parseFloat(urlParams.get('lat'));
+  const longitude = parseFloat(urlParams.get('long'));
+
+
+  const locationsRef = collection(db, "Places");
+  const location_q = query(
+    locationsRef,
+    where("Latitude", "==", latitude),
+    where("Longitude", "==", longitude)
+  );
+
+  const location_doc = await getDocs(location_q);
+
+  if (location_doc.empty) {
+    console.warn("No matching location found");
+    return;
+  }
+
+  let location_name = document.getElementById("user-location");
+  location_name.textContent = location_doc.docs[0].data().Names;
+
   const submit_button = document.getElementById("submit-button");
-  submit_button.addEventListener("click", savePost);
+  submit_button.addEventListener("click", () => savePost(location_doc.docs[0].id));
+
 });
-
-
-// onAuthStateChanged(auth, async (user) => {
-//   if (!user) {
-//     window.location.href = "login.html";
-//     return;
-//   }
-// });
-
-//Logout - logoutBtn
-// const logoutBtn = document.getElementById("logoutBtn");
-
-// function logoutUser() {
-//   signOut(auth)
-//     .then(() => {
-//       console.log("User logged out");
-//       window.location.href = "login.html"; // redirect after logout
-//     })
-//     .catch((error) => {
-//       console.error("Logout error:", error);
-//     });
-// }
-
-// if (logoutBtn) {
-//   logoutBtn.addEventListener("click", logoutUser);
-// }
