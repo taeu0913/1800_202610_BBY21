@@ -1,5 +1,5 @@
 //import functions as needed
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, query, where, collection, serverTimestamp, doc, getDoc } from "firebase/firestore";
 import { auth, db } from "./firebaseConfig.js";
 
 //------------------------------------------------------------
@@ -25,7 +25,7 @@ function uploadImage() {
         document.getElementById("upload-image-preview").src = e.target.result;
 
         // Save to localStorage for now until Post is submitted
-        localStorage.setItem("inputmage", base64String);
+        localStorage.setItem("inputImage", base64String);
         console.log("Image saved to localStorage as Base64 string.");
       };
 
@@ -67,6 +67,11 @@ async function savePost() {
     return;
   }
 
+  const userDoc = await getDoc(doc(db, "users", user.uid));
+  console.log("doc exists:", userDoc.exists());
+  console.log("doc id:", userDoc.id);
+  const userDocId = userDoc.id;
+
   const desc = document.getElementById("post-caption").value;
   const headcount = document.getElementById("headcount-input").value;
 
@@ -84,10 +89,10 @@ async function savePost() {
   try {
     // Save post to Firestore with geolocation
     const docRef = await addDoc(collection(db, "posts"), {
-      user_id: user.uid,
+      user_id: userDocId,
       headcount_estimate: headcount,
       caption: desc,
-      image: inputImage,
+      img: inputImage,
       num_likes: 0,
       num_votes: 0,
       timestamp: serverTimestamp(),
@@ -96,9 +101,7 @@ async function savePost() {
 
     console.log("Post document added");
     console.log(docRef.id);
-
-    // Optional: savePostIDforUser(docRef.id);
-    // Do you want to keep track if what posts the user has done?
+    location.href = "feed.html";
 
   } catch (error) {
     console.error("Error adding post:", error);
@@ -116,12 +119,12 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    window.location.href = "login.html";
-    return;
-  }
-});
+// onAuthStateChanged(auth, async (user) => {
+//   if (!user) {
+//     window.location.href = "login.html";
+//     return;
+//   }
+// });
 
 //Logout - logoutBtn
 // const logoutBtn = document.getElementById("logoutBtn");
