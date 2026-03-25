@@ -206,7 +206,7 @@ if (mapEl) {
             </div>
           </div>
           <div class="post-content">
-            <img class="post-image" src="images/${data.img}"/>
+            <img class="post-image" src="data:image/png;base64,${data.img}"/>
             <p class="post-caption">${data.caption}</p>
             <div class="rating">
               <p class="estimate">
