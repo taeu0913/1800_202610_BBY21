@@ -84,7 +84,7 @@ async function savePost() {
   const latitude = position?.coords?.latitude || null;
   const longitude = position?.coords?.longitude || null;
 
-  const location = getNearestLocationId(latitude, longitude);
+  const user_location = getNearestLocationId(latitude, longitude);
 
   try {
     // Save post to Firestore with geolocation
@@ -96,7 +96,7 @@ async function savePost() {
       num_likes: 0,
       num_votes: 0,
       timestamp: serverTimestamp(),
-      location_id: location
+      location_id: user_location
     });
 
     console.log("Post document added");
