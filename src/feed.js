@@ -41,7 +41,7 @@ async function renderFeed() {
           <b class="location">${loc_data.Names}</b>
         </div>
         <div class="post-content">
-          <img src="images/${data.img}"/>
+          <img src="data:image/png;base64,${data.img}"/>
           <div class="rating">
             <p class="estimate">
               Estimate: ${data.headcount_estimate} people

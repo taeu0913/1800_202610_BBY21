@@ -20,10 +20,9 @@
   <!-- Your HTML Layout go here -->
   <!------------------------------>
   <!-- Stuff for body goes here -->
-  <nav-bar></nav-bar>
   <div class="content-wrapper">
     <div id="rate-content">
-      <p>Looks like you're near <b id="user-location">User Location</b>. Show us how many people there are!</p>
+      <p>Looks like you're near <b id="user-location">BC Place</b>. Show us how many people there are!</p>
       <label for="upload-image" id="upload-image-button">
         Upload Image
       </label>
@@ -34,6 +33,8 @@
         accept="image/*" 
         style="display: none;" 
       /> <br><br>
+      <img id="upload-image-preview"/>
+      <textarea id="post-caption" rows="4" cols="50"></textarea>
       <!-- <button id="upload-image-button">Upload Photo</button><br><br> -->
       <label for="headcount">Headcount estimate:</label><br><br>
       <input type="number" id="headcount-input" name="headcount" required size="7" /><br><br>
@@ -46,7 +47,7 @@
   <!---------------------------------------------->
 
   <!-- Link to scripts of your own -->
-  <script src="src/main.js"></script>
+  <script type="module" src="src/rate.js"></script>
   <script src="src/components/NavBarTemplate.js"></script>
   <script src="src/components/FooterTemplate.js"></script>
 
