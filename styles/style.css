@@ -15,7 +15,7 @@
 
     /* 30% — primary actions and supporting surfaces) */
     --primary: #a5a4a4;
-    --secondary: #b8b8b8;
+    --secondary: #dfdfdf;
     --tetriary:  #8d8d8d;
 
     /* 10% — accent for emphasis and interaction */
@@ -285,6 +285,16 @@ a.signup:hover {
   display:grid;
   grid-template-columns: 1fr 1fr;
   height: 100%; /* fill the 80% grid row */
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  margin:50px;
+  margin-left: 100px;
+  margin-right: 100px;
+  border: 5px solid var(--accent);
+  border-radius: var(--borderR);
+  max-height: 63vh;
+  background-color: var(--secondary);
 }
 
 #feed p {
@@ -395,27 +405,101 @@ a.signup:hover {
   
 }
 
-#rate-lower > div {
+
+#rate-lower > #upload-wrapper {
+  position: relative;
   display: flex;
-  flex-direction: column;  /* stack label and image vertically */
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   height: 100%;
+  text-align: center;
+  margin: 25px;
+  margin-left:50px;
+  margin-right: 50px;
 }
 
-#upload-image-button:hover, #submit-button:hover{
-  cursor: pointer;
-  background: var(--secondary);
+#rate-lower > #input-wrapper{
+  display:grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  max-height: 50vh;
+}
+#input-wrapper{
+  margin:35px;
+}
+#input-wrapper > div > input, textarea{
+  border: 5px solid var(--accent);
+  border-radius: var(--borderR);
+}
+
+#upload-image-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  /* keep your existing styles */
 }
 
 #upload-image-preview {
   width: 100%;
   height: 50vh;
   object-fit: cover;
+  border: 5px solid var(--accent);
+  border-radius: var(--borderR);
+}
+
+@media (max-width: 1600px) {
+  #rate-lower{
+  display:grid;
+  grid-template-columns: 1;
+  grid-template-rows: 1fr 1fr;
+  height: 100%; /* fill the 80% grid row */
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  margin:20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border: 5px solid var(--accent);
+  border-radius: var(--borderR);
+  max-height: 63vh;
+  overflow-y: auto;
+  overflow-x:hidden;
+}
+
+#input-wrapper{
+  grid-row: 2;
+  align-items: center;
+  text-align: center;
+
+}
+
+#upload-image-preview{
+  margin-top:300px;
+  max-height: 300vh;
+}
+}
+ /* #rate-lower > div {
+  display: flex;
+  flex-direction: column;  
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+} */
+
+#upload-image-button:hover, #submit-button:hover{
+  cursor: pointer;
+  background: var(--secondary);
+}
+
+/* #upload-image-preview {
+  width: 100%;
+  height: 50vh;
+  object-fit: cover;
   border: var(--btn-border-width) solid var(--accent);
   border-radius: var(--borderR);
 
-}
+} */ */
 
 #headcount-input {
   width: 5rem;

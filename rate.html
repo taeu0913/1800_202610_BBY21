@@ -28,13 +28,29 @@
       </div>
 
       <div id="rate-lower">
-        <div>
+        <div id="upload-wrapper">
           <input id="upload-image" type="file" accept="image/*" style="display: none;" />
           <label for="upload-image" id="upload-image-button">
             Upload Image
           </label>
-          <img id="upload-image-preview" >
+          <img id="upload-image-preview">
 
+        </div>
+
+        <div id="input-wrapper" style="align-content: baseline;">
+          <div>
+          <label for="headcount">Description:</label>
+          <br/>
+          <textarea id="post-caption" rows="4" cols="50" style="resize:none;"></textarea>
+          </div>
+          <div>
+            <label for="headcount">Headcount estimate:</label>
+            <br/>
+          <input type="number" id="headcount-input" name="headcount" required size="7" />
+          </div>
+          <form>
+            <input type="submit" id="submit-button" value="Submit">
+          </form>
         </div>
       </div>
 

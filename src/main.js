@@ -233,6 +233,12 @@ if (mapEl) {
     let crowd = document.getElementById("crowd-info");
     crowd.textContent = "Crowd Estimate: " + crowd_estimate;
 
+    let rate_button = document.getElementById("rate-location-button");
+    rate_button?.addEventListener("click", () => {
+      console.log("rate button clicked");
+      location.href = `rate.html?lat=${lat}&long=${lng}`;
+    })
+
     let location_popup = document.getElementById("location-popup");
     location_popup.style.display = "block";
 
