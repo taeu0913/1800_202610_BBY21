@@ -39,6 +39,11 @@ function renderSavedLocations() {
 
   savedListEl.innerHTML = "";
 
+  const statSaved = document.getElementById("statSaved");
+  if (statSaved) {
+    statSaved.textContent = String(savedLocations.length);
+  }
+
   if (savedLocations.length === 0) {
     savedEmptyEl.classList.remove("hidden");
     savedMoreBtn.classList.add("hidden");
@@ -52,10 +57,44 @@ function renderSavedLocations() {
   toShow.forEach((loc) => {
     const li = document.createElement("li");
     li.className = "saved-li";
-    li.innerHTML = `
-      <p class="saved-li-title">${escapeHtml(loc.title)}</p>
-      <p class="saved-li-sub">${escapeHtml(loc.note || "")}</p>
-    `;
+
+    const title = document.createElement("p");
+    title.className = "saved-li-title";
+    title.textContent = loc.title || "Unnamed Location";
+
+    const note = document.createElement("p");
+    note.className = "saved-li-sub";
+    note.textContent = loc.note || "";
+
+    const actions = document.createElement("div");
+    actions.className = "saved-actions";
+
+    if (typeof loc.latitude === "number" && typeof loc.longitude === "number") {
+      const mapLink = document.createElement("a");
+      mapLink.href = `map.html?lat=${loc.latitude}&lng=${loc.longitude}`;
+      mapLink.textContent = "Open on map";
+      mapLink.className = "saved-open-link";
+      actions.appendChild(mapLink);
+    }
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.type = "button";
+    deleteBtn.className = "saved-delete-btn";
+    deleteBtn.textContent = "Delete";
+    deleteBtn.addEventListener("click", async () => {
+      try {
+        await deleteSavedLocation(loc.id);
+      } catch (error) {
+        console.error("Error deleting saved location:", error);
+      }
+    });
+
+    actions.appendChild(deleteBtn);
+
+    li.appendChild(title);
+    li.appendChild(note);
+    li.appendChild(actions);
+
     savedListEl.appendChild(li);
   });
 
@@ -101,18 +140,13 @@ async function addSavedLocation(title, note) {
   });
 }
 
-async function clearSavedLocations() {
+async function deleteSavedLocation(savedLocationId) {
   if (!currentUid) {
     alert("You must be logged in.");
     return;
   }
 
-  const savedRef = collection(db, "users", currentUid, "savedLocations");
-  const snapshot = await getDocs(savedRef);
-
-  for (const item of snapshot.docs) {
-    await deleteDoc(doc(db, "users", currentUid, "savedLocations", item.id));
-  }
+  await deleteDoc(doc(db, "users", currentUid, "savedLocations", savedLocationId));
 }
 
 // Only run saved-locations logic on profile page
