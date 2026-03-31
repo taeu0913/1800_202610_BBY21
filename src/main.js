@@ -1,13 +1,15 @@
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap';
 import { db } from "./firebaseConfig.js";
-import { collection, query, doc, where, getDoc, getDocs, orderBy, limit } from "firebase/firestore";
+import { collection, query, doc, where, getDoc, getDocs, orderBy, limit, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 console.log("main.js loaded");
 const mapEl = document.getElementById("map");
 
 if (mapEl) {
 
+  const auth = getAuth(); 
   const locationsRef = collection(db, "Places");
   const postsRef = collection(db, "posts");
   const usersRef = collection(db, "users");
@@ -27,12 +29,12 @@ if (mapEl) {
 
   var mapIcon = L.icon({
     iconUrl: '/images/marker.png',
-    iconSize: [20, 25]  
+    iconSize: [20, 25]
   });
 
   var userIcon = L.icon({
     iconUrl: '/images/person.png',
-    iconSize: [50,50]
+    iconSize: [50, 50]
   });
   // Check if geolocation allowed
   if ("geolocation" in navigator) {
@@ -46,9 +48,9 @@ if (mapEl) {
 
         if (marker) {
           marker.setLatLng([lat, lng]);
-          L.circle([lat,lng], {radius: accuracy}).addTo(map);
+          L.circle([lat, lng], { radius: accuracy }).addTo(map);
         } else {
-          marker = L.marker([lat, lng], {icon: userIcon}).addTo(map);
+          marker = L.marker([lat, lng], { icon: userIcon }).addTo(map);
         }
       },
       function (error) {
@@ -61,31 +63,31 @@ if (mapEl) {
 
   // function that loads 
   async function loadPlaceMarkers() {
-  try {
-    const snapshot = await getDocs(locationsRef);
+    try {
+      const snapshot = await getDocs(locationsRef);
 
-    snapshot.forEach(docSnap => {
-      const data = docSnap.data();
-      const lat = Number(data.Latitude);
-      const lng = Number(data.Longitude);
-      const name = data.Names;
+      snapshot.forEach(docSnap => {
+        const data = docSnap.data();
+        const lat = Number(data.Latitude);
+        const lng = Number(data.Longitude);
+        const name = data.Names;
 
-      if (!Number.isNaN(lat) && !Number.isNaN(lng)) {
-        console.log("Adding marker:", name, lat, lng);
+        if (!Number.isNaN(lat) && !Number.isNaN(lng)) {
+          console.log("Adding marker:", name, lat, lng);
 
-        const m = L.marker([lat, lng], { icon: mapIcon })
-          .addTo(map)
-          .on("click", () => showLocationDetails(lat, lng));
+          const m = L.marker([lat, lng], { icon: mapIcon })
+            .addTo(map)
+            .on("click", () => showLocationDetails(lat, lng));
 
-        placeMarkers.set(docSnap.id, m);
-      } else {
-        console.warn("Missing lat/lng for doc:", docSnap.id, data);
-      }
-    });
-  } catch (err) {
-    console.error("Error fetching Places:", err);
+          placeMarkers.set(docSnap.id, m);
+        } else {
+          console.warn("Missing lat/lng for doc:", docSnap.id, data);
+        }
+      });
+    } catch (err) {
+      console.error("Error fetching Places:", err);
+    }
   }
-}
 
   loadPlaceMarkers();
   //SearchBar
@@ -120,7 +122,7 @@ if (mapEl) {
       }))
       .filter((place) =>
         (place.Names || "").toLowerCase().includes(search)
-      );  
+      );
   }
 
   function renderResults(places) {
@@ -139,21 +141,21 @@ if (mapEl) {
       item.className = "search-result-item";
 
       item.addEventListener("click", () => {
-      const lat = Number(place.Latitude);
-      const lng = Number(place.Longitude);
+        const lat = Number(place.Latitude);
+        const lng = Number(place.Longitude);
 
-      if (Number.isNaN(lat) || Number.isNaN(lng)) return;
+        if (Number.isNaN(lat) || Number.isNaN(lng)) return;
 
-      map.setView([lat, lng], 16);
+        map.setView([lat, lng], 16);
 
-      const existingMarker = placeMarkers.get(place.id);
-      if (existingMarker) {
-        existingMarker.fire("click");
-      }
+        const existingMarker = placeMarkers.get(place.id);
+        if (existingMarker) {
+          existingMarker.fire("click");
+        }
 
-      input.value = place.Names;
-      hideResults();
-    });
+        input.value = place.Names;
+        hideResults();
+      });
 
       searchResults.appendChild(item);
     });
@@ -161,7 +163,7 @@ if (mapEl) {
     showResults();
   }
 
-  async function showLocationDetails(lat, lng) {
+async function showLocationDetails(lat, lng) {
     const location_q = query(
       locationsRef,
       where("Latitude", "==", lat),
@@ -175,8 +177,37 @@ if (mapEl) {
       return;
     }
 
+    const placeId = location_doc.docs[0].id;
+
     let location_name = document.getElementById("location-name");
     location_name.textContent = location_doc.docs[0].data().Names;
+
+    // --- BOOKMARK SETUP ---
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      const userDoc = await getDoc(doc(usersRef, currentUser.uid));
+      const savedPlaces = userDoc.data()?.savedPlaces || [];
+
+      const bookmarkBtn = document.getElementById("bookmark-btn");
+      bookmarkBtn.classList.toggle("saved", savedPlaces.includes(placeId));
+
+      const newBtn = bookmarkBtn.cloneNode(true);
+      bookmarkBtn.parentNode.replaceChild(newBtn, bookmarkBtn);
+
+      newBtn.addEventListener("click", async () => {
+        const isSaved = newBtn.classList.contains("saved");
+        const userRef = doc(usersRef, currentUser.uid);
+
+        if (isSaved) {
+          await updateDoc(userRef, { savedPlaces: arrayRemove(placeId) });
+          newBtn.classList.remove("saved");
+        } else {
+          await updateDoc(userRef, { savedPlaces: arrayUnion(placeId) });
+          newBtn.classList.add("saved");
+        }
+      });
+    }
+    // --- END BOOKMARK ---
 
     const posts_q = query(
       postsRef,
@@ -237,14 +268,13 @@ if (mapEl) {
     rate_button?.addEventListener("click", () => {
       console.log("rate button clicked");
       location.href = `rate.html?lat=${lat}&long=${lng}`;
-    })
+    });
 
     let location_popup = document.getElementById("location-popup");
     location_popup.style.display = "block";
 
-    // Hide results when clicking outside search area
     let close_button = document.getElementById("close-location-button");
-    close_button.addEventListener("click", (e) => {
+    close_button.addEventListener("click", () => {
       closeLocationPopup();
     });
   }
@@ -327,8 +357,4 @@ if (hamburger && menu) {
   });
 }
 
-// If you have custom global styles, import them as well:
-// import '../styles/style.css';
-// document.addEventListener('DOMContentLoaded', sayHello);
 
-    

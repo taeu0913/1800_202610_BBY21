@@ -16,14 +16,13 @@
 </head>
 
 <body>
-  <nav-bar></nav-bar>
 
   <!------------------------------>
   <!-- Your HTML Layout go here -->
   <!------------------------------>
   <!-- Stuff for body goes here -->
 
-   <main class="page">
+  <main class="page">
     <div class="container">
 
       <!-- Top Profile Header -->
@@ -86,16 +85,19 @@
             <div class="section-header">
               <h1 class="section-title">Saved Locations</h1>
             </div>
-            <p id="savedEmptyText" class="no-list">No saved locations yet.</p>
+            <div id="saved-list" class="no-list">
+              <p id="loading-msg">Loading saved places...</p>
+            </div>
+
             <section class="location-list">
-            <ul id="savedLocationsList" class="saved-ul">
-             <!-- JS fills this -->
-             
-            </ul>
-            <button id="savedMoreBtn" class="more-link" type="button">more</button>
+              <ul id="savedLocationsList" class="saved-ul">
+                <!-- JS fills this -->
+              </ul>
             </section>
-            <button id="addSavedBtn">Add Demo</button>
-            <button id="clearSavedBtn">Clear Saved Locations</button>
+          </section>
+
+          <section class="card">
+            <a href="savedLocations.html" id="savedLocations" class="settings-button">Saved Locations</a>
           </section>
 
           <!-- Settings -->
@@ -108,7 +110,7 @@
 
     </div>
   </main>
-  
+
   <real-footer></real-footer>
   <!---------------------------------------------->
   <!-- Your own JavaScript functions go here    -->
@@ -132,14 +134,15 @@
   </div>
 
 
-  
-  <!-- <script type="module" src="./src/main.js"></script> -->
-<script src="src/components/FooterTemplate.js"></script>
-<script src="src/components/NavBarTemplate.js"></script>
 
-<script type="module" src="src/profile.js"></script>
-<script src="src/components/legalModals.js"></script>
-  
+  <!-- <script type="module" src="./src/main.js"></script> -->
+  <script src="src/components/FooterTemplate.js"></script>
+  <script src="src/components/NavBarTemplate.js"></script>
+
+  <script type="module" src="src/saved.js"></script>
+  <script type="module" src="src/profile.js"></script>
+  <script src="src/components/legalModals.js"></script>
+
 </body>
 
 </html>
