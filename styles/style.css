@@ -380,6 +380,10 @@ a.signup:hover {
   padding: 0.5rem;
 }
 
+.vote-button.active {
+  filter: invert(40%);
+}
+
 .vote-button img {
   object-fit: contain;
 }

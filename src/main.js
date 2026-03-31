@@ -295,18 +295,30 @@ if (mapEl) {
         async function castVote(value) {
           const existing = await getDoc(voteRef);
           const currentVote = existing.exists() ? existing.data().vote : null;
+
+          const upBtn = postEl.querySelector(".upvote");
+          const downBtn = postEl.querySelector(".downvote");
           if (currentVote === value) {
+            upBtn.classList.remove("active");
+            downBtn.classList.remove("active");
             await deleteDoc(voteRef);
           } else {
+            upBtn.classList.toggle("active", value === 1);
+            downBtn.classList.toggle("active", value === -1);
             await setDoc(voteRef, { vote: value });
           }
         }
-
+        const existing = await getDoc(voteRef);
+        if (existing.exists()) {
+          const v = existing.data().vote;
+          if (v === 1) postEl.querySelector(".upvote").classList.add("active");
+          if (v === -1) postEl.querySelector(".downvote").classList.add("active");
+        }
         postEl.querySelector(".upvote").addEventListener("click", () => castVote(1));
         postEl.querySelector(".downvote").addEventListener("click", () => castVote(-1));
       }
     }
-    // console.log("crwod total: " + crowd_estimate);
+    // console.log("crowd total: " + crowd_estimate);
 
     crowd_estimate /= (location_posts.size === 0 ? 1 : location_posts.size);
 
