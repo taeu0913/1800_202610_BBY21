@@ -44,9 +44,12 @@ async function renderFeed() {
           <img src="data:image/png;base64,${data.img}"/>
           <div class="rating">
             <p class="estimate">
-              Estimate: ${data.headcount_estimate} people
+            <p style="font-size: 16px;"><b>Description: </b> "${data.caption}"</p>
+            <br/>
+            Estimate: ${data.headcount_estimate} people
             </p>
             <small>Is this accurate?</small>
+            <br/>
             <button class="vote-button">
               <img src="images/thumb-up.png"/>
             </button>
