@@ -29,6 +29,16 @@ async function renderFeed() {
     const user_data = user_doc.data();
     const loc_doc = await getDoc(doc(locationsRef, data.location_id));
     const loc_data = loc_doc.data();
+
+    // count upvotes and total votes
+    const votesSnap = await getDocs(collection(db, "posts", post.id, "votes"));
+    let upvotes = 0
+    let total = 0;
+    votesSnap.forEach(doc => {
+      const v = doc.data().vote;
+      if (v === 1) upvotes++;
+      total++;
+    });
     // console.log("user data: " + user_data);
     feed.insertAdjacentHTML("beforeend", `
       <div class="post">
@@ -48,15 +58,8 @@ async function renderFeed() {
             <br/>
             Estimate: ${data.headcount_estimate} people
             </p>
-            <small>Is this accurate?</small>
             <br/>
-            <button class="vote-button">
-              <img src="images/thumb-up.png"/>
-            </button>
-            <button class="vote-button">
-              <img src="images/thumb-down.png"/>
-            </button>
-            <p>${data.num_likes} of ${data.num_votes} people agree (83%)</p>
+            <p>${upvotes} of ${total} people agree (${upvotes / total * 100 || 0}%)</p>
           </div>
         </div>
       </div>
