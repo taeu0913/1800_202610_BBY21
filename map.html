@@ -89,7 +89,7 @@
         </div>
         <p style="font-size:14px; color:#666; margin:0 0 1.5rem;">Would you like to rate this location?</p>
         <div style="display:flex; gap:10px; justify-content:flex-end;">
-          <button onclick="closeLocationPopup()"
+          <button id="close-rate-btn"
             style="background:#fff; color:#333; border:1px solid #d0d5dd; padding:0 1.1rem; height:36px; border-radius:8px; cursor:pointer;">Not
             now</button>
           <button id="rate-btn"
@@ -107,8 +107,7 @@
   <!---------------------------------------------->
 
   <!-- Link to scripts of your own -->
-  <script type="module" src="src/main.js"></script>
-  <script type="module" src="src/utils.js"></script>
+  <script type="module" src="src/map.js"></script>
   <script src="src/components/NavBarTemplate.js"></script>
   <script src="src/components/FooterTemplate.js"></script>
   <script src="leaflet/leaflet.js"></script>
