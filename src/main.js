@@ -1,7 +1,8 @@
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap';
 import { db } from "./firebaseConfig.js";
-import { collection, query, doc, where, getDoc, getDocs, orderBy, limit } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { collection, query, doc, where, getDoc, getDocs, orderBy, limit, addDoc, serverTimestamp } from "firebase/firestore";
 
 console.log("main.js loaded");
 const mapEl = document.getElementById("map");
@@ -11,6 +12,7 @@ if (mapEl) {
   const locationsRef = collection(db, "Places");
   const postsRef = collection(db, "posts");
   const usersRef = collection(db, "users");
+  const auth = getAuth();
 
   // Initialize map
   const map = L.map("map").setView([49.2768, -123.1120], 10);
@@ -86,8 +88,36 @@ if (mapEl) {
     console.error("Error fetching Places:", err);
   }
 }
+  function openLocationFromQueryParams() {
+    const params = new URLSearchParams(window.location.search);
 
-  loadPlaceMarkers();
+    const latParam = params.get("lat");
+    const lngParam = params.get("lng");
+
+    if (latParam === null || lngParam === null) {
+      return;
+    }
+
+    const lat = Number(latParam);
+    const lng = Number(lngParam);
+
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+      return;
+    }
+
+    if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+      return;
+    }
+
+    map.setView([lat, lng], 16);
+
+    setTimeout(() => {
+      showLocationDetails(lat, lng);
+    }, 300);
+  }
+  loadPlaceMarkers().then(() => {
+    openLocationFromQueryParams();
+  });
   //SearchBar
   // Search bar elements
   const searchIcon = document.getElementById("search");
@@ -161,41 +191,85 @@ if (mapEl) {
     showResults();
   }
 
-  async function showLocationDetails(lat, lng) {
-    const location_q = query(
-      locationsRef,
-      where("Latitude", "==", lat),
-      where("Longitude", "==", lng)
-    );
+  async function saveLocationForCurrentUser(locationId, placeData) {
+  const user = auth.currentUser;
 
-    const location_doc = await getDocs(location_q);
+  if (!user) {
+    alert("Please log in first to save locations.");
+    return;
+  }
 
-    if (location_doc.empty) {
-      console.warn("No matching location found");
+  try {
+    const savedRef = collection(db, "users", user.uid, "savedLocations");
+
+    const duplicateQ = query(savedRef, where("locationId", "==", locationId));
+    const duplicateSnap = await getDocs(duplicateQ);
+
+    if (!duplicateSnap.empty) {
+      alert("This location is already saved.");
       return;
     }
 
-    let location_name = document.getElementById("location-name");
-    location_name.textContent = location_doc.docs[0].data().Names;
+    await addDoc(savedRef, {
+      locationId,
+      title: placeData.Names || "Unnamed Location",
+      note: `Lat: ${placeData.Latitude}, Lng: ${placeData.Longitude}`,
+      latitude: Number(placeData.Latitude),
+      longitude: Number(placeData.Longitude),
+      createdAt: serverTimestamp()
+    });
 
-    const posts_q = query(
-      postsRef,
-      where("location_id", "==", location_doc.docs[0].id),
-      orderBy("timestamp", "desc"),
-      limit(5)
-    );
+    alert("Location saved successfully.");
+  } catch (error) {
+    console.error("Error saving location:", error);
+    alert("Could not save location.");
+  }
+}
 
-    const location_posts = await getDocs(posts_q);
+  async function showLocationDetails(lat, lng) {
+  const location_q = query(
+    locationsRef,
+    where("Latitude", "==", lat),
+    where("Longitude", "==", lng)
+  );
 
-    let crowd_estimate = 0;
-    let location_feed = document.getElementById("location-feed");
+  const location_doc = await getDocs(location_q);
+
+  if (location_doc.empty) {
+    console.warn("No matching location found");
+    return;
+  }
+
+  const locationSnap = location_doc.docs[0];
+  const locationData = locationSnap.data();
+  const locationId = locationSnap.id;
+
+  let location_name = document.getElementById("location-name");
+  if (location_name) {
+    location_name.textContent = locationData.Names;
+  }
+
+  const posts_q = query(
+    postsRef,
+    where("location_id", "==", locationId),
+    orderBy("timestamp", "desc"),
+    limit(5)
+  );
+
+  const location_posts = await getDocs(posts_q);
+
+  let crowd_estimate = 0;
+  let location_feed = document.getElementById("location-feed");
+  if (location_feed) {
     location_feed.innerHTML = "";
+  }
 
-    for (const post of location_posts.docs) {
-      let data = post.data();
-      const userDoc = await getDoc(doc(usersRef, data.user_id));
-      const user_data = userDoc.data();
+  for (const post of location_posts.docs) {
+    let data = post.data();
+    const userDoc = await getDoc(doc(usersRef, data.user_id));
+    const user_data = userDoc.data();
 
+    if (location_feed) {
       location_feed.insertAdjacentHTML("beforeend", `
         <div class="post">
           <div class="user">
@@ -224,30 +298,44 @@ if (mapEl) {
           </div>
         </div>
       `);
-
-      crowd_estimate += data.headcount_estimate;
     }
 
-    crowd_estimate /= (location_posts.size === 0 ? 1 : location_posts.size);
-
-    let crowd = document.getElementById("crowd-info");
-    crowd.textContent = "Crowd Estimate: " + crowd_estimate;
-
-    let rate_button = document.getElementById("rate-location-button");
-    rate_button?.addEventListener("click", () => {
-      console.log("rate button clicked");
-      location.href = `rate.html?lat=${lat}&long=${lng}`;
-    })
-
-    let location_popup = document.getElementById("location-popup");
-    location_popup.style.display = "block";
-
-    // Hide results when clicking outside search area
-    let close_button = document.getElementById("close-location-button");
-    close_button.addEventListener("click", (e) => {
-      closeLocationPopup();
-    });
+    crowd_estimate += data.headcount_estimate;
   }
+
+  crowd_estimate /= (location_posts.size === 0 ? 1 : location_posts.size);
+
+  let crowd = document.getElementById("crowd-info");
+  if (crowd) {
+    crowd.textContent = "Crowd Estimate: " + crowd_estimate;
+  }
+
+  let rate_button = document.getElementById("rate-location-button");
+  if (rate_button) {
+    rate_button.onclick = () => {
+      location.href = `rate.html?lat=${lat}&long=${lng}`;
+    };
+  }
+
+  let save_button = document.getElementById("save-location-button");
+  if (save_button) {
+    save_button.onclick = async () => {
+      await saveLocationForCurrentUser(locationId, locationData);
+    };
+  }
+
+  let location_popup = document.getElementById("location-popup");
+  if (location_popup) {
+    location_popup.style.display = "block";
+  }
+
+  let close_button = document.getElementById("close-location-button");
+  if (close_button) {
+    close_button.onclick = () => {
+      closeLocationPopup();
+    };
+  }
+}
 
   function closeLocationPopup() {
     let location_popup = document.getElementById("location-popup");

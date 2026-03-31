@@ -1017,6 +1017,69 @@ body.dark-mode #settingsMessage {
   background: #e74c3c;
 }
 
+/* Container for buttons under each saved location */
+.saved-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Open on map (link styled as button) */
+.saved-open-link {
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--secondary);
+  background-color: var(--light-text);
+  color: var(--primary);
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.saved-open-link:hover {
+  background-color: #45a049;
+}
+
+/* Delete button */
+.saved-delete-btn {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--secondary);
+  background-color: var(--light-text);
+  color: var(--primary);
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.saved-delete-btn:hover {
+  background-color: #c62828;
+}
+
+#save-location-button {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+#save-location-button:hover {
+  background-color: #45a049;
+}
+
+#save-location-button:active {
+  transform: scale(0.97);
+}
+
 /* helper */
 .hidden {
   display: none !important;
