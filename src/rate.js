@@ -1,6 +1,8 @@
 //import functions as needed
 import { addDoc, query, where, collection, serverTimestamp, doc, getDoc, getDocs } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "./firebaseConfig.js";
+import { findClosestLocation } from "./utils.js";
 
 //------------------------------------------------------------
 // This function is an Event Listener for the file (image) picker
@@ -152,25 +154,52 @@ document.addEventListener("DOMContentLoaded", async () => {
   const latitude = parseFloat(urlParams.get('lat'));
   const longitude = parseFloat(urlParams.get('long'));
 
+  const closest = await findClosestLocation(db);
+  console.log("closest found: " + closest);
+  console.log("closest id: " + closest.id);
 
-  const locationsRef = collection(db, "Places");
-  const location_q = query(
-    locationsRef,
-    where("Latitude", "==", latitude),
-    where("Longitude", "==", longitude)
-  );
+  const locationRef = doc(db, "Places", closest.id); // use the id directly
+  const locationSnap = await getDoc(locationRef);
 
-  const location_doc = await getDocs(location_q);
-
-  if (location_doc.empty) {
+  if (!locationSnap.exists()) {
     console.warn("No matching location found");
     return;
   }
 
   let location_name = document.getElementById("user-location");
-  location_name.textContent = location_doc.docs[0].data().Names;
+  location_name.textContent = locationSnap.data().Names;
 
   const submit_button = document.getElementById("submit-button");
-  submit_button.addEventListener("click", () => savePost(location_doc.docs[0].id));
+  submit_button.addEventListener("click", () => savePost(locationSnap.id));
 
+  // const locationsRef = collection(db, "Places");
+  // const location_q = query(
+  //   locationsRef,
+  //   where("Latitude", "==", latitude),
+  //   where("Longitude", "==", longitude)
+  // );
+
+  // const location_doc = await getDocs(location_q);
+
+  // if (location_doc.empty) {
+  //   console.warn("No matching location found");
+  //   return;
+  // }
+
+  // let location_name = document.getElementById("user-location");
+  // location_name.textContent = location_doc.docs[0].data().Names;
+
+  // const submit_button = document.getElementById("submit-button");
+  // submit_button.addEventListener("click", () => savePost(location_doc.docs[0].id));
+
+});
+
+
+
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
 });
