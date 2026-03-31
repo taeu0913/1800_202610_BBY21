@@ -85,16 +85,31 @@ async function savePost(locId) {
     console.log("Error, no user signed in");
     return;
   }
+
+  const desc = document.getElementById("post-caption").value;
+  const headcount_input = document.getElementById("headcount-input")?.value;
+  if (headcount_input === "" || headcount_input === undefined) {
+    console.log("invalid headcount");
+    return;
+  }
+  const headcount = Number(headcount_input);
+  if (!Number.isInteger(headcount) || headcount < 0) {
+    console.log("invalid headcount");
+    return;
+  }
+
+  // Get Base64 image from Local Storage
+  const inputImage = localStorage.getItem("inputImage") || "";
+
+  if(inputImage === "") {
+    console.log("no image");
+    return;
+  }
+
   const userDoc = await getDoc(doc(db, "users", user.uid));
   console.log("doc exists:", userDoc.exists());
   console.log("doc id:", userDoc.id);
   const userDocId = userDoc.id;
-
-  const desc = document.getElementById("post-caption").value;
-  const headcount = document.getElementById("headcount-input").value;
-
-  // Get Base64 image from Local Storage
-  const inputImage = localStorage.getItem("inputImage") || "";
 
   // Get the user's geolocation (wrapped in a Promise)
   // const position = await getCurrentPositionSafe();
@@ -133,8 +148,6 @@ uploadImage();
 // Add event listener to the "Save Post" button
 //-------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", async () => {
-
-
   const urlParams = new URLSearchParams(window.location.search);
   const latitude = parseFloat(urlParams.get('lat'));
   const longitude = parseFloat(urlParams.get('long'));
