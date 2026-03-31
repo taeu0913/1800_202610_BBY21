@@ -257,9 +257,11 @@ if (mapEl) {
           </div>
         `);
       }
-
-      crowd_estimate += data.headcount_estimate;
+      console.log("adding " + data.headcount_estimate)
+      console.log("type:", typeof data.headcount_estimate, "value:", data.headcount_estimate);
+      crowd_estimate += Number(data.headcount_estimate);
     }
+    console.log("crwod total: " + crowd_estimate);
 
     crowd_estimate /= (location_posts.size === 0 ? 1 : location_posts.size);
 
