@@ -1,55 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <title>Crowd/Source</title>
   <meta name="comp1800 template" content="My 1800 App">
-
-  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Other libraries go here -->
-  <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="styles/style.css">
 </head>
-
 <body>
 
-  <!------------------------------>
-  <!-- Your HTML Layout go here -->
-  <!------------------------------>
-  <!-- Stuff for body goes here -->
-  <nav-bar></nav-bar>
 
   <div id="indexPage">
+
+    <!--this page was enhanced with AI. improved dimentions and text readibility.-->
+    <!-- LEFT: brand panel -->
     <div id="logoAndQuote">
-      <h1>Crowd/Source</h1>
-      <p>"The App You Need"</p>
-
-      <div class="nav-right">
-          <a href="login.html" class="nav-link signup">Log in/Sign Up</a>
-        </div>
+      <div>
+        <h1>Crowd/<br>Source</h1>
+        <p><b>"The App You Need"</b></p>
+      </div>
+      <div class="nav-right" style="align-content: center; text-align: center; justify-content: center;">
+        <a href="login.html" class="nav-link signup" >Log in / Sign Up</a>
+      </div>
     </div>
 
+    <!-- RIGHT: info panel -->
     <div id="filler">
+      <p class="filler-tag">What is this?</p>
+      <p class="filler-heading">Real answers from real people.</p>
+      <p class="filler-body">
+        Crowd/Source connects you to a community of helpers.
+        Post a question, get crowd-sourced responses, and build
+        on shared knowledge.
+      </p>
+      <hr class="filler-divider">
+      <div class="filler-feature">
+        <span class="filler-dot"></span>
+        Ask anything, the community has answers
+      </div>
+      <div class="filler-feature">
+        <span class="filler-dot"></span>
+        Vote on the best responses
+      </div>
+      <div class="filler-feature">
+        <span class="filler-dot"></span>
+        Follow topics that matter to you
+      </div>
+      <div class="filler-feature">
+        <span class="filler-dot"></span>
+        Earn reputation by contributing
+      </div>
     </div>
+
   </div>
 
-
   <real-footer></real-footer>
-  <!---------------------------------------------->
-  <!-- Your own JavaScript functions go here    -->
-  <!---------------------------------------------->
 
-  <!-- Link to scripts of your own -->
   <script src="src/main.js"></script>
   <script src="src/components/NavBarTemplate.js"></script>
   <script src="src/components/FooterTemplate.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- <script type="module" src="./src/main.js"></script> -->
-
 </body>
-
 </html>
