@@ -1,5 +1,21 @@
 import { db } from "./firebaseConfig.js";
-import { collection, query, doc, where, getDoc, getDocs, orderBy, limit, updateDoc, arrayUnion, arrayRemove, addDoc, serverTimestamp } from "firebase/firestore";
+import { 
+  collection, 
+  query, 
+  doc, 
+  where, 
+  getDoc, 
+  getDocs, 
+  setDoc, 
+  deleteDoc, 
+  orderBy, 
+  limit, 
+  updateDoc, 
+  arrayUnion, 
+  arrayRemove, 
+  addDoc, 
+  serverTimestamp 
+} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 console.log("main.js loaded");
@@ -233,9 +249,19 @@ if (mapEl) {
       const userDoc = await getDoc(doc(usersRef, data.user_id));
       const user_data = userDoc.data();
 
+      // count upvotes and total votes
+      const votesSnap = await getDocs(collection(db, "posts", post.id, "votes"));
+      let upvotes = 0
+      let total = 0;
+      votesSnap.forEach(doc => {
+        const v = doc.data().vote;
+        if (v === 1) upvotes++;
+        total++;
+      });
+
       if (location_feed) {
         location_feed.insertAdjacentHTML("beforeend", `
-          <div class="post">
+          <div class="post" data-post-id="${post.id}">
             <div class="user">
               <img src="images/${user_data.profile_img}" alt="profile-picture"/>
               <p class="user-name">${user_data.name}</p>
@@ -249,19 +275,38 @@ if (mapEl) {
               <div class="rating">
                 <p class="estimate">Estimate: ${data.headcount_estimate} people</p>
                 <small>Is this accurate?</small>
-                <button class="vote-button"><img src="images/thumb-up.png"/></button>
-                <button class="vote-button"><img src="images/thumb-down.png"/></button>
-                <p>${data.num_likes} of ${data.num_votes} people agree (83%)</p>
+                <button class="upvote vote-button"><img src="images/thumb-up.png"/></button>
+                <button class="downvote vote-button"><img src="images/thumb-down.png"/></button>
+                <p>${upvotes} of ${total} people agree (${upvotes / total * 100 || 0}%)</p>
               </div>
             </div>
           </div>
         `);
       }
-      console.log("adding " + data.headcount_estimate)
-      console.log("type:", typeof data.headcount_estimate, "value:", data.headcount_estimate);
+      // console.log("adding " + data.headcount_estimate)
+      // console.log("type:", typeof data.headcount_estimate, "value:", data.headcount_estimate);
       crowd_estimate += Number(data.headcount_estimate);
+
+      const current_user_id = auth.currentUser?.uid;
+      if (current_user_id) {
+        const postEl = location_feed.querySelector(`[data-post-id="${post.id}"]`);
+        const voteRef = doc(db, "posts", post.id, "votes", current_user_id);
+
+        async function castVote(value) {
+          const existing = await getDoc(voteRef);
+          const currentVote = existing.exists() ? existing.data().vote : null;
+          if (currentVote === value) {
+            await deleteDoc(voteRef);
+          } else {
+            await setDoc(voteRef, { vote: value });
+          }
+        }
+
+        postEl.querySelector(".upvote").addEventListener("click", () => castVote(1));
+        postEl.querySelector(".downvote").addEventListener("click", () => castVote(-1));
+      }
     }
-    console.log("crwod total: " + crowd_estimate);
+    // console.log("crwod total: " + crowd_estimate);
 
     crowd_estimate /= (location_posts.size === 0 ? 1 : location_posts.size);
 
@@ -337,6 +382,11 @@ if (mapEl) {
   input?.addEventListener("dragover", (e) => e.preventDefault());
   input?.addEventListener("drop", (e) => e.preventDefault());
 
+}
+
+async function handleLike() {
+  const voteRef = doc(db, "posts", post_id, "votes", current_user_id);
+  await setDoc(voteRef, { vote: 1 });
 }
 
 const hamburger = document.getElementById("hamburger");
