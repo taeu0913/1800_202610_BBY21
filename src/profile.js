@@ -64,7 +64,6 @@ function renderSavedLocations() {
 
     const note = document.createElement("p");
     note.className = "saved-li-sub";
-    note.textContent = loc.note || "";
 
     const actions = document.createElement("div");
     actions.className = "saved-actions";
@@ -77,24 +76,13 @@ function renderSavedLocations() {
       actions.appendChild(mapLink);
     }
 
-    const deleteBtn = document.createElement("button");
-    deleteBtn.type = "button";
-    deleteBtn.className = "saved-delete-btn";
-    deleteBtn.textContent = "Delete";
-    deleteBtn.addEventListener("click", async () => {
-      try {
-        await deleteSavedLocation(loc.id);
-      } catch (error) {
-        console.error("Error deleting saved location:", error);
-      }
-    });
+    const row = document.createElement("div");
+    row.className = "saved-row";
 
-    actions.appendChild(deleteBtn);
+    row.appendChild(title);
+    row.appendChild(actions);
 
-    li.appendChild(title);
-    li.appendChild(note);
-    li.appendChild(actions);
-
+    li.appendChild(row);
     savedListEl.appendChild(li);
   });
 

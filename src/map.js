@@ -10,9 +10,6 @@ import {
   deleteDoc,
   orderBy,
   limit,
-  updateDoc,
-  arrayUnion,
-  arrayRemove,
   addDoc,
   serverTimestamp,
 } from "firebase/firestore";
@@ -236,30 +233,49 @@ async function saveLocationForCurrentUser(locationId, placeData) {
 // BOOKMARK
 // ─────────────────────────────────────────────
 
-async function initBookmarkButton(locationId) {
+async function initBookmarkButton(locationId, locationData) {
   const currentUser = auth.currentUser;
-  if (!currentUser) return;
-
   const bookmarkBtn = document.getElementById("bookmark-btn");
   if (!bookmarkBtn) return;
 
-  const userDoc = await getDoc(doc(usersRef, currentUser.uid));
-  const savedPlaces = userDoc.data()?.savedPlaces || [];
-
-  // Clone to remove old listeners
   const btn = bookmarkBtn.cloneNode(true);
   bookmarkBtn.parentNode.replaceChild(btn, bookmarkBtn);
-  btn.classList.toggle("saved", savedPlaces.includes(locationId));
+
+  if (!currentUser) {
+    btn.classList.remove("saved");
+    btn.addEventListener("click", () => {
+      alert("Please log in first to save locations.");
+    });
+    return;
+  }
+
+  const savedRef = collection(db, "users", currentUser.uid, "savedLocations");
+  const savedQ = query(savedRef, where("locationId", "==", locationId));
+  const savedSnap = await getDocs(savedQ);
+
+  btn.classList.toggle("saved", !savedSnap.empty);
 
   btn.addEventListener("click", async () => {
-    const isSaved = btn.classList.contains("saved");
-    const userRef = doc(usersRef, currentUser.uid);
-    if (isSaved) {
-      await updateDoc(userRef, { savedPlaces: arrayRemove(locationId) });
-      btn.classList.remove("saved");
-    } else {
-      await updateDoc(userRef, { savedPlaces: arrayUnion(locationId) });
-      btn.classList.add("saved");
+    try {
+      const latestSnap = await getDocs(savedQ);
+
+      if (!latestSnap.empty) {
+        await deleteDoc(latestSnap.docs[0].ref);
+        btn.classList.remove("saved");
+      } else {
+        await addDoc(savedRef, {
+          locationId,
+          title: locationData.Names || "Unnamed Location",
+          note: "",
+          latitude: Number(locationData.Latitude),
+          longitude: Number(locationData.Longitude),
+          createdAt: serverTimestamp(),
+        });
+        btn.classList.add("saved");
+      }
+    } catch (error) {
+      console.error("Error toggling bookmark:", error);
+      alert("Could not update saved location.");
     }
   });
 }
@@ -397,13 +413,20 @@ async function showLocationDetails(lat, lng) {
   const docSnap = locationSnap.docs[0];
   const locationData = docSnap.data();
   const locationId = docSnap.id;
+  
+  // Show popup
+  const popup = document.getElementById("location-popup");
+  if (popup) popup.style.display = "block";
+
+  const closeBtn = document.getElementById("close-location-button");
+  if (closeBtn) closeBtn.onclick = closeLocationPopup;
 
   // Populate name
   const locationNameEl = document.getElementById("location-name");
   if (locationNameEl) locationNameEl.textContent = locationData.Names;
 
   // Bookmark
-  await initBookmarkButton(locationId);
+  await initBookmarkButton(locationId, locationData);
 
   // Posts & crowd estimate
   const locationFeedEl = document.getElementById("location-feed");
@@ -417,15 +440,7 @@ async function showLocationDetails(lat, lng) {
   const rateBtn = document.getElementById("rate-location-button");
   if (rateBtn) rateBtn.onclick = () => { location.href = `rate.html?lat=${lat}&long=${lng}`; };
 
-  const saveBtn = document.getElementById("save-location-button");
-  if (saveBtn) saveBtn.onclick = () => saveLocationForCurrentUser(locationId, locationData);
 
-  // Show popup
-  const popup = document.getElementById("location-popup");
-  if (popup) popup.style.display = "block";
-
-  const closeBtn = document.getElementById("close-location-button");
-  if (closeBtn) closeBtn.onclick = closeLocationPopup;
 }
 
 function closeLocationPopup() {
@@ -457,7 +472,25 @@ function closeRatePopup() {
 // ENTRY POINT
 // ─────────────────────────────────────────────
 
+function openLocationFromQueryParams(map) {
+  const params = new URLSearchParams(window.location.search);
+  const latParam = params.get("lat");
+  const lngParam = params.get("lng");
 
+  if (latParam === null || lngParam === null) return;
+
+  const lat = Number(latParam);
+  const lng = Number(lngParam);
+
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
+  if (lat < -90 || lat > 90 || lng < -180 || lng > 180) return;
+
+  map.setView([lat, lng], 16);
+
+  setTimeout(() => {
+    showLocationDetails(lat, lng);
+  }, 300);
+}
 
 document.addEventListener("DOMContentLoaded", async () => {
   const mapEl = document.getElementById("map");
@@ -468,6 +501,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const placeMarkers = await loadPlaceMarkers(map, showLocationDetails);
     initSearch(map, placeMarkers);
+    openLocationFromQueryParams(map);
 
     const closest = await findClosestLocation(db);
     console.log(closest);

@@ -706,13 +706,15 @@ text-align: right;
   list-style: none;
   padding: 0;
   display: grid;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .saved-li {
   border: 1px solid var(--secondary);
   border-radius: var(--borderR);
   padding: 0.7rem;
-  margin-bottom: 0.7rem;
+  gap: 6px;
 }
 
 .saved-li-title {
@@ -738,10 +740,11 @@ text-align: right;
   text-decoration: none;
   display: block;
   margin: 10px auto;
+  margin-top: 0;
 }
 
 .more-link:hover {
-  color: var(--light-text);
+  color: var(--secondary);
 }
 
 .settings-button {
@@ -1024,24 +1027,34 @@ body.dark-mode #settingsMessage {
 }
 
 /* Container for buttons under each saved location */
-.saved-actions {
+.saved-row {
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 4px;
 }
 
-/* Open on map (link styled as button) */
-.saved-open-link {
+.saved-actions {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.saved-li-title {
+  margin: 0;
   flex: 1;
-  text-align: center;
+}
+
+.saved-open-link {
+  display: inline-block;
   text-decoration: none;
   padding: 8px 10px;
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid var(--secondary);
   background-color: var(--light-text);
   color: var(--primary);
-  font-size: 14px;
-  transition: 0.2s ease;
+  font-size: 13px;
+  white-space: nowrap;
 }
 
 .saved-open-link:hover {
