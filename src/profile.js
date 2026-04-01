@@ -2,15 +2,12 @@ import { auth, db } from "./firebaseConfig.js";
 import { onAuthStateChanged } from "firebase/auth";
 import {
   collection,
-  addDoc,
-  getDocs,
   deleteDoc,
   doc,
   getDoc,
   query,
   orderBy,
   onSnapshot,
-  serverTimestamp
 } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 
@@ -25,14 +22,50 @@ let savedLocations = [];
 let currentUid = null;
 let unsubscribeSavedLocations = null;
 
-function escapeHtml(str) {
-  return String(str)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  // user is confirmed logged in here
+  currentUid = user.uid;
+
+  // start listening to saved locations
+  listenToSavedLocations(user.uid);
+
+  try {
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      const data = userSnap.data();
+
+      document.getElementById("profileName").textContent =
+        data.name || user.displayName || "User";
+
+      document.getElementById("infoEmail").textContent =
+        data.email || user.email || "No email";
+
+      document.getElementById("infoLocation").textContent =
+        data.location || "No location";
+
+      document.getElementById("statPoints").textContent =
+        data.points ?? 0;
+    } else {
+      document.getElementById("profileName").textContent =
+        user.displayName || "User";
+
+      document.getElementById("infoEmail").textContent =
+        user.email || "No email";
+
+      document.getElementById("infoLocation").textContent = "No location";
+      document.getElementById("statPoints").textContent = "0";
+    }
+  } catch (error) {
+    console.error("Error loading profile:", error);
+  }
+});
 
 function renderSavedLocations() {
   if (!savedListEl || !savedEmptyEl || !savedMoreBtn) return;
@@ -61,9 +94,6 @@ function renderSavedLocations() {
     const title = document.createElement("p");
     title.className = "saved-li-title";
     title.textContent = loc.title || "Unnamed Location";
-
-    const note = document.createElement("p");
-    note.className = "saved-li-sub";
 
     const actions = document.createElement("div");
     actions.className = "saved-actions";
@@ -128,21 +158,6 @@ function listenToSavedLocations(uid) {
   });
 }
 
-async function addSavedLocation(title, note) {
-  if (!currentUid) {
-    alert("You must be logged in.");
-    return;
-  }
-
-  const savedRef = collection(db, "users", currentUid, "savedLocations");
-
-  await addDoc(savedRef, {
-    title,
-    note,
-    createdAt: serverTimestamp()
-  });
-}
-
 async function deleteSavedLocation(savedLocationId) {
   if (!currentUid) {
     alert("You must be logged in.");
@@ -158,93 +173,8 @@ if (savedListEl && savedEmptyEl && savedMoreBtn) {
     savedVisibleCount += SAVED_PAGE_SIZE;
     renderSavedLocations();
   });
-
-  const addSavedBtn = document.getElementById("addSavedBtn");
-  if (addSavedBtn) {
-    addSavedBtn.addEventListener("click", async () => {
-      try {
-        const n = savedLocations.length + 1;
-
-        await addSavedLocation(
-          `Saved Location #${n}`,
-          "Demo item (replace with real saved data)"
-        );
-
-        savedVisibleCount = SAVED_PAGE_SIZE;
-      } catch (error) {
-        console.error("Error adding saved location:", error);
-      }
-    });
-  }
-
-  const clearBtn = document.getElementById("clearSavedBtn");
-  if (clearBtn) {
-    clearBtn.addEventListener("click", async () => {
-      try {
-        await clearSavedLocations();
-        savedVisibleCount = SAVED_PAGE_SIZE;
-      } catch (error) {
-        console.error("Error clearing saved locations:", error);
-      }
-    });
-  }
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      currentUid = user.uid;
-      listenToSavedLocations(user.uid);
-    } else {
-      currentUid = null;
-      savedLocations = [];
-      renderSavedLocations();
-
-      if (unsubscribeSavedLocations) {
-        unsubscribeSavedLocations();
-        unsubscribeSavedLocations = null;
-      }
-    }
-  });
 }
 
-
-onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    window.location.href = "login.html";
-    return;
-  }
-
-  try {
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
-
-    if (userSnap.exists()) {
-      const data = userSnap.data();
-
-      document.getElementById("profileName").textContent =
-        data.name || user.displayName || "User";
-
-      document.getElementById("infoEmail").textContent =
-        data.email || user.email || "No email";
-
-      document.getElementById("infoLocation").textContent =
-        data.location || "No location";
-
-      document.getElementById("statPoints").textContent =
-        data.points ?? 0;
-    } else {
-      document.getElementById("profileName").textContent =
-        user.displayName || "User";
-
-      document.getElementById("infoEmail").textContent =
-        user.email || "No email";
-
-      document.getElementById("infoLocation").textContent = "No location";
-      document.getElementById("statPoints").textContent = "0";
-    }
-  } catch (error) {
-    console.error("Error loading profile:", error);
-  }
-});
 
 //Logout - logoutBtn
 const logoutBtn = document.getElementById("logoutBtn");
