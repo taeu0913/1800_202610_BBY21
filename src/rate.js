@@ -4,6 +4,9 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "./firebaseConfig.js";
 import { findClosestLocation } from "./utils.js";
 
+let currentImageBase64 = "";
+
+
 //------------------------------------------------------------
 // This function is an Event Listener for the file (image) picker
 // When an image is chosen, it will then save that image into the
@@ -26,8 +29,7 @@ function uploadImage() {
         ///display the image for user to preview
         document.getElementById("upload-image-preview").src = e.target.result;
 
-        // Save to localStorage for now until Post is submitted
-        localStorage.setItem("inputImage", base64String);
+        currentImageBase64 = e.target.result.split(',')[1];
         console.log("Image saved to localStorage as Base64 string.");
       };
 
@@ -53,28 +55,6 @@ function getCurrentPositionSafe() {
     });
 }
 
-// function getLocationId (latitude, longitude) {
-//   let lat = latitude;
-//   let long = longitude;
-//   if (!latitude || !longitude) {
-//     const urlParams = new URLSearchParams(window.location.search);
-//     lat = urlParams.get('lat');
-//     long = urlParams.get('long');
-//   }
-//   const locationsRef = collection(db, "Places");
-//   const location_q = query(
-//     locationsRef,
-//     where("Latitude", "==", lat),
-//     where("Longitude", "==", long)
-//   );
-
-//   const location_doc = getDoc(location_q);
-//   // let name = location_doc.data().Names;
-//   console.log("location doc: " + location_doc);
-//   console.log("location doc: " + location_doc.id);
-
-//   return location_doc.id;
-// }
 //------------------------------------------------------------
 // This function saves the post data (description and image) to Firestore
 // when the "Save Post" button is clicked.
@@ -85,6 +65,11 @@ async function savePost(locId, imgStr) {
   const user = auth.currentUser;
   if (!user) {
     console.log("Error, no user signed in");
+    return;
+  }
+
+  if (currentImageBase64 === "") {
+    console.log("no image");
     return;
   }
 
@@ -100,27 +85,10 @@ async function savePost(locId, imgStr) {
     return;
   }
 
-  // Get Base64 image from Local Storage
-  const inputImage = localStorage.getItem("inputImage") || "";
-
-  if(inputImage === "") {
-    console.log("no image");
-    return;
-  }
-
   const userDoc = await getDoc(doc(db, "users", user.uid));
   console.log("doc exists:", userDoc.exists());
   console.log("doc id:", userDoc.id);
   const userDocId = userDoc.id;
-
-  // Get the user's geolocation (wrapped in a Promise)
-  // const position = await getCurrentPositionSafe();
-
-  // const latitude = position?.coords?.latitude || null;
-  // const longitude = position?.coords?.longitude || null;
-
-
-  // const user_location = location_doc.FileReader;
 
   try {
     // Save post to Firestore with geolocation
@@ -128,10 +96,12 @@ async function savePost(locId, imgStr) {
       user_id: userDocId,
       headcount_estimate: headcount,
       caption: desc,
-      img: inputImage,
+      img: currentImageBase64,
       timestamp: serverTimestamp(),
       location_id: locId
     });
+
+    currentImageBase64 = "";
 
     console.log("Post document added");
     console.log(docRef.id);
@@ -170,29 +140,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const submit_button = document.getElementById("submit-button");
   submit_button.addEventListener("click", () => savePost(locationSnap.id));
 
-  // const locationsRef = collection(db, "Places");
-  // const location_q = query(
-  //   locationsRef,
-  //   where("Latitude", "==", latitude),
-  //   where("Longitude", "==", longitude)
-  // );
-
-  // const location_doc = await getDocs(location_q);
-
-  // if (location_doc.empty) {
-  //   console.warn("No matching location found");
-  //   return;
-  // }
-
-  // let location_name = document.getElementById("user-location");
-  // location_name.textContent = location_doc.docs[0].data().Names;
-
-  // const submit_button = document.getElementById("submit-button");
-  // submit_button.addEventListener("click", () => savePost(location_doc.docs[0].id));
-
 });
-
-
 
 
 onAuthStateChanged(auth, async (user) => {
