@@ -251,7 +251,7 @@ a.signup:hover {
 
 #feed {
   /* height: 84vh; */
-  overflow-y: scroll;
+  overflow-y: hidden;
   padding: 0rem 1.5rem;
 }
 
@@ -261,7 +261,7 @@ a.signup:hover {
   border-radius: var(--borderR);
   margin: var(--borderR);
   display:grid;
-  grid-template-rows: 20% 80%;
+  grid-template-rows: 10% 90%;
   min-height: 100% !important; 
   min-width: 90%;
   min-height: 92vh; /* match your content-wrapper height */
@@ -351,7 +351,6 @@ a.signup:hover {
 }
 
 .user {
-  padding-top: 0.25rem;
   padding-bottom: 0.25rem;
   display: flex;
   gap: 8px;
@@ -371,6 +370,14 @@ a.signup:hover {
 .post-content img {
   width: 100%;
   object-fit: contain;
+  border-radius:var(--borderR)
+}
+
+.post{
+  border: var(--accent) 2px solid;
+  margin: 15px;
+  border-radius: var(--borderR);
+  padding: 10px;
 }
 
 .vote-button {
@@ -453,7 +460,7 @@ a.signup:hover {
   border-radius: var(--borderR);
 }
 
-@media (max-width: 13_00px) {
+@media (max-width: 1300px) {
   #rate-lower{
   display:grid;
   grid-template-columns: 1;
@@ -1150,6 +1157,7 @@ body.dark-mode #settingsMessage {
   max-height: 750px;
   min-height: 759px;
   border-radius: var(--borderR);
+  justify-content: center;
 }
 
 #logoAndQuote h1{
@@ -1158,6 +1166,7 @@ body.dark-mode #settingsMessage {
   font-family: 'Raleway';
   font-weight: 700;
 }
+
 
 #filler{
   background-color: var(--tetriary);
@@ -1238,7 +1247,6 @@ body.dark-mode #settingsMessage {
   }
 }
  
-/* LEFT: logo/quote panel */
 #logoAndQuote {
   margin-top: 0;
   background-color: var(--tetriary);
@@ -1253,7 +1261,7 @@ body.dark-mode #settingsMessage {
   overflow: hidden;
 }
  
-/* subtle texture overlay */
+/* texture overlay */
 #logoAndQuote::before {
   content: '';
   position: absolute;
@@ -1262,8 +1270,8 @@ body.dark-mode #settingsMessage {
     -45deg,
     transparent,
     transparent 28px,
-    rgba(255,255,255,0.04) 28px,
-    rgba(255,255,255,0.04) 29px
+    rgba(0, 0, 0, 0.05) 28px,
+    rgba(0, 0, 0, 0.05) 29px
   );
   pointer-events: none;
 }
@@ -1272,7 +1280,7 @@ body.dark-mode #settingsMessage {
   padding: 0;
   font-family: 'Raleway', sans-serif;
   font-weight: 800;
-  font-size: clamp(2.2rem, 7vw, 3.8rem);
+  font-size: clamp(2.9rem, 9vw, 5rem);
   color: var(--light-text);
   letter-spacing: -0.02em;
   line-height: 1.05;
@@ -1312,7 +1320,7 @@ body.dark-mode #settingsMessage {
   transform: translateY(-2px);
 }
  
-/* RIGHT: filler/info panel */
+/* filler/info panel */
 #filler {
   margin-top: 0;
   background-color: var(--secondary);
