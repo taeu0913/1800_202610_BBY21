@@ -76,11 +76,26 @@ function renderSavedLocations() {
       actions.appendChild(mapLink);
     }
 
+    const deleteBtn = document.createElement("button");
+    deleteBtn.type = "button";
+    deleteBtn.className = "saved-delete-btn";
+    deleteBtn.textContent = "❌";
+    deleteBtn.setAttribute("aria-label", "Delete saved location");
+
+    deleteBtn.addEventListener("click", async () => {
+      try {
+        await deleteSavedLocation(loc.id);
+      } catch (error) {
+        console.error("Error deleting saved location:", error);
+      }
+    });
+
     const row = document.createElement("div");
     row.className = "saved-row";
 
     row.appendChild(title);
     row.appendChild(actions);
+    row.appendChild(deleteBtn);
 
     li.appendChild(row);
     savedListEl.appendChild(li);

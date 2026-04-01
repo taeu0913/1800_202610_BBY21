@@ -628,24 +628,9 @@ input[type=number] {
   align-items: center;
 }
 
-.stat-details {
-  grid-column: 3;
-  margin-right:0.9em;
-  font-weight: bold;
-  color: var(--primary);
-  font-size: 0.9rem;
-  display: inline-block;
-  margin-top:2rem;
-}
-
-.stat-details:hover {
-  color: var(--secondary);
-  background-color: transparent !important;
-}
-
 .stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
   margin: 0.7em;
 }
@@ -669,15 +654,6 @@ input[type=number] {
   font-size: 0.9rem;
 }
 
-.stat-details{
-text-align: right;
-
-}
-
-.stat-details:hover{
-  background-color: var(--light-text);
-}
-
 /* Saved Locations list */
 
 .no-list {
@@ -687,6 +663,17 @@ text-align: right;
   padding: 0.75rem;
   text-align: center;
   margin: 0.7rem;
+}
+
+.saved-empty-text {
+  border: 1px solid var(--secondary);
+  border-radius: var(--borderR);
+  padding: 0.7rem;
+  gap: 6px;
+  margin-left: 20%;
+  margin-right: 20%;
+  color: var(--primary);
+  text-align: center;
 }
 
 .location-list:has(.saved-ul:empty) {
@@ -779,6 +766,7 @@ text-align: right;
 
 .logout-button:hover {
   background-color: rgb(133, 0, 0);
+  color: var(--light-text);
   cursor: pointer;
 }
 
@@ -1059,23 +1047,21 @@ body.dark-mode #settingsMessage {
 
 .saved-open-link:hover {
   background-color: #45a049;
+  color: var(--light-text)
 }
 
-/* Delete button */
 .saved-delete-btn {
-  flex: 1;
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: 1px solid var(--secondary);
-  background-color: var(--light-text);
-  color: var(--primary);
-  font-size: 14px;
+  border: none;
+  background: transparent;
   cursor: pointer;
-  transition: 0.2s ease;
+  font-size: 16px;
+  line-height: 1;
+  padding: 4px 6px;
+  border-radius: 6px;
 }
 
 .saved-delete-btn:hover {
-  background-color: #c62828;
+  background-color: rgba(0, 0, 0, 0.08);
 }
 
 #save-location-button {
@@ -1124,9 +1110,17 @@ body.dark-mode #settingsMessage {
     border-radius: 0;
   }
 
-  .profile-left,.info-list, .stat-details, .settings-button,.logout-button, .stat-header,.stats,.location-list,.no-list {
+  .profile-left,.info-list, .stat-details, .settings-button,.logout-button, .stat-header,.stats,.location-list,.no-list, .link-button, #passwordForm, #profileSettingsForm {
     margin-left:20%;
     margin-right:20%;
+  }
+
+  .light-mode-button {
+    margin-left: 39.5%;
+  }
+
+  .dark-mode-button {
+    margin-right: 39.5%;
   }
 
   .stat-details {
