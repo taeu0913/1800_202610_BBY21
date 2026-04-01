@@ -79,7 +79,7 @@ function getCurrentPositionSafe() {
 // This function saves the post data (description and image) to Firestore
 // when the "Save Post" button is clicked.
 //-------------------------------------------------------------
-async function savePost(locId) {
+async function savePost(locId, imgStr) {
   console.log("SAVE POST is triggered");
 
   const user = auth.currentUser;
@@ -129,8 +129,6 @@ async function savePost(locId) {
       headcount_estimate: headcount,
       caption: desc,
       img: inputImage,
-      num_likes: 0,
-      num_votes: 0,
       timestamp: serverTimestamp(),
       location_id: locId
     });
