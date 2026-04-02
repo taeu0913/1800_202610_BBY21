@@ -1,10 +1,11 @@
 import { db } from "./firebaseConfig.js";
+import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { 
   collection, 
   query, 
   doc, 
   where, 
-  getDoc, 
+  getDoc,
   getDocs, 
   setDoc, 
   deleteDoc, 
@@ -16,14 +17,13 @@ import {
   addDoc, 
   serverTimestamp 
 } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 
 console.log("main.js loaded");
 const mapEl = document.getElementById("map");
+const auth = getAuth();
 
 if (mapEl) {
 
-  const auth = getAuth();
   const locationsRef = collection(db, "Places");
   const postsRef = collection(db, "posts");
   const usersRef = collection(db, "users");
@@ -416,3 +416,16 @@ if (hamburger && menu) {
     }
   });
 }
+const theme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', theme);
+
+document.getElementById('darkModeBtn').addEventListener('click', () => {
+  localStorage.setItem('theme', 'dark');
+  document.documentElement.setAttribute('data-theme', 'dark');
+  // optionally still save to Firestore for cross-device sync
+});
+
+document.getElementById('lightModeBtn').addEventListener('click', () => {
+  localStorage.setItem('theme', 'light');
+  document.documentElement.setAttribute('data-theme', 'light');
+});
