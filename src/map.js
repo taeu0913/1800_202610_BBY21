@@ -118,17 +118,15 @@ async function saveReadableUserLocation(lat, lng) {
   try {
     const { readableName, fullDisplayName } = await reverseGeocode(lat, lng);
 
-    console.log("GPS:", lat, lng);
-    console.log("Saving location:", readableName);
-    console.log("Full location:", fullDisplayName);
-
-    await updateDoc(doc(db, "users", user.uid), {
+    await setDoc(doc(db, "users", user.uid), {
       location: readableName,
       locationFull: fullDisplayName,
       latitude: lat,
       longitude: lng,
       locationUpdatedAt: serverTimestamp(),
-    });
+    },
+    { merge: true }
+  );
   } catch (error) {
     console.error("Error saving readable user location:", error);
   }
@@ -153,10 +151,8 @@ function watchUserLocation(map) {
       if (accuracyCircle) accuracyCircle.remove();
       accuracyCircle = L.circle([lat, lng], { radius: accuracy }).addTo(map);
 
-      const user = auth.currentUser;
-      if (user) {
-        saveReadableUserLocation(lat, lng);
-      }
+      saveReadableUserLocation(lat, lng);
+
 
     },
     (error) => console.error("Error getting user location:", error)

@@ -1,13 +1,13 @@
 import { auth, db } from "./firebaseConfig.js";
-import { onAuthStateChanged, updateProfile, updatePassword } from "firebase/auth";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { onAuthStateChanged, updateProfile, updatePassword, verifyBeforeUpdateEmail } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const profileForm = document.getElementById("profileSettingsForm");
 const passwordForm = document.getElementById("passwordForm");
 const settingsMessage = document.getElementById("settingsMessage");
 
 const settingsName = document.getElementById("settingsName");
-const settingsLocation = document.getElementById("settingsLocation");
+const settingsEmail = document.getElementById("settingsEmail");
 const newPassword = document.getElementById("newPassword");
 const confirmPassword = document.getElementById("confirmPassword");
 
@@ -55,20 +55,38 @@ onAuthStateChanged(auth, async (user) => {
 
   try {
     const userRef = doc(db, "users", user.uid);
-    const snap = await getDoc(userRef);
+    const snap = await getDoc(userRef); 
 
     if (snap.exists()) {
       const data = snap.data();
 
-      settingsName.value = data.name || user.displayName || "";
-      settingsLocation.value = data.location || "";
+      if (settingsName) {
+        settingsName.value = data.name || user.displayName || "";
+      }
+
+      if (settingsEmail) {
+        settingsEmail.value = data.email || user.email || "";
+      }
+
+      // sync firestore email with auth email
+      await setDoc(
+        userRef,
+        {
+          email: user.email || "",
+          pendingEmail: null
+        },
+        { merge: true }
+      );
 
       if (data.theme) {
         applyTheme(data.theme);
       }
+
     } else {
       settingsName.value = user.displayName || "";
+      settingsEmail.value = user.email || "";
     }
+
   } catch (error) {
     console.error(error);
     showMessage("Failed to load settings.", "error");
@@ -81,21 +99,52 @@ profileForm?.addEventListener("submit", async (e) => {
   if (!currentUser) return;
 
   const name = settingsName.value.trim();
-  const location = settingsLocation.value.trim();
+  const email = settingsEmail.value.trim().toLowerCase();
+
+  if (!email) {
+    showMessage("Email is required.", "error");
+    return;
+  }
 
   try {
     await updateProfile(currentUser, {
       displayName: name
     });
 
-    const userRef = doc(db, "users", currentUser.uid);
+    const currentEmail = (currentUser.email || "").toLowerCase();
+
+    if (email !== currentEmail) {
+      console.log("Current auth email:", currentUser.email);
+      console.log("Requested new email:", email);
+
+      const actionCodeSettings = {
+        url: "http://localhost:5173/login.html",
+        handleCodeInApp: false
+      };
+
+      await verifyBeforeUpdateEmail(currentUser, email, actionCodeSettings);
+
+      await setDoc(
+        doc(db, "users", currentUser.uid),
+        {
+          name,
+          pendingEmail: email
+        },
+        { merge: true }
+      );
+
+      showMessage(
+        "Email change request submitted. Check your current email inbox for Firebase's message.",
+        "success"
+      );
+      return;
+    }
 
     await setDoc(
-      userRef,
+      doc(db, "users", currentUser.uid),
       {
         name,
-        email: currentUser.email,
-        location
+        email: currentUser.email || ""
       },
       { merge: true }
     );
@@ -103,7 +152,22 @@ profileForm?.addEventListener("submit", async (e) => {
     showMessage("Profile updated successfully.", "success");
   } catch (error) {
     console.error(error);
-    showMessage("Failed to update profile.", "error");
+
+    if (error.code === "auth/requires-recent-login") {
+      showMessage("Please log in again to change your email.", "error");
+
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 1500);
+
+      return;
+    } else if (error.code === "auth/invalid-email") {
+      showMessage("Please enter a valid email address.", "error");
+    } else if (error.code === "auth/email-already-in-use") {
+      showMessage("That email is already in use.", "error");
+    } else {
+      showMessage("Failed to update profile.", "error");
+    }
   }
 });
 
@@ -136,7 +200,13 @@ passwordForm?.addEventListener("submit", async (e) => {
     console.error(error);
 
     if (error.code === "auth/requires-recent-login") {
-      showMessage("Please log in again before changing password.", "error");
+        showMessage("Session expired. Redirecting to login...", "error");
+
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 1500);
+
+  return;
     } else {
       showMessage("Failed to update password.", "error");
     }
