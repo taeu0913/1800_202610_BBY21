@@ -71,7 +71,7 @@ onAuthStateChanged(auth, async (user) => {
     }
   } catch (error) {
     console.error(error);
-    showMessage("Failed to load settings.");
+    showMessage("Failed to load settings.", "error");
   }
 });
 
@@ -95,16 +95,15 @@ profileForm?.addEventListener("submit", async (e) => {
       {
         name,
         email: currentUser.email,
-        username,
         location
       },
       { merge: true }
     );
 
-    showMessage("Profile updated successfully.");
+    showMessage("Profile updated successfully.", "success");
   } catch (error) {
     console.error(error);
-    showMessage("Failed to update profile.");
+    showMessage("Failed to update profile.", "error");
   }
 });
 
@@ -157,10 +156,10 @@ lightModeBtn?.addEventListener("click", async () => {
       { merge: true }
     );
 
-    showMessage("Light mode saved.");
+    showMessage("Light mode saved.", "success");
   } catch (error) {
     console.error(error);
-    showMessage("Failed to save theme.");
+    showMessage("Failed to save theme.", "error");
   }
 });
 
@@ -177,9 +176,9 @@ darkModeBtn?.addEventListener("click", async () => {
       { merge: true }
     );
 
-    showMessage("Dark mode saved.");
+    showMessage("Dark mode saved.", "success");
   } catch (error) {
     console.error(error);
-    showMessage("Failed to save theme.");
+    showMessage("Failed to save theme.", "error");
   }
 });

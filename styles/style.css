@@ -49,6 +49,7 @@ body {
   position: relative;
   z-index: 10000;
   border-radius: var(--borderR);
+  border-top: 2px solid red !important;
 }
 .logo {
   font-size: 1.4rem;
@@ -185,7 +186,6 @@ a.signup:hover {
   width: 100%;
   background: var(--light-text);;
   border-radius: var(--borderR);
-  border: 1px solid var(--secondary);
   max-height: 200px;
   overflow-y: auto;
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
@@ -208,8 +208,6 @@ a.signup:hover {
 #bottom-navbar {
   width: 100%;
   height: 8vh;
-  /* border-top-style: 1pt solid;
-  border-top: #666; */
   background-color: var(--light-text);;
   position: fixed;
   bottom: 0;
@@ -958,7 +956,7 @@ div:has(#lightModeBtn) {
 #settingsMessage {
   margin: 0.7rem;
   text-align: center;
-  color: var(--accent);
+  color: var(--light-text);
   font-weight: bold;
   min-height: 1.2rem;
 }

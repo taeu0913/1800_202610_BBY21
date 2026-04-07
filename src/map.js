@@ -7,13 +7,14 @@ import {
   getDoc,
   getDocs,
   setDoc,
+  updateDoc,
   deleteDoc,
   orderBy,
   limit,
   addDoc,
   serverTimestamp,
 } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { getAuth , onAuthStateChanged } from "firebase/auth";
 import { findClosestLocation } from "./utils.js";
 
 console.log("main.js loaded");
@@ -55,6 +56,84 @@ const userIcon = L.icon({ iconUrl: "/images/person.png", iconSize: [50, 50] });
 // GEOLOCATION
 // ─────────────────────────────────────────────
 
+function formatReadableLocation(address = {}) {
+  const city =
+    address.city ||
+    address.town ||
+    address.village ||
+    address.suburb ||
+    "";
+
+  const province =
+    address.state_code || address.state || "";
+
+  if (city && province) {
+    return `${city}, ${province}`;
+  }
+
+  return city || province || "Unknown location";
+}
+
+async function reverseGeocode(lat, lng) {
+  const url =
+    `https://nominatim.openstreetmap.org/reverse?format=jsonv2` +
+    `&lat=${encodeURIComponent(lat)}` +
+    `&lon=${encodeURIComponent(lng)}` +
+    `&zoom=14&addressdetails=1&accept-language=en`;
+
+  const response = await fetch(url, {
+    headers: {
+      Accept: "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Reverse geocoding failed: ${response.status}`);
+  }
+
+  const data = await response.json();
+  const address = data.address || {};
+
+  const readableName = formatReadableLocation(address);
+
+  return {
+    readableName,
+    fullDisplayName: data.display_name || "Unknown location",
+  };
+}
+
+let lastSavedLocationKey = null;
+
+async function saveReadableUserLocation(lat, lng) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const roundedLat = lat.toFixed(3);
+  const roundedLng = lng.toFixed(3);
+  const locationKey = `${roundedLat},${roundedLng}`;
+
+  if (lastSavedLocationKey === locationKey) return;
+  lastSavedLocationKey = locationKey;
+
+  try {
+    const { readableName, fullDisplayName } = await reverseGeocode(lat, lng);
+
+    console.log("GPS:", lat, lng);
+    console.log("Saving location:", readableName);
+    console.log("Full location:", fullDisplayName);
+
+    await updateDoc(doc(db, "users", user.uid), {
+      location: readableName,
+      locationFull: fullDisplayName,
+      latitude: lat,
+      longitude: lng,
+      locationUpdatedAt: serverTimestamp(),
+    });
+  } catch (error) {
+    console.error("Error saving readable user location:", error);
+  }
+}
+
 function watchUserLocation(map) {
   if (!("geolocation" in navigator)) {
     console.error("Geolocation is not supported by this browser.");
@@ -73,8 +152,15 @@ function watchUserLocation(map) {
       }
       if (accuracyCircle) accuracyCircle.remove();
       accuracyCircle = L.circle([lat, lng], { radius: accuracy }).addTo(map);
+
+      const user = auth.currentUser;
+      if (user) {
+        saveReadableUserLocation(lat, lng);
+      }
+
     },
     (error) => console.error("Error getting user location:", error)
+    
   );
 }
 
