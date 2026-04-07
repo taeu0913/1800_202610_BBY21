@@ -26,7 +26,20 @@
     --btn-border-width-hover: 5px;
 
     --borderR: 12px;
+
 }
+[data-theme="dark"] {
+  --light-text: #303030;
+
+    /* 30% — primary actions and supporting surfaces) */
+    --primary: #afafaf;
+    --secondary: #222121;
+    --tetriary:  #535353;
+
+    /* 10% — accent for emphasis and interaction */
+    --accent: #8a8a8a;
+}
+
 
 body {
   margin: 0;
