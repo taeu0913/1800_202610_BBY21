@@ -482,6 +482,26 @@ async function loadLocationPosts(locationId, locationFeedEl) {
 // LOCATION POPUP
 // ─────────────────────────────────────────────
 
+const popup = document.getElementById("location-popup");
+function showPopup() {
+  popup.style.display = "block";      // make it mount
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      popup.classList.add("show"); // animate in
+    });
+  });
+}
+
+function hidePopup() {
+  popup.classList.remove("show");     // animate out
+  popup.addEventListener("transitionend", () => {
+    if (!popup.classList.contains("show")) {
+      popup.style.display = "none";   // fully hide after animation
+    }
+  }, { once: true });
+}
+
 async function showLocationDetails(lat, lng) {
   const locationSnap = await getDocs(
     query(locationsRef, where("Latitude", "==", lat), where("Longitude", "==", lng))
@@ -496,12 +516,11 @@ async function showLocationDetails(lat, lng) {
   const locationData = docSnap.data();
   const locationId = docSnap.id;
   
-  // Show popup
-  const popup = document.getElementById("location-popup");
-  if (popup) popup.style.display = "block";
+  // if (popup) popup.style.display = "block";
 
   const closeBtn = document.getElementById("close-location-button");
-  if (closeBtn) closeBtn.onclick = closeLocationPopup;
+  if (closeBtn) closeBtn.onclick = hidePopup;
+  // if (closeBtn) closeBtn.onclick = closeLocationPopup;
 
   // Populate name
   const locationNameEl = document.getElementById("location-name");
@@ -521,6 +540,8 @@ async function showLocationDetails(lat, lng) {
   // Buttons
   const rateBtn = document.getElementById("rate-location-button");
   if (rateBtn) rateBtn.onclick = () => { location.href = `rate.html?lat=${lat}&long=${lng}`; };
+  // Show popup
+  showPopup();
 
 
 }
