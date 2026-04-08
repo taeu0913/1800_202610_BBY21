@@ -1,0 +1,101 @@
+[debug] [2026-04-07T23:27:40.371Z] ----------------------------------------------------------------------
+[debug] [2026-04-07T23:27:40.378Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\teawo\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2026-04-07T23:27:40.379Z] CLI Version:   15.13.0
+[debug] [2026-04-07T23:27:40.379Z] Platform:      win32
+[debug] [2026-04-07T23:27:40.379Z] Node Version:  v24.13.0
+[debug] [2026-04-07T23:27:40.380Z] Time:          Tue Apr 07 2026 16:27:40 GMT-0700 (미 태평양 하계 표준시)
+[debug] [2026-04-07T23:27:40.380Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\teawo\OneDrive\Documentos\comp1800\1800_202610_BBY21
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] 
+[debug] [2026-04-07T23:32:00.183Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-04-07T23:32:00.184Z] > authorizing via signed-in user (teawoo913@gmail.com)
+[debug] [2026-04-07T23:32:00.186Z] Checked if tokens are valid: true, expires at: 1775608043473
+[debug] [2026-04-07T23:32:00.186Z] Checked if tokens are valid: true, expires at: 1775608043473
+[debug] [2026-04-07T23:32:00.188Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2026-04-07T23:32:00.771Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2026-04-07T23:32:00.772Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] 
+=== Dataconnect Setup
+[info] i  dataconnect: ensuring required API firebasedataconnect.googleapis.com is enabled... 
+[debug] [2026-04-07T23:32:04.773Z] Checked if tokens are valid: true, expires at: 1775608043473
+[debug] [2026-04-07T23:32:04.773Z] Checked if tokens are valid: true, expires at: 1775608043473
+[info] i  dataconnect: ensuring required API sqladmin.googleapis.com is enabled... 
+[debug] [2026-04-07T23:32:04.774Z] Checked if tokens are valid: true, expires at: 1775608043473
+[debug] [2026-04-07T23:32:04.774Z] Checked if tokens are valid: true, expires at: 1775608043473
+[debug] [2026-04-07T23:32:04.774Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/crowds-e07d8/services/firebasedataconnect.googleapis.com [none]
+[debug] [2026-04-07T23:32:04.774Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/crowds-e07d8/services/firebasedataconnect.googleapis.com  x-goog-user-project=crowds-e07d8
+[debug] [2026-04-07T23:32:04.777Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/crowds-e07d8/services/sqladmin.googleapis.com [none]
+[debug] [2026-04-07T23:32:04.777Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/crowds-e07d8/services/sqladmin.googleapis.com  x-goog-user-project=crowds-e07d8
+[debug] [2026-04-07T23:32:05.268Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/crowds-e07d8/services/sqladmin.googleapis.com 200
+[debug] [2026-04-07T23:32:05.268Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/crowds-e07d8/services/sqladmin.googleapis.com [omitted]
+[warn] !  dataconnect: missing required API sqladmin.googleapis.com. Enabling now... 
+[debug] [2026-04-07T23:32:05.270Z] Checked if tokens are valid: true, expires at: 1775608043473
+[debug] [2026-04-07T23:32:05.270Z] Checked if tokens are valid: true, expires at: 1775608043473
+[debug] [2026-04-07T23:32:05.270Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/crowds-e07d8/services/sqladmin.googleapis.com:enable [none]
+[debug] [2026-04-07T23:32:05.271Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/crowds-e07d8/services/sqladmin.googleapis.com:enable  x-goog-user-project=crowds-e07d8
+[debug] [2026-04-07T23:32:05.274Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/crowds-e07d8/services/firebasedataconnect.googleapis.com 200
+[debug] [2026-04-07T23:32:05.274Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/crowds-e07d8/services/firebasedataconnect.googleapis.com [omitted]
+[warn] !  dataconnect: missing required API firebasedataconnect.googleapis.com. Enabling now... 
+[debug] [2026-04-07T23:32:05.276Z] Checked if tokens are valid: true, expires at: 1775608043473
+[debug] [2026-04-07T23:32:05.276Z] Checked if tokens are valid: true, expires at: 1775608043473
+[debug] [2026-04-07T23:32:05.276Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/crowds-e07d8/services/firebasedataconnect.googleapis.com:enable [none]
+[debug] [2026-04-07T23:32:05.276Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/crowds-e07d8/services/firebasedataconnect.googleapis.com:enable  x-goog-user-project=crowds-e07d8
+[debug] [2026-04-07T23:32:05.570Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/crowds-e07d8/services/firebasedataconnect.googleapis.com:enable 200
+[debug] [2026-04-07T23:32:05.570Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/crowds-e07d8/services/firebasedataconnect.googleapis.com:enable [omitted]
+[debug] [2026-04-07T23:32:05.775Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/crowds-e07d8/services/sqladmin.googleapis.com:enable 200
+[debug] [2026-04-07T23:32:05.775Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/crowds-e07d8/services/sqladmin.googleapis.com:enable [omitted]
+[debug] [2026-04-07T23:32:15.797Z] Checked if tokens are valid: true, expires at: 1775608043473
+[debug] [2026-04-07T23:32:15.797Z] Checked if tokens are valid: true, expires at: 1775608043473
+[debug] [2026-04-07T23:32:15.797Z] >>> [apiv2][query] GET https://firebasedataconnect.googleapis.com/v1/projects/crowds-e07d8/locations/-/services [none]
+[debug] [2026-04-07T23:32:16.531Z] <<< [apiv2][status] GET https://firebasedataconnect.googleapis.com/v1/projects/crowds-e07d8/locations/-/services 200
+[debug] [2026-04-07T23:32:16.532Z] <<< [apiv2][body] GET https://firebasedataconnect.googleapis.com/v1/projects/crowds-e07d8/locations/-/services {}
+[debug] [2026-04-07T23:32:51.833Z] Checked if tokens are valid: true, expires at: 1775608043473
+[debug] [2026-04-07T23:32:51.833Z] Checked if tokens are valid: true, expires at: 1775608043473
+[debug] [2026-04-07T23:32:51.833Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/crowds-e07d8/billingInfo [none]
+[debug] [2026-04-07T23:32:52.369Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/crowds-e07d8/billingInfo 200
+[debug] [2026-04-07T23:32:52.369Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/crowds-e07d8/billingInfo {"name":"projects/crowds-e07d8/billingInfo","projectId":"crowds-e07d8","billingAccountName":"","billingEnabled":false}
+[debug] [2026-04-07T23:32:52.369Z] Checked if tokens are valid: true, expires at: 1775608043473
+[debug] [2026-04-07T23:32:52.370Z] Checked if tokens are valid: true, expires at: 1775608043473
+[debug] [2026-04-07T23:32:52.370Z] >>> [apiv2][query] GET https://monitoring.googleapis.com/v3/projects/crowds-e07d8/timeSeries/ filter=metric.type%3D%22serviceruntime.googleapis.com%2Fquota%2Fallocation%2Fusage%22+AND+metric.label.quota_metric+%3D+%22sqladmin.googleapis.com%2Ffdc_lifetime_free_trial_per_project%22&interval.endTime=2026-04-07T23%3A32%3A52.369Z&interval.startTime=2026-03-31T23%3A32%3A52.369Z
+[debug] [2026-04-07T23:32:53.758Z] <<< [apiv2][status] GET https://monitoring.googleapis.com/v3/projects/crowds-e07d8/timeSeries/ 200
+[debug] [2026-04-07T23:32:53.758Z] <<< [apiv2][body] GET https://monitoring.googleapis.com/v3/projects/crowds-e07d8/timeSeries/ {"unit":"1"}
+[info] +  dataconnect: CloudSQL no cost trial available! 
+[debug] [2026-04-07T23:32:53.765Z] Checked if tokens are valid: true, expires at: 1775608043473
+[debug] [2026-04-07T23:32:53.766Z] Checked if tokens are valid: true, expires at: 1775608043473
+[debug] [2026-04-07T23:32:53.766Z] >>> [apiv2][query] GET https://sqladmin.googleapis.com/v1/projects/crowds-e07d8/instances [none]
+[debug] [2026-04-07T23:32:54.110Z] <<< [apiv2][status] GET https://sqladmin.googleapis.com/v1/projects/crowds-e07d8/instances 200
+[debug] [2026-04-07T23:32:54.111Z] <<< [apiv2][body] GET https://sqladmin.googleapis.com/v1/projects/crowds-e07d8/instances {}
+[debug] [2026-04-07T23:32:54.112Z] Checked if tokens are valid: true, expires at: 1775608043473
+[debug] [2026-04-07T23:32:54.112Z] Checked if tokens are valid: true, expires at: 1775608043473
+[debug] [2026-04-07T23:32:54.112Z] >>> [apiv2][query] GET https://firebasedataconnect.googleapis.com/v1/projects/crowds-e07d8/locations [none]
+[debug] [2026-04-07T23:32:54.622Z] <<< [apiv2][status] GET https://firebasedataconnect.googleapis.com/v1/projects/crowds-e07d8/locations 200
+[debug] [2026-04-07T23:32:54.622Z] <<< [apiv2][body] GET https://firebasedataconnect.googleapis.com/v1/projects/crowds-e07d8/locations {"locations":[{"name":"projects/crowds-e07d8/locations/asia-east1","locationId":"asia-east1","displayName":"Taiwan"},{"name":"projects/crowds-e07d8/locations/asia-east2","locationId":"asia-east2","displayName":"Hong Kong"},{"name":"projects/crowds-e07d8/locations/asia-northeast1","locationId":"asia-northeast1","displayName":"Tokyo"},{"name":"projects/crowds-e07d8/locations/asia-northeast2","locationId":"asia-northeast2","displayName":"Osaka"},{"name":"projects/crowds-e07d8/locations/asia-northeast3","locationId":"asia-northeast3","displayName":"Seoul"},{"name":"projects/crowds-e07d8/locations/asia-south1","locationId":"asia-south1","displayName":"Mumbai"},{"name":"projects/crowds-e07d8/locations/asia-southeast1","locationId":"asia-southeast1","displayName":"Singapore"},{"name":"projects/crowds-e07d8/locations/asia-southeast2","locationId":"asia-southeast2","displayName":"Jakarta"},{"name":"projects/crowds-e07d8/locations/australia-southeast1","locationId":"australia-southeast1","displayName":"Sydney"},{"name":"projects/crowds-e07d8/locations/australia-southeast2","locationId":"australia-southeast2","displayName":"Melbourne"},{"name":"projects/crowds-e07d8/locations/europe-central2","locationId":"europe-central2","displayName":"Warsaw"},{"name":"projects/crowds-e07d8/locations/europe-north1","locationId":"europe-north1","displayName":"Finland"},{"name":"projects/crowds-e07d8/locations/europe-southwest1","locationId":"europe-southwest1","displayName":"Madrid"},{"name":"projects/crowds-e07d8/locations/europe-west1","locationId":"europe-west1","displayName":"Belgium"},{"name":"projects/crowds-e07d8/locations/europe-west2","locationId":"europe-west2","displayName":"London"},{"name":"projects/crowds-e07d8/locations/europe-west3","locationId":"europe-west3","displayName":"Frankfurt"},{"name":"projects/crowds-e07d8/locations/europe-west4","locationId":"europe-west4","displayName":"Netherlands"},{"name":"projects/crowds-e07d8/locations/europe-west6","locationId":"europe-west6","displayName":"Zurich"},{"name":"projects/crowds-e07d8/locations/europe-west8","locationId":"europe-west8","displayName":"Milan"},{"name":"projects/crowds-e07d8/locations/europe-west9","locationId":"europe-west9","displayName":"Paris"},{"name":"projects/crowds-e07d8/locations/me-west1","locationId":"me-west1","displayName":"Tel Aviv"},{"name":"projects/crowds-e07d8/locations/northamerica-northeast1","locationId":"northamerica-northeast1","displayName":"Montréal"},{"name":"projects/crowds-e07d8/locations/northamerica-northeast2","locationId":"northamerica-northeast2","displayName":"Toronto"},{"name":"projects/crowds-e07d8/locations/southamerica-east1","locationId":"southamerica-east1","displayName":"São Paulo"},{"name":"projects/crowds-e07d8/locations/southamerica-west1","locationId":"southamerica-west1","displayName":"Santiago"},{"name":"projects/crowds-e07d8/locations/us-central1","locationId":"us-central1","displayName":"Iowa"},{"name":"projects/crowds-e07d8/locations/us-east1","locationId":"us-east1","displayName":"South Carolina"},{"name":"projects/crowds-e07d8/locations/us-east4","locationId":"us-east4","displayName":"Northern Virginia"},{"name":"projects/crowds-e07d8/locations/us-south1","locationId":"us-south1","displayName":"Dallas"},{"name":"projects/crowds-e07d8/locations/us-west1","locationId":"us-west1","displayName":"Oregon"},{"name":"projects/crowds-e07d8/locations/us-west2","locationId":"us-west2","displayName":"Los Angeles"},{"name":"projects/crowds-e07d8/locations/us-west3","locationId":"us-west3","displayName":"Salt Lake City"},{"name":"projects/crowds-e07d8/locations/us-west4","locationId":"us-west4","displayName":"Las Vegas"}]}
+[debug] [2026-04-07T23:33:29.330Z] ExitPromptError: User force closed the prompt with SIGINT
+    at Interface.sigint (C:\Users\teawo\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\@inquirer\core\dist\commonjs\lib\create-prompt.js:101:37)
+    at Interface.emit (node:events:508:28)
+    at [_ttyWrite] [as _ttyWrite] (node:internal/readline/interface:1327:18)
+    at ReadStream.onkeypress (node:internal/readline/interface:284:20)
+    at ReadStream.emit (node:events:520:35)
+    at emitKeys (node:internal/readline/utils:371:14)
+    at emitKeys.next (<anonymous>)
+    at ReadStream.onData (node:internal/readline/emitKeypressEvents:64:36)
+    at ReadStream.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+[error] 
+[error] Error: An unexpected error has occurred.

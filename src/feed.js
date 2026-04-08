@@ -46,7 +46,11 @@ async function renderFeed() {
           <div class="timestamp">
             <small>${data.timestamp.toDate().toLocaleString()}</small>
           </div>
-          <b class="location">${loc_data.Names}</b>
+          <b class="location">
+            <a href="map.html?lat=${loc_data.Latitude}&lng=${loc_data.Longitude}">
+              ${loc_data.Names}
+            </a>
+          </b>
         </div>
         <div class="post-content">
           <img src="data:image/png;base64,${data.img}"/>
@@ -62,6 +66,7 @@ async function renderFeed() {
         </div>
       </div>
     `);
+
   }
 }
 

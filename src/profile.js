@@ -4,7 +4,6 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDoc,
   query,
   orderBy,
   onSnapshot,
@@ -28,16 +27,12 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
 
-  // user is confirmed logged in here
   currentUid = user.uid;
-
-  // start listening to saved locations
   listenToSavedLocations(user.uid);
 
-  try {
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
+  const userRef = doc(db, "users", user.uid);
 
+  onSnapshot(userRef, (userSnap) => {
     if (userSnap.exists()) {
       const data = userSnap.data();
 
@@ -49,9 +44,6 @@ onAuthStateChanged(auth, async (user) => {
 
       document.getElementById("infoLocation").textContent =
         data.location || "No location";
-
-      document.getElementById("statPoints").textContent =
-        data.points ?? 0;
     } else {
       document.getElementById("profileName").textContent =
         user.displayName || "User";
@@ -60,11 +52,10 @@ onAuthStateChanged(auth, async (user) => {
         user.email || "No email";
 
       document.getElementById("infoLocation").textContent = "No location";
-      document.getElementById("statPoints").textContent = "0";
     }
-  } catch (error) {
+  }, (error) => {
     console.error("Error loading profile:", error);
-  }
+  });
 });
 
 function renderSavedLocations() {

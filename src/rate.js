@@ -5,6 +5,7 @@ import { auth, db } from "./firebaseConfig.js";
 import { findClosestLocation } from "./utils.js";
 
 let currentImageBase64 = "";
+const MAX_SIZE_KB = 800;
 
 
 //------------------------------------------------------------
@@ -19,12 +20,18 @@ function uploadImage() {
   function handleFileSelect(event) {
     var file = event.target.files[0]; // Get the selected file
 
+
+    if (file.size > MAX_SIZE_KB * 1024) {
+      alert(`Image must be under ${MAX_SIZE_KB}KB.`);
+      event.target.value = ""; // reset the input
+      return;
+    }
+
     if (file) {
       var reader = new FileReader(); // Create a FileReader to read the file
 
       // When file reading is complete
       reader.onload = function (e) {
-        var base64String = e.target.result.split(',')[1]; // Extract Base64 data
 
         ///display the image for user to preview
         document.getElementById("upload-image-preview").src = e.target.result;

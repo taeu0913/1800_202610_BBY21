@@ -7,13 +7,14 @@ import {
   getDoc,
   getDocs,
   setDoc,
+  updateDoc,
   deleteDoc,
   orderBy,
   limit,
   addDoc,
   serverTimestamp,
 } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { getAuth , onAuthStateChanged } from "firebase/auth";
 import { findClosestLocation } from "./utils.js";
 
 // ─────────────────────────────────────────────
@@ -53,6 +54,82 @@ const userIcon = L.icon({ iconUrl: "/images/person.png", iconSize: [50, 50] });
 // GEOLOCATION
 // ─────────────────────────────────────────────
 
+function formatReadableLocation(address = {}) {
+  const city =
+    address.city ||
+    address.town ||
+    address.village ||
+    address.suburb ||
+    "";
+
+  const province =
+    address.state_code || address.state || "";
+
+  if (city && province) {
+    return `${city}, ${province}`;
+  }
+
+  return city || province || "Unknown location";
+}
+
+async function reverseGeocode(lat, lng) {
+  const url =
+    `https://nominatim.openstreetmap.org/reverse?format=jsonv2` +
+    `&lat=${encodeURIComponent(lat)}` +
+    `&lon=${encodeURIComponent(lng)}` +
+    `&zoom=14&addressdetails=1&accept-language=en`;
+
+  const response = await fetch(url, {
+    headers: {
+      Accept: "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Reverse geocoding failed: ${response.status}`);
+  }
+
+  const data = await response.json();
+  const address = data.address || {};
+
+  const readableName = formatReadableLocation(address);
+
+  return {
+    readableName,
+    fullDisplayName: data.display_name || "Unknown location",
+  };
+}
+
+let lastSavedLocationKey = null;
+
+async function saveReadableUserLocation(lat, lng) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const roundedLat = lat.toFixed(3);
+  const roundedLng = lng.toFixed(3);
+  const locationKey = `${roundedLat},${roundedLng}`;
+
+  if (lastSavedLocationKey === locationKey) return;
+  lastSavedLocationKey = locationKey;
+
+  try {
+    const { readableName, fullDisplayName } = await reverseGeocode(lat, lng);
+
+    await setDoc(doc(db, "users", user.uid), {
+      location: readableName,
+      locationFull: fullDisplayName,
+      latitude: lat,
+      longitude: lng,
+      locationUpdatedAt: serverTimestamp(),
+    },
+    { merge: true }
+  );
+  } catch (error) {
+    console.error("Error saving readable user location:", error);
+  }
+}
+
 function watchUserLocation(map) {
   if (!("geolocation" in navigator)) {
     console.error("Geolocation is not supported by this browser.");
@@ -71,8 +148,13 @@ function watchUserLocation(map) {
       }
       if (accuracyCircle) accuracyCircle.remove();
       accuracyCircle = L.circle([lat, lng], { radius: accuracy }).addTo(map);
+
+      saveReadableUserLocation(lat, lng);
+
+
     },
     (error) => console.error("Error getting user location:", error)
+    
   );
 }
 
@@ -397,6 +479,26 @@ async function loadLocationPosts(locationId, locationFeedEl) {
 // LOCATION POPUP
 // ─────────────────────────────────────────────
 
+const popup = document.getElementById("location-popup");
+function showPopup() {
+  popup.style.display = "block";      // make it mount
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      popup.classList.add("show"); // animate in
+    });
+  });
+}
+
+function hidePopup() {
+  popup.classList.remove("show");     // animate out
+  popup.addEventListener("transitionend", () => {
+    if (!popup.classList.contains("show")) {
+      popup.style.display = "none";   // fully hide after animation
+    }
+  }, { once: true });
+}
+
 async function showLocationDetails(lat, lng) {
   const locationSnap = await getDocs(
     query(locationsRef, where("Latitude", "==", lat), where("Longitude", "==", lng))
@@ -411,12 +513,11 @@ async function showLocationDetails(lat, lng) {
   const locationData = docSnap.data();
   const locationId = docSnap.id;
   
-  // Show popup
-  const popup = document.getElementById("location-popup");
-  if (popup) popup.style.display = "block";
+  // if (popup) popup.style.display = "block";
 
   const closeBtn = document.getElementById("close-location-button");
-  if (closeBtn) closeBtn.onclick = closeLocationPopup;
+  if (closeBtn) closeBtn.onclick = hidePopup;
+  // if (closeBtn) closeBtn.onclick = closeLocationPopup;
 
   // Populate name
   const locationNameEl = document.getElementById("location-name");
@@ -436,6 +537,8 @@ async function showLocationDetails(lat, lng) {
   // Buttons
   const rateBtn = document.getElementById("rate-location-button");
   if (rateBtn) rateBtn.onclick = () => { location.href = `rate.html?lat=${lat}&long=${lng}`; };
+  // Show popup
+  showPopup();
 
 
 }
