@@ -12,6 +12,7 @@
      */
     /* 60% — background */
     --light-text: #ffffff;
+    --text: #000000;
 
     /* 30% — primary actions and supporting surfaces) */
     --primary: #a5a4a4;
@@ -27,9 +28,11 @@
 
     --borderR: 12px;
 
+    --filter: invert(0);
 }
 [data-theme="dark"] {
   --light-text: #303030;
+  --text: #eeeeee;
 
     /* 30% — primary actions and supporting surfaces) */
     --primary: #afafaf;
@@ -38,6 +41,8 @@
 
     /* 10% — accent for emphasis and interaction */
     --accent: #8a8a8a;
+
+    --filter: invert(90%);
 }
 
 
@@ -58,7 +63,7 @@ body {
   align-items: center;
   height: 8vh;
   background-color: var(--primary);
-  color: var(--light-text);
+  color: var(--text);
   position: relative;
   z-index: 10000;
   border-radius: var(--borderR);
@@ -222,7 +227,7 @@ a.signup:hover {
 #bottom-navbar {
   width: 100%;
   height: 8vh;
-  background-color: var(--light-text);;
+  background-color: var(--light-text);
   position: fixed;
   bottom: 0;
   display: flex;
@@ -241,6 +246,7 @@ a.signup:hover {
 .navbar-link img {
   height: 24px;
   object-fit: contain;
+  filter: var(--filter);
 }
 
 .navbar-link a {
@@ -254,6 +260,7 @@ a.signup:hover {
 
 .navbar-link p {
   margin: 0;
+  color: var(--text);
 }
 
 .content-wrapper {
@@ -281,7 +288,7 @@ a.signup:hover {
   border: none;
   font-size: 1rem;
   font-weight: 500;
-  color: var(--primary);
+  color: var(--text);
   cursor: pointer;
   position: relative;
 }
@@ -402,10 +409,12 @@ a.signup:hover {
   margin: 0;
   font-weight: 400;
   padding-bottom: 0.2rem;
+  color: var(--text);
 }
 
 #crowd-info {
   padding: 0.2rem 0 0.5rem 0;
+  color: var(--text);
 }
 
 #rate-location-button {
@@ -445,6 +454,10 @@ a.signup:hover {
   margin: 15px;
   border-radius: var(--borderR);
   padding: 10px;
+}
+
+.post * {
+  color: var(--text);
 }
 
 .vote-button {
@@ -638,13 +651,13 @@ input[type=number] {
   margin: 0;
   margin-top: 1.1em;
   font-size: 1.2rem;
-  color: var(--primary);
+  color: var(--text);
 }
 
 .profile-subtitle {
   margin-bottom: 1em;
   margin-top: 0.2em;
-  color: var(--accent);
+  color: var(--text);
   font-size: 0.95rem;
 }
 
@@ -660,7 +673,7 @@ input[type=number] {
   grid-column: 2;
   margin: 0 auto;
   text-align: center;
-  color: var(--primary);
+  color: var(--text);
   font-size: 1.1rem;
   margin-top: 2rem;
 }
