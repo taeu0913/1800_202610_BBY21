@@ -268,6 +268,40 @@ a.signup:hover {
   padding: 0rem 1.5rem;
 }
 
+#feed-tabs {
+  height: 6vh;
+  display: flex;
+  border-bottom: 2px solid var(--secondary);
+}
+
+#feed-tabs button {
+  flex: 1;
+  padding: 0.75rem 0;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--primary);
+  cursor: pointer;
+  position: relative;
+}
+
+#feed-tabs button.active {
+  color: var(--accent, #4a7aff);
+}
+
+#feed-tabs button.active::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent, #4a7aff);
+  border-radius: 2px;
+}
+
+
 /* RATE PAGE!!! */
 #rate-page{
   border: 5px solid var(--secondary);
