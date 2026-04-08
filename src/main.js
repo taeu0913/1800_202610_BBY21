@@ -1,14 +1,21 @@
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+  document.documentElement.setAttribute('data-theme', savedTheme);
+}
 
-const theme = localStorage.getItem('theme') || 'light';
-document.documentElement.setAttribute('data-theme', theme);
+const darkBtn = document.getElementById('darkModeBtn');
+const lightBtn = document.getElementById('lightModeBtn');
 
-document.getElementById('darkModeBtn').addEventListener('click', () => {
-  localStorage.setItem('theme', 'dark');
-  document.documentElement.setAttribute('data-theme', 'dark');
-  // optionally still save to Firestore for cross-device sync
-});
+if (darkBtn) {
+  darkBtn.addEventListener('click', () => {
+    localStorage.setItem('theme', 'dark');
+    document.documentElement.setAttribute('data-theme', 'dark');
+  });
+}
 
-document.getElementById('lightModeBtn').addEventListener('click', () => {
-  localStorage.setItem('theme', 'light');
-  document.documentElement.setAttribute('data-theme', 'light');
-});
+if (lightBtn) {
+  lightBtn.addEventListener('click', () => {
+    localStorage.setItem('theme', 'light');
+    document.documentElement.setAttribute('data-theme', 'light');
+  });
+}

@@ -1,4 +1,4 @@
-console.log("loginSignup loaded");
+
 // -------------------------------------------------------------
 // src/loginSignup.js
 // -------------------------------------------------------------
@@ -22,10 +22,6 @@ import {
 
 
 function initAuthUI() {
-    // --- DOM Elements ---
-    console.log("initAuthUI ran");
-    console.log(document.getElementById("toSignup"));
-    console.log(document.getElementById("signupView"));
     const alertEl = document.getElementById('authAlert');
     const loginView = document.getElementById('loginView');
     const signupView = document.getElementById('signupView');
