@@ -162,9 +162,7 @@ async function renderFeed() {
 
   let feed = document.getElementById("feed");
   feed.innerHTML = "";
-  console.log(posts.docs);
   for (const post of posts.docs) {
-    console.log("entering loop");
     let data = post.data();
     const user_doc = await getDoc(doc(usersRef, data.user_id));
     const user_data = user_doc.data();

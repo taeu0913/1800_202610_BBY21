@@ -173,7 +173,6 @@ const logoutBtn = document.getElementById("logoutBtn");
 function logoutUser() {
   signOut(auth)
     .then(() => {
-      console.log("User logged out");
       window.location.href = "login.html"; // redirect after logout
     })
     .catch((error) => {

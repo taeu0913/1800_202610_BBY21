@@ -17,8 +17,6 @@ import {
 import { getAuth , onAuthStateChanged } from "firebase/auth";
 import { findClosestLocation } from "./utils.js";
 
-console.log("main.js loaded");
-
 // ─────────────────────────────────────────────
 // CONSTANTS & FIREBASE REFS
 // ─────────────────────────────────────────────
@@ -179,7 +177,6 @@ async function loadPlaceMarkers(map, onMarkerClick) {
         return;
       }
 
-      console.log("Adding marker:", data.Names, lat, lng);
       const marker = L.marker([lat, lng], { icon: mapIcon })
         .addTo(map)
         .on("click", () => onMarkerClick(lat, lng));
@@ -607,7 +604,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     openLocationFromQueryParams(map);
 
     const closest = await findClosestLocation(db);
-    console.log(closest);
     if (closest && closest.distance <= PROXIMITY_THRESHOLD_KM) {
       showRatePopup(closest.Names, closest.Latitude, closest.Longitude);
     }

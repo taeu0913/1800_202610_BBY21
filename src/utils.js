@@ -27,10 +27,8 @@ const haversineDistance = (lat1, lng1, lat2, lng2) => {
 
 export const findClosestLocation = async (db) => {
   const userPos = await getUserLocation();
-  console.log("User position:", userPos);
 
   const snapshot = await getDocs(collection(db, "Places"));
-  console.log("Total places fetched:", snapshot.size);
 
   let closest = null;
   let minDistance = Infinity;
