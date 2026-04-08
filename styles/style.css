@@ -686,12 +686,10 @@ input[type=number] {
 .saved-empty-text {
   border: 1px solid var(--secondary);
   border-radius: var(--borderR);
-  padding: 0.7rem;
-  gap: 6px;
-  margin-left: 20%;
-  margin-right: 20%;
+  padding: 0.75rem;
   color: var(--primary);
   text-align: center;
+  margin:0.7rem;
 }
 
 .location-list:has(.saved-ul:empty) {
@@ -1128,7 +1126,7 @@ body.dark-mode #settingsMessage {
     border-radius: 0;
   }
 
-  .profile-left,.info-list, .stat-details, .settings-button,.logout-button, .stat-header,.stats,.location-list,.no-list, .link-button, #passwordForm, #profileSettingsForm {
+  .profile-left,.info-list, .stat-details, .settings-button,.logout-button, .stat-header,.stats,.location-list,.no-list, .link-button, .saved-empty-text, #passwordForm, #profileSettingsForm {
     margin-left:20%;
     margin-right:20%;
   }
