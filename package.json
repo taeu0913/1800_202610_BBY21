@@ -9,5 +9,11 @@
   },
   "devDependencies": {
     "vite": "^7.0.0"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "firebase": "^12.10.0",
+    "leaflet": "^1.9.4",
+    "python": "^0.0.4"
   }
 }

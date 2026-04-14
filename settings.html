@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Crowd/Source</title>
+  <meta name="comp1800 template" content="My 1800 App">
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Other libraries go here -->
+  <link rel="stylesheet" href="styles/style.css">
+
+
+</head>
+
+<body>
+
+  <!------------------------------>
+  <!-- Your HTML Layout go here -->
+  <!------------------------------>
+  <!-- Stuff for body goes here -->
+
+
+  <h2>Settings</h2>
+
+  <form id="profileSettingsForm">
+    <input type="text" id="settingsName" placeholder="Full name">
+    <input type="email" id="settingsEmail" placeholder="Enter new Email">
+    <button type="submit">Save Profile</button>
+  </form>
+
+  <form id="passwordForm">
+    <input type="password" id="newPassword" placeholder="New password">
+    <input type="password" id="confirmPassword" placeholder="Confirm new password">
+    <button type="submit" id="submitPassword">Change Password</button>
+  </form>
+
+  <div>
+    <button id="lightModeBtn" class="light-mode-button">Light Mode</button>
+    <button id="darkModeBtn" class="dark-mode-button">Dark Mode</button>
+  </div>
+
+  <div id="settingsMessage" class="settings-notification"></div>
+
+  <!-- Legal -->
+  <section class="card">
+    <div class="link-list">
+      <button id="termsBtn" class="link-button">Terms and Conditions</button>
+      <button id="privacyBtn" class="link-button">Privacy Policy</button>
+    </div>
+  </section>
+
+  <real-footer></real-footer>
+  <!---------------------------------------------->
+  <!-- Your own JavaScript functions go here    -->
+  <!---------------------------------------------->
+<!-- Terms Modal -->
+  <div id="termsModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close="true"></div>
+    <div class="modal-panel large" role="dialog" aria-modal="true" aria-label="Terms and Conditions">
+      <div class="modal-header">
+        <h3 class="modal-title">Terms and Conditions</h3>
+        <button class="icon-btn" data-close="true" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body text">
+        <p><strong>Demo Terms:</strong>Terms and Conditions.</p>
+        <p>
+          By using this app, you agree to follow the community guidelines, not abuse the service,
+          and understand that content may be moderated.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Privacy Modal -->
+  <div id="privacyModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close="true"></div>
+    <div class="modal-panel large" role="dialog" aria-modal="true" aria-label="Privacy Policy">
+      <div class="modal-header">
+        <h3 class="modal-title">Privacy Policy</h3>
+        <button class="icon-btn" data-close="true" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body text">
+        <p><strong>Demo Privacy:</strong>Privacy Policy.</p>
+        <p>
+          We store minimal information needed to provide the service. Saved locations and settings
+          are currently stored locally in your browser for this demo.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Link to scripts of your own -->
+<script type="module" src="src/components/FooterTemplate.js"></script>
+<script type="module" src="src/components/NavBarTemplate.js"></script>
+<script type="module" src="src/main.js"></script>
+<script type="module" src="src/settings.js"></script>
+<script type="module" src="src/components/legalModals.js"></script>
+
+  <!-- <script type="module" src="./src/main.js"></script> -->
+
+</body>
+
+</html>
