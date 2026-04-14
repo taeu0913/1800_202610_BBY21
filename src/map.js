@@ -197,7 +197,7 @@ async function loadPlaceMarkers(map, onMarkerClick) {
 async function searchPlaces(text) {
   if (!text) return [];
   const search = text.trim().toLowerCase();
-  const snapshot = await getDocs(locationsRef);
+  const snapshot = await getDocs(query(locationsRef, limit(20)));  // ← add limit
   return snapshot.docs
     .map((d) => ({ id: d.id, ...d.data() }))
     .filter((place) => (place.Names || "").toLowerCase().includes(search));
@@ -284,7 +284,7 @@ async function saveLocationForCurrentUser(locationId, placeData) {
   try {
     const savedRef = collection(db, "users", user.uid, "savedLocations");
     const duplicateSnap = await getDocs(
-      query(savedRef, where("locationId", "==", locationId))
+    query(savedRef, where("locationId", "==", locationId), limit(1))
     );
 
     if (!duplicateSnap.empty) {
@@ -330,7 +330,7 @@ async function initBookmarkButton(locationId, locationData) {
 
   const savedRef = collection(db, "users", currentUser.uid, "savedLocations");
   const savedQ = query(savedRef, where("locationId", "==", locationId));
-  const savedSnap = await getDocs(savedQ);
+  const savedSnap = await getDocs(query(savedRef, where("locationId", "==", locationId), limit(1)));
 
   btn.classList.toggle("saved", !savedSnap.empty);
 
@@ -364,7 +364,7 @@ async function initBookmarkButton(locationId, locationData) {
 // ─────────────────────────────────────────────
 
 async function getVoteCounts(postId) {
-  const votesSnap = await getDocs(collection(db, "posts", postId, "votes"));
+  const votesSnap = await getDocs(query(collection(db, "posts", postId, "votes"), limit(100)));
   let upvotes = 0;
   let total = 0;
   votesSnap.forEach((d) => {
@@ -422,14 +422,14 @@ function buildPostHTML(postId, data, userData, upvotes, total) {
   return `
     <div class="post" data-post-id="${postId}">
       <div class="user">
-        <img src="/images/${userData.profile_img}" alt="profile-picture"/>
+        <img src="/images/account.png" alt="profile-picture"/>
         <p class="user-name">${userData.name}</p>
         <div class="timestamp">
           <small>${data.timestamp.toDate().toLocaleString()}</small>
         </div>
       </div>
       <div class="post-content">
-        <img class="post-image" src="/images/${data.img}" alt="post-image"/>
+        <img class="post-image" src="data:image/png;base64,${data.img}" alt="post-image"/>
         <p class="post-caption">${data.caption}</p>
         <div class="rating">
           <p class="estimate">Estimate: ${data.headcount_estimate} people</p>
@@ -501,7 +501,7 @@ function hidePopup() {
 
 async function showLocationDetails(lat, lng) {
   const locationSnap = await getDocs(
-    query(locationsRef, where("Latitude", "==", lat), where("Longitude", "==", lng))
+  query(locationsRef, where("Latitude", "==", lat), where("Longitude", "==", lng), limit(1))  
   );
 
   if (locationSnap.empty) {
