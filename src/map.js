@@ -422,20 +422,20 @@ function buildPostHTML(postId, data, userData, upvotes, total) {
   return `
     <div class="post" data-post-id="${postId}">
       <div class="user">
-        <img src="images/${userData.profile_img}" alt="profile-picture"/>
+        <img src="/images/${userData.profile_img}" alt="profile-picture"/>
         <p class="user-name">${userData.name}</p>
         <div class="timestamp">
           <small>${data.timestamp.toDate().toLocaleString()}</small>
         </div>
       </div>
       <div class="post-content">
-        <img class="post-image" src="data:image/png;base64,${data.img}"/>
+        <img class="post-image" src="/images/${data.img}" alt="post-image"/>
         <p class="post-caption">${data.caption}</p>
         <div class="rating">
           <p class="estimate">Estimate: ${data.headcount_estimate} people</p>
           <small>Is this accurate?</small>
-          <button class="upvote vote-button"><img src="images/thumb-up.png"/></button>
-          <button class="downvote vote-button"><img src="images/thumb-down.png"/></button>
+          <button class="upvote vote-button"><img src="/images/thumb-up.png"/></button>
+          <button class="downvote vote-button"><img src="/images/thumb-down.png"/></button>
           <p>${upvotes} of ${total} people agree (${pct}%)</p>
         </div>
       </div>

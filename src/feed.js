@@ -182,7 +182,7 @@ async function renderFeed() {
     feed.insertAdjacentHTML("beforeend", `
       <div class="post">
         <div class="user">
-          <img src="images/${user_data.profile_img}" alt="profile-picture"/>
+          <img src="data:image/png;base64,${user_data.profile_img}" alt="profile-picture"/>
           <p class="user-name">${user_data.name}</p>
           <div class="timestamp">
             <small>${data.timestamp.toDate().toLocaleString()}</small>
