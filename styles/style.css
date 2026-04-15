@@ -309,24 +309,26 @@ a.signup:hover {
   border-radius: var(--borderR);
   margin: var(--borderR);
   display:grid;
-  grid-template-rows: 10% 90%;
-  min-height: 100% !important; 
+  grid-template-rows: 7% 93%;
+  min-height: 95% !important; 
   min-width: 90%;
   min-height: 92vh; /* match your content-wrapper height */
 }
 
 #rate-content {
-  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+  /* display: grid;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 0rem 1.5rem;
+  padding: 0rem 1.5rem; */
 }
 
 #rate-upper{
   text-align: center;
   font-family: Raleway;
-  font-size: x-large;
+  font-size: clamp(1.2rem, 4vw, 2rem);
   padding: 15px;
 }
 
@@ -522,7 +524,7 @@ a.signup:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1;
+  z-index: 2;
   /* keep your existing styles */
 }
 
@@ -534,58 +536,116 @@ a.signup:hover {
   border-radius: var(--borderR);
 }
 
-@media (max-width: 1300px) {
-  #rate-lower{
-  display:grid;
-  grid-template-columns: 1;
-  grid-template-rows: 1fr 1fr;
-  height: 100%; /* fill the 80% grid row */
-  align-content: center;
-  justify-content: center;
-  align-items: center;
-  margin:20px;
-  margin-left: 10px;
-  margin-right: 10px;
-  border: 5px solid var(--accent);
-  border-radius: var(--borderR);
-  max-height: 63vh;
-  overflow-y: auto;
-  overflow-x:hidden;
-}
+@media screen and (max-width: 1200px) {
+  #rate-page {
+    grid-template-rows: auto 1fr;
+    padding: 12px;
+    box-sizing: border-box;
+    min-height: 92vh;
+    overflow: hidden;
+  }
 
-#input-wrapper{
-  grid-row: 2;
-  align-items: center;
-  text-align: center;
+  #rate-upper {
+    padding: 8px 8px 16px;
+    line-height: 1.15;
+    text-align: center;
+  }
 
-}
+  #rate-lower {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    align-items: start;
+    justify-items: center;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+    box-sizing: border-box;
+    max-height: none;
+    overflow: hidden;
+    gap: 16px;
+    padding-left: clamp(12px, 6vw, 40px);
+    padding-right: clamp(12px, 6vw, 40px);
+  }
 
-#upload-image-preview{
-  margin-top:300px;
-  max-height: 300vh;
+  #rate-lower > #upload-wrapper {
+    grid-row: 1;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: 220px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  #upload-image-preview {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    object-fit: cover;
+    border: 5px solid var(--accent);
+    border-radius: var(--borderR);
+    box-sizing: border-box;
+  }
+
+  #post-caption {
+    margin-top: 5px;
+  }
+
+  #upload-image-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    z-index: 2;
+  }
+
+  #rate-lower > #input-wrapper {
+    grid-row: 2;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    padding: 0;
+    display: grid;
+    grid-template-rows: auto auto auto;
+    gap: 14px;
+    text-align: center;
+    justify-items: center;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  #input-wrapper > div {
+    width: 100%;
+  }
+
+  #input-wrapper > div > textarea,
+  #post-caption {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  #input-wrapper > div > input {
+    width: 25%;
+  }
+
+  #headcount-input {
+    width: 90px;
+  }
+
+  #submit-button {
+    justify-self: center;
+  }
 }
-}
- /* #rate-lower > div {
-  display: flex;
-  flex-direction: column;  
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-} */
 
 #upload-image-button:hover, #submit-button:hover{
   cursor: pointer;
   background: var(--tetriary);
 }
-
-/* #upload-image-preview {
-  width: 100%;
-  height: 50vh;
-  object-fit: cover;
-  border: var(--btn-border-width) solid var(--accent);
-  border-radius: var(--borderR);
-
-} */
 
 #headcount-input {
   width: 5rem;
