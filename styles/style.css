@@ -264,7 +264,7 @@ a.signup:hover {
 }
 
 #feed {
-  height: 92vh;
+  height: 86vh;
   overflow-y: scroll;
   scrollbar-width: none;
   padding: 0rem 1.5rem;

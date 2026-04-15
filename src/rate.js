@@ -37,7 +37,6 @@ function uploadImage() {
         document.getElementById("upload-image-preview").src = e.target.result;
 
         currentImageBase64 = e.target.result.split(',')[1];
-        console.log("Image saved to localStorage as Base64 string.");
       };
 
       // Read the file as a Data URL (Base64 encoding)
@@ -66,7 +65,7 @@ function getCurrentPositionSafe() {
 // This function saves the post data (description and image) to Firestore
 // when the "Save Post" button is clicked.
 //-------------------------------------------------------------
-async function savePost(locId, imgStr) {
+async function savePost(locId) {
   console.log("SAVE POST is triggered");
 
   const user = auth.currentUser;
@@ -125,15 +124,40 @@ uploadImage();
 // Add event listener to the "Save Post" button
 //-------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", async () => {
+  console.log("dom loaded listener");
   const urlParams = new URLSearchParams(window.location.search);
   const latitude = parseFloat(urlParams.get('lat'));
   const longitude = parseFloat(urlParams.get('long'));
 
-  const closest = await findClosestLocation(db);
-  console.log("closest found: " + closest);
-  console.log("closest id: " + closest.id);
+  let closest;
 
-  const locationRef = doc(db, "Places", closest.id); // use the id directly
+  try {
+    closest = await findClosestLocation(db);
+    console.log("closest found via findClosestLocation: " + closest);
+  } catch (err) {
+    console.warn("findClosestLocation failed, falling back to lat/long params:", err);
+
+    if (!isNaN(latitude) && !isNaN(longitude)) {
+      const placesRef = collection(db, "Places");
+      const q = query(placesRef, where("Latitude", "==", latitude), where("Longitude", "==", longitude));
+      const querySnap = await getDocs(q);
+
+      if (querySnap.empty) {
+        console.warn("No location found matching lat/long params");
+        return;
+      }
+
+      const matchedDoc = querySnap.docs[0];
+      closest = { id: matchedDoc.id, ...matchedDoc.data() };
+      console.log("closest found via lat/long fallback: " + closest.id);
+    } else {
+      console.warn("No valid lat/long params available for fallback");
+      return;
+    }
+  }
+
+  console.log("closest id: " + closest.id);
+  const locationRef = doc(db, "Places", closest.id);
   const locationSnap = await getDoc(locationRef);
 
   if (!locationSnap.exists()) {
@@ -144,6 +168,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   let location_name = document.getElementById("user-location");
   location_name.textContent = locationSnap.data().Names;
 
+  console.log("adding listener");
   const submit_button = document.getElementById("submit-button");
   submit_button.addEventListener("click", () => savePost(locationSnap.id));
 
