@@ -260,6 +260,7 @@ a.signup:hover {
 .content-wrapper {
   width: 100%;
   height: 92vh;
+  padding-bottom: 20vh;
 }
 
 #feed {
@@ -330,6 +331,7 @@ a.signup:hover {
   font-family: Raleway;
   font-size: clamp(1.2rem, 4vw, 2rem);
   padding: 15px;
+  color: var(--text);
 }
 
 #rate-lower{
@@ -346,6 +348,12 @@ a.signup:hover {
   border-radius: var(--borderR);
   max-height: 63vh;
   background-color: var(--secondary);
+  color: var(--text);
+}
+
+#post-caption, #headcount-input {
+  background-color: var(--secondary);
+  color: var(--text);
 }
 
 #feed p {
@@ -579,6 +587,7 @@ a.signup:hover {
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+    margin-top: 30px;
   }
 
   #upload-image-preview {
