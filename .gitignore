@@ -2,3 +2,9 @@
 *.logs
 node_modules/
 .vscode/
+.env
+.firebaserc
+firebase.json
+vite.config.js
+.firebase/
+dist/

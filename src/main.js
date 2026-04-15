@@ -1,10 +1,21 @@
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap';
-
-// If you have custom global styles, import them as well:
-// import '../styles/style.css';
-
-function sayHello() {
-
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+  document.documentElement.setAttribute('data-theme', savedTheme);
 }
-// document.addEventListener('DOMContentLoaded', sayHello);
+
+const darkBtn = document.getElementById('darkModeBtn');
+const lightBtn = document.getElementById('lightModeBtn');
+
+if (darkBtn) {
+  darkBtn.addEventListener('click', () => {
+    localStorage.setItem('theme', 'dark');
+    document.documentElement.setAttribute('data-theme', 'dark');
+  });
+}
+
+if (lightBtn) {
+  lightBtn.addEventListener('click', () => {
+    localStorage.setItem('theme', 'light');
+    document.documentElement.setAttribute('data-theme', 'light');
+  });
+}

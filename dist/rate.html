@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Crowd/Source</title>
+  <meta name="comp1800 template" content="My 1800 App">
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Other libraries go here -->
+
+  <script type="module" crossorigin src="/assets/rate-fi15tuyn.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/FooterTemplate-Yp1uJiHZ.js">
+  <link rel="modulepreload" crossorigin href="/assets/firebaseConfig-Be6_9DBH.js">
+  <link rel="modulepreload" crossorigin href="/assets/utils-BruPl49e.js">
+  <link rel="stylesheet" crossorigin href="/assets/FooterTemplate-Bu4Bvcyr.css">
+</head>
+
+<body>
+
+  <!------------------------------>
+  <!-- Your HTML Layout go here -->
+  <!------------------------------>
+  <!-- Stuff for body goes here -->
+  <div class="content-wrapper">
+
+    <div id="rate-page">
+      <div id="rate-upper">
+        <p>Looks like you're near <b id="user-location">BC Place</b>. Show us how many people there are!</p>
+      </div>
+
+      <div id="rate-lower">
+        <div id="upload-wrapper">
+          <input id="upload-image" type="file" accept="image/*" style="display: none;" />
+          <label for="upload-image" id="upload-image-button">
+            Upload Image
+          </label>
+          <img id="upload-image-preview">
+
+        </div>
+
+        <div id="input-wrapper" style="align-content: baseline;">
+          <div>
+          <label for="headcount">Description:</label>
+          <br/>
+          <textarea id="post-caption" rows="4" cols="50" style="resize:none;"></textarea>
+          </div>
+          <div>
+            <label for="headcount">Headcount estimate:</label>
+            <br/>
+          <input type="number" id="headcount-input" name="headcount" required size="7" min="0" step="1" />
+          
+          </div>
+          <div>
+            <button id="submit-button" value="Submit">Submit</button>
+            </div>
+          </div>
+      </div>
+
+    </div>
+    <!-- <div id="rate-content">
+      <div id="rate-page">
+        <p>Looks like you're near <b id="user-location">BC Place</b>. Show us how many people there are!</p>
+        <label for="upload-image" id="upload-image-button">
+          Upload Image
+        </label>
+        
+        <div style="align-items: center; align-content: center;">
+
+          <div>
+            <input id="upload-image" type="file" accept="image/*" style="display: none;" />
+          </div>
+
+          <div id="upload-box">
+
+            <img id="upload-image-preview" />
+
+          </div>
+
+          <div>
+            <textarea id="post-caption" rows="4" cols="50"></textarea>
+          </div>
+          // <button id="upload-image-button">Upload Photo</button><br><br>
+          <div>
+            <label for="headcount">Headcount estimate:</label>
+            <div>
+              <input type="number" id="headcount-input" name="headcount" required size="7" />
+            </div>
+            <div>
+              <input type="submit" id="submit-button" value="Submit">
+            </div>
+          </div>-->
+  </div>
+  <real-footer></real-footer>
+  <!---------------------------------------------->
+  <!-- Your own JavaScript functions go here    -->
+  <!---------------------------------------------->
+
+  <!-- Link to scripts of your own -->
+
+  <!-- <script type="module" src="./src/main.js"></script> -->
+
+</body>
+
+</html>
+
+
+<!-- <input type="file" accept="image/*" capture="environment" id="cameraInput">
+<label for="cameraInput">Take a Photo</label>
+<img id="photoPreview" src="#" alt="Preview of taken photo" style="display: none;"> -->

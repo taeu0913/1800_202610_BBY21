@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Crowd/Source</title>
+  <meta name="comp1800 template" content="My 1800 App">
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Other libraries go here -->
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="icon" href="images/favicon.ico">
+
+</head>
+
+<body>
+
+  <!------------------------------>
+  <!-- Your HTML Layout go here -->
+  <!------------------------------>
+  <!-- Stuff for body goes here -->
+
+  <main class="page">
+    <div class="container">
+
+      <!-- Top Profile Header -->
+      <section class="card profile-header">
+        <div class="profile-left">
+          <img id="profileAvatar" class="profile-avatar" src="images/account.png" alt="Profile avatar">
+          <div>
+            <h1 id="profileName" class="profile-title">Guest User</h1>
+            <p id="profileSubtitle" class="profile-subtitle">Welcome back 👋</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="grid">
+        <!-- LEFT COLUMN -->
+        <div class="col">
+          <!-- Personal Info -->
+          <section class="card">
+            <div class="info-list">
+              <div class="info-row">
+                <span class="info-label">Email</span>
+                <span id="infoEmail" class="info-value">guest@example.com</span>
+              </div>
+
+              <div class="info-row">
+                <span class="info-label">Location</span>
+                <span id="infoLocation" class="info-value">Burnaby, BC</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Statistics -->
+          <section class="card">
+            <div class="stat-header">
+              <h1 class="section-title">Statistics</h1>
+            </div>
+            <div class="stats">
+              <div class="stat">
+                <div id="statSaved" class="stat-number">0</div>
+                <div class="stat-label">Saved</div>
+              </div>
+
+              <div class="stat">
+                <div id="statPosts" class="stat-number">0</div>
+                <div class="stat-label">Posts</div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="col">
+          <section class="profile-card">
+            <div class="section-header">
+              <h1 class="section-title">Saved Locations</h1>
+            </div>
+            <div class="saved-list-wrap">
+              <p id="savedEmptyText" class="saved-empty-text hidden">No saved locations yet.</p>
+
+              <section class="location-list">
+                <ul id="savedLocationsList" class="saved-ul">
+                  <!-- JS fills this -->
+                </ul>
+                <button id="savedMoreBtn" type="button" class="more-link hidden">More</button>
+              </section>
+            </div>
+          </section>
+
+          <!-- Settings -->
+          <section class="card">
+            <a href="settings.html" id="settingsBtn" class="settings-button">Settings</a>
+            <a id="logoutBtn" class="logout-button">Log Out</a>
+          </section>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <real-footer></real-footer>
+  <!---------------------------------------------->
+  <!-- Your own JavaScript functions go here    -->
+  <!---------------------------------------------->
+
+  <!-- Link to scripts of your own -->
+  <div id="statModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close="true"></div>
+    <div class="modal-panel large" role="dialog" aria-modal="true" aria-label="Statistics">
+      <div class="modal-header">
+        <h3 class="modal-title">Statistics</h3>
+        <button class="icon-btn" data-close="true" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body text">
+        <p><strong>Demo Statistics</strong>Statistics</p>
+        <p>
+          Statistics Placeholder
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- <script type="module" src="./src/main.js"></script> -->
+  <script type="module" src="src/main.js"></script>
+  <script type="module" src="src/components/FooterTemplate.js"></script>
+  <script type="module" src="src/components/NavBarTemplate.js"></script>
+  <script type="module" src="src/saved.js"></script>
+  <script type="module" src="src/profile.js"></script>
+  <script type="module" src="src/components/legalModals.js"></script>
+
+</body>
+
+</html>
